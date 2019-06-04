@@ -76,8 +76,7 @@ def delete_materialized_views():
                     ON n.oid = c.relnamespace
                     WHERE c.relkind = 'm'
                     AND n.nspname = current_schema()
-                    AND c.relname LIKE '%dashboard%';
-               ''')
+                    AND c.relname LIKE '%dashboard%';''')
     results = db.session.execute(sql)
     for row in results:
         sql = 'drop materialized view if exists "%s" cascade' % row.relname
