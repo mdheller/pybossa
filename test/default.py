@@ -120,11 +120,8 @@ class Test(object):
 
     def tearDown(self):
         with self.flask_app.app_context():
-            delete_indexes()
-            delete_materialized_views()
             db.session.remove()
             self.redis_flushall()
-            reset_all_pk_sequences()
 
     fullname = u'T Tester'
     fullname2 = u'T Tester 2'
