@@ -61,7 +61,7 @@ def with_context_settings(**kwargs):
 
 
 def delete_indexes():
-    sql = text('''select * from pg_indexes WHERE tablename = 'users_rank' ''')
+    sql = text('''select * from pg_indexes WHERE tablename = 'users_rank' AND schemaname = current_schema()''')
     results = db.session.execute(sql)
     for row in results:
         sql = 'drop index %s;' % row.indexname
@@ -70,15 +70,26 @@ def delete_indexes():
 
 def delete_materialized_views():
     """Delete materialized views."""
-    sql = text('''SELECT relname
-               FROM pg_class WHERE relname LIKE '%dashboard%';''')
+    sql = text('''SELECT EXISTS (
+                    SELECT relname
+                    FROM pg_catalog.pg_class c JOIN pg_namespace n
+                    ON n.oid = c.relnamespace
+                    WHERE c.relkind = 'm'
+                    AND n.nspname = current_schema()
+                    AND c.relname LIKE '%dashboard%';
+               ''')
     results = db.session.execute(sql)
     for row in results:
         sql = 'drop materialized view if exists "%s" cascade' % row.relname
         db.session.execute(sql)
         db.session.commit()
-    sql = text('''SELECT relname
-               FROM pg_class WHERE relname LIKE '%users_rank%';''')
+    sql = text('''SELECT EXISTS (
+                    SELECT relname
+                    FROM pg_catalog.pg_class c JOIN pg_namespace n
+                    ON n.oid = c.relnamespace
+                    WHERE c.relkind = 'm'
+                    AND n.nspname = current_schema()
+                    AND c.relname LIKE '%users_rank%';''')
     results = db.session.execute(sql)
     for row in results:
         if "_idx" not in row.relname:
