@@ -70,8 +70,7 @@ def delete_indexes():
 
 def delete_materialized_views():
     """Delete materialized views."""
-    sql = text('''SELECT EXISTS (
-                    SELECT relname
+    sql = text('''SELECT relname
                     FROM pg_catalog.pg_class c JOIN pg_namespace n
                     ON n.oid = c.relnamespace
                     WHERE c.relkind = 'm'
@@ -82,8 +81,7 @@ def delete_materialized_views():
         sql = 'drop materialized view if exists "%s" cascade' % row.relname
         db.session.execute(sql)
         db.session.commit()
-    sql = text('''SELECT EXISTS (
-                    SELECT relname
+    sql = text('''SELECT relname
                     FROM pg_catalog.pg_class c JOIN pg_namespace n
                     ON n.oid = c.relnamespace
                     WHERE c.relkind = 'm'
