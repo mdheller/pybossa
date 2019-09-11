@@ -63,6 +63,7 @@ def new_task(project_id, sched, user_id=None, user_ip=None,
         'depth_first_all': get_depth_first_all_task
     }
     scheduler = sched_map.get(sched, sched_map['default'])
+    current_app.logger.info('scheduler: %s', scheduler)
     project = project_repo.get(project_id)
     disable_gold = not project.info.get('enable_gold', True)
 
@@ -257,6 +258,7 @@ def locked_scheduler(query_factory):
         if lock_seconds > 10:
             task = session.query(Task).get(task_id)
             if task:
+                current_app.logger.info('returning previously locked %s', task.id)
                 return [task]
         user_count = get_active_user_count(project_id, sentinel.master)
         assign_user = json.dumps({'assign_user': [cached_users.get_user_email(user_id)]}) if user_id else None
@@ -267,15 +269,20 @@ def locked_scheduler(query_factory):
         sql = query_factory(project_id, user_id=user_id, limit=limit,
                             rand_within_priority=rand_within_priority,
                             task_type=task_type)
-        rows = session.execute(sql, dict(project_id=project_id,
+        current_app.logger.info(sql)
+        params = dict(project_id=project_id,
                                          user_id=user_id,
                                          assign_user=assign_user,
-                                         limit=user_count + 5))
+                                         limit=user_count + 5)
+        current_app.logger.info(params)
+        rows = session.execute(sql, params)
 
         for task_id, taskcount, n_answers, calibration, timeout in rows:
+            current_app.logger.info('candidate %s', task_id)
             timeout = timeout or TIMEOUT
             remaining = float('inf') if calibration else n_answers - taskcount
             if acquire_lock(task_id, user_id, remaining, timeout):
+                current_app.logger.info('got it')
                 rows.close()
                 save_task_id_project_id(task_id, project_id, 2 * timeout)
                 register_active_user(project_id, user_id, sentinel.master, ttl=timeout)
