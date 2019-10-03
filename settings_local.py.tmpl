@@ -140,7 +140,7 @@ ANNOUNCEMENT_LEVELS = {
     'user': {'display': 'User', 'level': 30}
 }
 ANNOUNCEMENT_LEVEL_OPTIONS = [
-    {'text': v['display'], 'value': v['level']} for k, v in ANNOUNCEMENT_LEVELS.iteritems()
+    {'text': v['display'], 'value': v['level']} for k, v in ANNOUNCEMENT_LEVELS.items()
 ]
 
 ## Enforce Privacy Mode, by default is disabled
@@ -503,4 +503,3 @@ WIZARD_STEPS = OrderedDict([
         'visible_checks': {'and': ['project_publish'], 'or': []},
     })]
 )
-

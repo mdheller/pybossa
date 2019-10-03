@@ -142,11 +142,11 @@ class TestBulkTaskLocalCSVImport(Test):
             'ans19_priv_gold_null': ['null', 'null', 'null', 'null', 'null', 'null']
         }
         rows = []
-        rows.append(','.join(fields.iterkeys()))
+        rows.append(','.join(fields.keys()))
         for i in range(6):
             rows.append(','.join(map(lambda x: x[i], fields.itervalues())))
         data = unicode('\n'.join(rows))
-        print data
+        print(data)
         form_data = {'type': 'localCSV', 'csv_filename': 'fakefile.csv'}
 
         with patch('pybossa.importers.csv.io.open', mock_open(read_data= data), create=True):
@@ -188,7 +188,7 @@ class TestBulkTaskLocalCSVImport(Test):
 
         for is_private in [True, False]:
             with patch('pybossa.importers.csv.data_access_levels', is_private):
-                for field, value in invalid_fields.iteritems():
+                for field, value in invalid_fields.items():
                     data = u"{}\n{}".format(field, value)
                     with patch('pybossa.importers.csv.io.open', mock_open(read_data= data), create=True):
                         with assert_raises(BulkImportException):
@@ -227,7 +227,7 @@ class TestBulkTaskLocalCSVImport(Test):
 
         for is_private in [True, False]:
             with patch('pybossa.importers.csv.data_access_levels', is_private):
-                for header, field_name in fields.iteritems():
-                    with patch('pybossa.importers.csv.io.open', mock_open(read_data= unicode(header)), create=True):
+                for header, field_name in fields.items():
+                    with patch('pybossa.importers.csv.io.open', mock_open(read_data=header), create=True):
                         field_names = BulkTaskLocalCSVImport(**form_data).fields()
                         assert field_names == ({field_name} if field_name else set()), {'field_names': field_names, 'field_name': field_name}

@@ -45,27 +45,27 @@ from pybossa.cache.projects import n_tasks
 import pybossa.sched as sched
 from pybossa.util import sign_task
 from pybossa.error import ErrorStatus
-from global_stats import GlobalStatsAPI
-from task import TaskAPI
-from task_run import TaskRunAPI, preprocess_task_run
-from project import ProjectAPI
-from auditlog import AuditlogAPI
-from announcement import AnnouncementAPI
-from blogpost import BlogpostAPI
-from category import CategoryAPI
-from favorites import FavoritesAPI
+from .global_stats import GlobalStatsAPI
+from .task import TaskAPI
+from .task_run import TaskRunAPI, preprocess_task_run
+from .project import ProjectAPI
+from .auditlog import AuditlogAPI
+from .announcement import AnnouncementAPI
+from .blogpost import BlogpostAPI
+from .category import CategoryAPI
+from .favorites import FavoritesAPI
 from pybossa.api.performance_stats import PerformanceStatsAPI
-from user import UserAPI
-from token import TokenAPI
-from result import ResultAPI
-from project_stats import ProjectStatsAPI
-from helpingmaterial import HelpingMaterialAPI
+from .user import UserAPI
+from .token import TokenAPI
+from .result import ResultAPI
+from .project_stats import ProjectStatsAPI
+from .helpingmaterial import HelpingMaterialAPI
 from pybossa.core import project_repo, task_repo, user_repo
 from pybossa.contributions_guard import ContributionsGuard
 from pybossa.auth import jwt_authorize_project
 from werkzeug.exceptions import MethodNotAllowed, Forbidden
-from completed_task import CompletedTaskAPI
-from completed_task_run import CompletedTaskRunAPI
+from .completed_task import CompletedTaskAPI
+from .completed_task_run import CompletedTaskRunAPI
 from pybossa.cache.helpers import (n_available_tasks, n_available_tasks_for_user,
     n_unexpired_gold_tasks)
 from pybossa.sched import (get_project_scheduler_and_timeout, get_scheduler_and_timeout,

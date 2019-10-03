@@ -88,7 +88,7 @@ class TestTaskCsvExporter(Test):
         assert french_value == u'fran\u00E7ais am\u00E9ricaine \u00E9pais'
         assert chinese_value == u'\u4E2D\u570B\u7684 \u82F1\u8A9E \u7F8E\u570B\u4EBA'
         assert smart_quotes_value == u'\u201CHello\u201D'
-    
+
     @with_context
     def test_task_csv_exporter_flatten(self):
         """Test that TaskCsvExporter flatten method works."""
@@ -99,9 +99,9 @@ class TestTaskCsvExporter(Test):
                'c': {
                    'nested_y': {'double_nested': 'www.example.com'},
                    'nested_z': True},
-               'd': [{'nested_z': 'X'}]} 
+               'd': [{'nested_z': 'X'}]}
 
-        keys = sorted(dict(exporter.flatten(row.iteritems(), key_prefix='', return_value=None)).keys())
+        keys = sorted(dict(exporter.flatten(row.items(), key_prefix='', return_value=None)).keys())
 
         expected_keys = ['a__nested_x',
                          'b',

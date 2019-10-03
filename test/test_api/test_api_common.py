@@ -354,7 +354,7 @@ class TestApiCommon(TestAPI):
         project = ProjectFactory.create()
         res = self.app.get('/api/project/%s?callback=mycallback' % project.id)
         err_msg = "mycallback should be included in the response"
-        print res.data
+        print(res.data)
         assert "mycallback" in res.data, err_msg
         err_msg = "Status code should be 200"
         assert res.status_code == 200, err_msg
@@ -470,4 +470,3 @@ class TestApiCommon(TestAPI):
             assert "Statistics" in res.data
             assert 'id="percent-completed"' in res.data
             assert "<div>100%</div>" in res.data
-

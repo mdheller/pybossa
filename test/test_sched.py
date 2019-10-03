@@ -239,7 +239,6 @@ class TestSched(sched.Helper):
         res = self.app.get(url)
         data = json.loads(res.data)
         task_id = data['id']
-        print data
         assert task_id, data
         assert has_lock(task_id, user.id, TIMEOUT)
 
@@ -729,7 +728,6 @@ class TestSched(sched.Helper):
         err_msg = "User should get a task"
         i = 0
         for t in data:
-            print t['id']
             assert 'project_id' in t.keys(), err_msg
             assert t['project_id'] == project_id, err_msg
             assert t['id'] == tasks[i].id, (err_msg, t, tasks[i].id)

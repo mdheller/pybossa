@@ -1307,7 +1307,7 @@ class TestProjectAPI(TestAPI):
         res = self.app.put(url, data=json.dumps(payload))
         project = project_repo.get(project.id)
 
-        for key, value in old_info.iteritems():
+        for key, value in old_info.items():
             if not payload['info'].get(key):
                 assert project.info.get(key) == value
 
@@ -1332,7 +1332,7 @@ class TestProjectAPI(TestAPI):
         res = self.app.put(url, data=json.dumps(payload))
         project = project_repo.get(project.id)
 
-        for key, value in old_info.iteritems():
+        for key, value in old_info.items():
             if not payload['info'].get(key):
                 assert project.info.get(key) == value
 

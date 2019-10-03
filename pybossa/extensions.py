@@ -120,11 +120,11 @@ timeouts = dict()
 ratelimits = dict()
 
 # Newsletter
-from newsletter import Newsletter
+from pybossa.newsletter import Newsletter
 newsletter = Newsletter()
 
 # Importer
-from importers import Importer
+from pybossa.importers import Importer
 importer = Importer()
 
 from flask_plugins import PluginManager
@@ -152,7 +152,7 @@ cors = CORS()
 enable_strong_password = None
 
 # User importer
-from importers import UserImporter
+from pybossa.importers import UserImporter
 userimporter = UserImporter()
 
 # LDAP

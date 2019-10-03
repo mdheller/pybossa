@@ -3,7 +3,7 @@ from factories import ProjectFactory, UserFactory, TaskFactory, TaskRunFactory
 from pybossa.jobs import export_tasks
 from mock import patch, MagicMock
 from unidecode import unidecode
-from StringIO import StringIO
+from io import StringIO
 import zipfile
 import unittest
 
@@ -39,7 +39,7 @@ class TestExport(Test):
         task_run = TaskRunFactory.create(project=project, task=task)
 
         export_tasks(user.email_addr, project.short_name, 'consensus', True, 'csv')
-        
+
         args, kwargs = mail.send.call_args
         message = args[0]
         assert message.recipients[0] == user.email_addr, message.recipients
@@ -91,7 +91,7 @@ class TestExport(Test):
         proj_name = unidecode(project.short_name)
         filename = '{}_{}'.format(project.id, proj_name)
         assert attachment.filename == '{}_task_csv.zip'.format(filename)
-        
+
         export_tasks(user.email_addr, project.short_name, 'task', False, 'json')
         args, kwargs = mail.send.call_args
         message = args[0]
@@ -125,7 +125,7 @@ class TestExport(Test):
         #     'task_run__task_id', 'task_run__timeout', 'task_run__user_id',
         #     'task_run__user_ip']
         # assert all(header in contents[0] for header in expected_headers)
-              
+
         export_tasks(user.email_addr, project.short_name, 'task_run', False, 'json')
         args, kwargs = mail.send.call_args
         message = args[0]

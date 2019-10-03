@@ -37,7 +37,7 @@ from pybossa.cache import settings, site_stats
 from pybossa.cache.users import get_users_for_report
 from collections import OrderedDict
 import json
-from StringIO import StringIO
+from io import StringIO
 from zipfile import ZipFile
 
 MINUTE = 60
@@ -196,7 +196,7 @@ def project_export(_id):
     from pybossa.core import project_repo, json_exporter, csv_exporter
     app = project_repo.get(_id)
     if app is not None:
-        # print "Export project id %d" % _id
+        # print("Export project id %d" % _id)
         json_exporter.pregenerate_zip_files(app)
         csv_exporter.pregenerate_zip_files(app)
 
@@ -385,7 +385,7 @@ def get_project_stats(_id, short_name):  # pragma: no cover
 @with_cache_disabled
 def warm_up_stats():  # pragma: no cover
     """Background job for warming stats."""
-    # print "Running on the background warm_up_stats"
+    # print("Running on the background warm_up_stats")
     from pybossa.cache.site_stats import (n_auth_users, n_anon_users,
                                           n_tasks_site, n_total_tasks_site,
                                           n_task_runs_site,
@@ -689,7 +689,7 @@ def send_email_notifications():
 
     redis_conn = sentinel.master
     project_set = redis_conn.hgetall('updated_project_ids') or {}
-    for project_id, timestamp in project_set.iteritems():
+    for project_id, timestamp in project_set.items():
         project = project_repo.get(project_id)
         redis_conn.hdel('updated_project_ids', project_id)
         if not project.email_notif:

@@ -29,7 +29,7 @@ from wtforms.fields.html5 import EmailField, URLField
 from wtforms.widgets import HiddenInput
 from flask_babel import lazy_gettext
 
-import validator as pb_validator
+from . import validator as pb_validator
 from pybossa import util
 from pybossa.core import project_repo, user_repo, task_repo
 from pybossa.core import uploader
@@ -43,7 +43,7 @@ from decimal import Decimal
 from pybossa.forms.fields.time_field import TimeField
 from pybossa.forms.fields.select_two import Select2Field
 from pybossa.sched import sched_variants
-from validator import TimeFieldsValidator
+from .validator import TimeFieldsValidator
 from pybossa.core import enable_strong_password
 from pybossa.util import get_file_path_for_import_csv
 from flask import flash
@@ -793,7 +793,8 @@ class UserPrefMetadataForm(Form):
     def set_can_update(self, can_update_info):
         self._disabled = self._get_disabled_fields(can_update_info)
 
-    def _get_disabled_fields(self, (can_update, disabled_fields)):
+    def _get_disabled_fields(self, can_update_info):
+        can_update, disabled_fields = can_update_info
         if not can_update:
             return {field: 'Form is not updatable.' for field in self}
         return {getattr(self, name): reason for name, reason in six.iteritems(disabled_fields or {})}

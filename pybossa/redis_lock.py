@@ -30,7 +30,7 @@ def get_active_user_key(project_id):
 def get_active_user_count(project_id, conn):
     now = time()
     key = get_active_user_key(project_id)
-    to_delete = [user for user, expiration in conn.hgetall(key).iteritems()
+    to_delete = [user for user, expiration in conn.hgetall(key).items()
                  if float(expiration) < now]
     if to_delete:
         conn.hdel(key, *to_delete)
@@ -114,7 +114,7 @@ class LockManager(object):
     def _release_expired_locks(self, resource_id, now):
         locks = self.get_locks(resource_id)
         to_delete = []
-        for key, expiration in locks.iteritems():
+        for key, expiration in locks.items():
             expiration = float(expiration)
             if now > expiration:
                 to_delete.append(key)

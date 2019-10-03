@@ -210,7 +210,7 @@ class Importer(object):
                 self.upload_private_data(task_data, project.id)
 
                 task = Task(project_id=project.id, n_answers=n_answers)
-                [setattr(task, k, v) for k, v in task_data.iteritems()]
+                [setattr(task, k, v) for k, v in task_data.items()]
 
                 gold_answers = task_data.pop('gold_answers', None)
                 set_gold_answers(task, gold_answers)
@@ -268,7 +268,7 @@ class Importer(object):
 
     def set_importers(self, importers):
         self._importers = \
-            {key: val for key, val in self._importers.iteritems()
+            {key: val for key, val in self._importers.items()
              if key in importers}
 
 

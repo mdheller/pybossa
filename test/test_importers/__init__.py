@@ -280,7 +280,7 @@ class TestImporterPublicMethods(Test):
             assert filename == 'task_private_gold_answer.json', filename
             assert task.calibration and task.exported
             assert task.state == 'enrich', task.state
-    
+
     @with_context
     @patch('pybossa.cloud_store_api.s3.s3_upload_from_string', return_value='https:/s3/task.json')
     @patch('pybossa.importers.importer.delete_import_csv_file', return_value=None)
@@ -307,9 +307,9 @@ class TestImporterPublicMethods(Test):
             }
         ):
             import_report = self.importer.create_tasks(task_repo, project, **form_data)
-            print import_report.message
+            print(import_report.message)
             assert 'task import failed' in import_report.message
-    
+
     @with_context
     @patch('pybossa.cloud_store_api.s3.s3_upload_from_string', return_value='https:/s3/task.json')
     @patch('pybossa.importers.importer.delete_import_csv_file', return_value=None)
@@ -336,7 +336,7 @@ class TestImporterPublicMethods(Test):
             }
         ):
             import_report = self.importer.create_tasks(task_repo, project, **form_data)
-            print import_report.message
+            print(import_report.message)
             assert 'task import failed' in import_report.message
 
     @with_context
@@ -365,7 +365,7 @@ class TestImporterPublicMethods(Test):
             }
         ):
             import_report = self.importer.create_tasks(task_repo, project, **form_data)
-            print import_report.message
+            print(import_report.message)
             assert 'task import failed' in import_report.message
 
     @with_context
@@ -393,7 +393,7 @@ class TestImporterPublicMethods(Test):
             }
         ):
             import_report = self.importer._validate_headers(mock_importer, project, **form_data)
-            print import_report.message
+            print(import_report.message)
             assert import_report.message
 
     @with_context

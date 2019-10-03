@@ -23,7 +23,7 @@ This package adds GET, POST, PUT and DELETE methods for:
 
 """
 import json
-from api_base import APIBase
+from .api_base import APIBase
 from pybossa.core import task_repo
 from flask_login import current_user, request
 from flask import Response, abort
@@ -53,7 +53,6 @@ class FavoritesAPI(APIBase):
             uid = current_user.id
             limit, offset, orderby = self._set_limit_and_offset()
             last_id = request.args.get('last_id')
-            print last_id
             desc = request.args.get('desc') if request.args.get('desc') else False
             desc = fuzzyboolean(desc)
 

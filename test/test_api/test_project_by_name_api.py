@@ -245,7 +245,7 @@ class TestProjectAPI(TestAPI):
         url = '/api/projectbyname/%s?api_key=%s' % (project.short_name, user.api_key)
 
         res = self.app.put(url, data=data)
-        print res.data
+        print(res.data)
         error_msg = json.loads(res.data)['exception_msg']
         assert res.status_code == 403, res.status_code
         assert error_msg == 'You cannot publish a project via the API', res.data

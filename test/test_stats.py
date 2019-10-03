@@ -72,7 +72,6 @@ class TestStats(Test):
         hour = unicode(datetime.datetime.utcnow().strftime('%H'))
         hours, hours_anon, hours_auth, max_hours,\
             max_hours_anon, max_hours_auth = stats.stats_hours(self.project.id)
-        print hours
         for i in range(0, 24):
             # There should be only 8 answers at current hour
             if str(i).zfill(2) == hour:
@@ -136,7 +135,6 @@ class TestStats(Test):
         for item in hours_stats:
             if item['label'] == 'Anon + Auth':
                 max_hours = item['max']
-                print item
                 assert item['max'] == 10, item['max']
                 assert item['max'] == 10, "Max hours value should be 10"
                 for i in item['values']:

@@ -15,7 +15,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with PYBOSSA.  If not, see <http://www.gnu.org/licenses/>.
-from StringIO import StringIO
+from io import StringIO
 from bs4 import BeautifulSoup
 
 from default import db, with_context

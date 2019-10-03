@@ -2,7 +2,7 @@ import io
 import os
 import re
 from tempfile import NamedTemporaryFile
-from urlparse import urlparse
+from urllib.parse import urlparse
 import boto
 from boto.s3.key import Key
 from six import BytesIO

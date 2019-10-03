@@ -20,7 +20,7 @@ from flask import Blueprint, request, flash, url_for, redirect, current_app, abo
 from flask_babel import gettext
 from pybossa.core import user_repo, csrf
 from pybossa.view.account import _sign_in_user
-from urlparse import urlparse
+from urllib.parse import urlparse
 from pybossa.util import is_own_url_or_else
 from onelogin.saml2.auth import OneLogin_Saml2_Auth
 

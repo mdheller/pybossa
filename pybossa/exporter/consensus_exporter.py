@@ -63,7 +63,7 @@ def flatten(obj, level=1, prefix=None, sep='__', ignore=tuple()):
             flattened[_prefix] = _obj
             return
 
-        for k, v in _obj.iteritems():
+        for k, v in list(_obj.items()):
             if k in ignore:
                 continue
             if _prefix is None:

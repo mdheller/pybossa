@@ -368,7 +368,7 @@ class TestAuditlogWEB(web.Helper):
 
         logs = auditlog_repo.filter_by(project_short_name=short_name, offset=1)
         for log in logs:
-            print log
+            print(log)
         assert len(logs) == 1, logs
         for log in logs:
             assert log.attribute == attribute, log.attribute

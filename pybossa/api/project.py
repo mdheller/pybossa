@@ -26,7 +26,7 @@ import copy
 from werkzeug.exceptions import BadRequest, Forbidden, Unauthorized
 from flask import current_app, request
 from flask_login import current_user
-from api_base import APIBase
+from .api_base import APIBase
 from pybossa.model.project import Project
 from pybossa.cache.categories import get_all as get_categories
 from pybossa.util import is_reserved_name
@@ -80,7 +80,7 @@ class ProjectAPI(APIBase):
             obj.owners_ids = owners
 
     def _update_attribute(self, new, old):
-        for key, value in old.info.iteritems():
+        for key, value in old.info.items():
             if not new.info.get(key):
                 new.info[key] = value
 

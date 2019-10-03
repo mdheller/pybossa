@@ -60,7 +60,7 @@ def perform_check(check):
 
 
 def perform_checks():
-    return {check: perform_check(fn) for check, fn in checks.iteritems()}
+    return {check: perform_check(fn) for check, fn in checks.items()}
 
 
 @blueprint.route('/')

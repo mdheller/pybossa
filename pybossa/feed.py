@@ -44,7 +44,7 @@ def get_update_feed():
         try:
             tmp = pickle.loads(u[0])
             tmp['updated'] = u[1]
-            if tmp.get('info') and type(tmp.get('info')) == unicode:
+            if tmp.get('info') and type(tmp.get('info')) == str:
                 tmp['info'] = json.loads(tmp['info'])
             feed.append(tmp)
         except Exception as e:

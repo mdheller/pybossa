@@ -24,7 +24,7 @@ from tempfile import NamedTemporaryFile
 from flask_wtf import FlaskForm as Form
 import csv
 import codecs
-import cStringIO
+import io
 import dateutil.tz
 from flask import abort, request, make_response, current_app, url_for
 from flask import redirect, render_template, jsonify, get_flashed_messages
@@ -136,7 +136,7 @@ def handle_content_type(data):
             return render_template(template, **data)
 
 def is_own_url(url):
-    from urlparse import urlparse
+    from urllib.parse import urlparse
     if not url:
         return True
     domain = urlparse(url).netloc
@@ -217,9 +217,9 @@ def crossdomain(origin=None, methods=None, headers=None,
     """Crossdomain decorator."""
     if methods is not None:  # pragma: no cover
         methods = ', '.join(sorted(x.upper() for x in methods))
-    if headers is not None and not isinstance(headers, basestring):
+    if headers is not None and not isinstance(headers, str):
         headers = ', '.join(x.upper() for x in headers)
-    if not isinstance(origin, basestring):  # pragma: no cover
+    if not isinstance(origin, str):  # pragma: no cover
         origin = ', '.join(origin)
     if isinstance(max_age, timedelta):  # pragma: no cover
         max_age = max_age.total_seconds()
@@ -294,7 +294,7 @@ def pretty_date(time=False):
     'just now', etc.
     """
     now = datetime.now()
-    if type(time) is str or type(time) is unicode:
+    if type(time) is str or type(time) is str:
         time = dateutil.parser.parse(time)
     if type(time) is int:
         diff = now - datetime.fromtimestamp(time)
@@ -413,60 +413,6 @@ class Pagination(object):
         else:
             return 0
 
-def unicode_csv_reader(unicode_csv_data, dialect=csv.excel, **kwargs):
-    """Unicode CSV reader."""
-    # This code is taken from http://docs.python.org/library/csv.html#examples
-    # csv.py doesn't do Unicode; encode temporarily as UTF-8:
-    csv_reader = csv.reader(utf_8_encoder(unicode_csv_data),
-                            dialect=dialect, **kwargs)
-    for row in csv_reader:
-        # decode UTF-8 back to Unicode, cell by cell:
-        yield [unicode(cell, 'utf-8') for cell in row]
-
-
-def utf_8_encoder(unicode_csv_data):
-    """UTF8 encoder for CSV data."""
-    # This code is taken from http://docs.python.org/library/csv.html#examples
-    for line in unicode_csv_data:
-        yield line.encode('utf-8')
-
-
-class UnicodeWriter:
-
-    """A CSV writer which will write rows to CSV file "f"."""
-
-    def __init__(self, f, dialect=csv.excel, encoding="utf-8", **kwds):
-        """Init method."""
-        # Redirect output to a queue
-        self.queue = cStringIO.StringIO()
-        self.writer = csv.writer(self.queue, dialect=dialect, **kwds)
-        self.stream = f
-        self.encoder = codecs.getincrementalencoder(encoding)()
-
-    def writerow(self, row):
-        """Write row."""
-        line = []
-        for s in row:
-            if (type(s) == dict):
-                line.append(json.dumps(s))
-            else:
-                line.append(unicode(s).encode("utf-8"))
-        self.writer.writerow(line)
-        # Fetch UTF-8 output from the queue ...
-        data = self.queue.getvalue()
-        data = data.decode("utf-8")
-        # ... and reencode it into the target encoding
-        data = self.encoder.encode(data)
-        # write to the target stream
-        self.stream.write(data)
-        # empty queue
-        self.queue.truncate(0)
-
-    def writerows(self, rows):  # pragma: no cover
-        """Write rows."""
-        for row in rows:
-            self.writerow(row)
-
 
 def get_user_signup_method(user):
     """Return which OAuth sign up method the user used."""
@@ -566,7 +512,7 @@ def rank(projects, order_by=None, desc=False):
     """
     def earned_points(project):
         points = 0
-        if project['overall_progress'] != 100L:
+        if project['overall_progress'] != 100:
             points += 1000
         points += _points_by_interval(project['n_tasks'], weight=1)
         points += _points_by_interval(project['n_volunteers'], weight=2)
@@ -944,7 +890,7 @@ def valid_or_no_s3_bucket(task_data):
         return True
 
     for v in task_data.itervalues():
-        if isinstance(v, basestring):
+        if isinstance(v, str):
             bucket = get_s3_bucket_name(v)
             if bucket is not None and bucket not in allowed_s3_buckets:
                 return False
@@ -1043,7 +989,7 @@ def s3_get_file_contents(s3_bucket, s3_path,
 def get_unique_user_preferences(user_prefs):
     duser_prefs = set()
     for user_pref in user_prefs:
-        for k, values in user_pref.iteritems():
+        for k, values in user_pref.items():
             if isinstance(values, list):
                 for v in values:
                     pref = '\'{}\''.format(json.dumps({k: [v]}))
@@ -1055,7 +1001,7 @@ def get_user_pref_db_clause(user_pref, user_email=None):
     # expand user preferences as per sql format for jsonb datatype
     # single user preference with multiple value or
     # multiple user preferences with single/multiple values
-    _valid = ((k, v) for k, v in user_pref.iteritems() if isinstance(v, list))
+    _valid = ((k, v) for k, v in user_pref.items() if isinstance(v, list))
     user_prefs = [{k: [item]} for k, pref_list in _valid
                   for item in pref_list]
     assign_key = 'assign_user'
@@ -1082,7 +1028,7 @@ def get_user_pref_db_clause(user_pref, user_email=None):
 def validate_required_fields(data):
     invalid_fields = []
     required_fields = current_app.config.get("TASK_REQUIRED_FIELDS", {})
-    for field_name, field_info in required_fields.iteritems():
+    for field_name, field_info in required_fields.items():
         field_val = field_info['val']
         check_val = field_info['check_val']
         import_data = data.get(field_name)

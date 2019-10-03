@@ -112,7 +112,7 @@ def configure_app(app):
     if not app.config.get('SQLALCHEMY_BINDS'):
         app.config['SQLALCHEMY_BINDS'] = {}
     if app.config['SQLALCHEMY_BINDS'].get('slave') is None:
-        print "Slave binds are missing, adding Master as slave too."
+        print("Slave binds are missing, adding Master as slave too.")
         master = app.config.get('SQLALCHEMY_DATABASE_URI')
         app.config['SQLALCHEMY_BINDS']['slave'] = master
     app.url_map.strict_slashes = app.config.get('STRICT_SLASHES')
@@ -402,10 +402,10 @@ def setup_twitter_login(app):
             from pybossa.view.twitter import blueprint as twitter_bp
             app.register_blueprint(twitter_bp, url_prefix='/twitter')
     except Exception as inst:  # pragma: no cover
-        print type(inst)
-        print inst.args
-        print inst
-        print "Twitter signin disabled"
+        print(type(inst))
+        print(inst.args)
+        print(inst)
+        print("Twitter signin disabled")
         log_message = 'Twitter signin disabled: %s' % str(inst)
         app.logger.info(log_message)
 
@@ -419,10 +419,10 @@ def setup_facebook_login(app):
             from pybossa.view.facebook import blueprint as facebook_bp
             app.register_blueprint(facebook_bp, url_prefix='/facebook')
     except Exception as inst:  # pragma: no cover
-        print type(inst)
-        print inst.args
-        print inst
-        print "Facebook signin disabled"
+        print(type(inst))
+        print(inst.args)
+        print(inst)
+        print("Facebook signin disabled")
         log_message = 'Facebook signin disabled: %s' % str(inst)
         app.logger.info(log_message)
 
@@ -436,10 +436,10 @@ def setup_google_login(app):
             from pybossa.view.google import blueprint as google_bp
             app.register_blueprint(google_bp, url_prefix='/google')
     except Exception as inst:  # pragma: no cover
-        print type(inst)
-        print inst.args
-        print inst
-        print "Google signin disabled"
+        print(type(inst))
+        print(inst.args)
+        print(inst)
+        print("Google signin disabled")
         log_message = 'Google signin disabled: %s' % str(inst)
         app.logger.info(log_message)
 
@@ -454,10 +454,10 @@ def setup_flickr_importer(app):
             importer_params = {'api_key': app.config['FLICKR_API_KEY']}
             importer.register_flickr_importer(importer_params)
     except Exception as inst:  # pragma: no cover
-        print type(inst)
-        print inst.args
-        print inst
-        print "Flickr importer not available"
+        print(type(inst))
+        print(inst.args)
+        print(inst)
+        print("Flickr importer not available")
         log_message = 'Flickr importer not available: %s' % str(inst)
         app.logger.info(log_message)
 
@@ -467,10 +467,10 @@ def setup_dropbox_importer(app):
         if app.config['DROPBOX_APP_KEY']:
             importer.register_dropbox_importer()
     except Exception as inst:  # pragma: no cover
-        print type(inst)
-        print inst.args
-        print inst
-        print "Dropbox importer not available"
+        print(type(inst))
+        print(inst.args)
+        print(inst)
+        print("Dropbox importer not available")
         log_message = 'Dropbox importer not available: %s' % str(inst)
         app.logger.info(log_message)
 
@@ -485,10 +485,10 @@ def setup_twitter_importer(app):
             }
             importer.register_twitter_importer(importer_params)
     except Exception as inst:  # pragma: no cover
-        print type(inst)
-        print inst.args
-        print inst
-        print "Twitter importer not available"
+        print(type(inst))
+        print(inst.args)
+        print(inst)
+        print("Twitter importer not available")
         log_message = 'Twitter importer not available: %s' % str(inst)
         app.logger.info(log_message)
 
@@ -500,10 +500,10 @@ def setup_youtube_importer(app):
             }
             importer.register_youtube_importer(importer_params)
     except Exception as inst:  # pragma: no cover
-        print type(inst)
-        print inst.args
-        print inst
-        print "Youtube importer not available"
+        print(type(inst))
+        print(inst.args)
+        print(inst)
+        print("Youtube importer not available")
         log_message = 'Youtube importer not available: %s' % str(inst)
         app.logger.info(log_message)
 

@@ -71,7 +71,7 @@ requirements = [
     "Faker",
     "flask-talisman>=0.5.0, <0.6.0",
     "cryptography>=2.3.1, <2.4.0",
-    "python-saml>=2.4.0, <2.5.0",
+    "python3-saml==1.8.0",
     "hdfs[kerberos]>=2.2.1, <2.3.0",
     "iiif-prezi>=0.2.9, <1.0.0",
     "Werkzeug>=0.14.0, <0.15.0",

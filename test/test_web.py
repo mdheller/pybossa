@@ -24,7 +24,7 @@ import os
 import shutil
 import urllib
 import zipfile
-from StringIO import StringIO
+from io import StringIO
 from default import db, Fixtures, with_context, with_context_settings, FakeResponse, mock_contributions_guard
 from helper import web
 from mock import patch, Mock, call, MagicMock

@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with PYBOSSA.  If not, see <http://www.gnu.org/licenses/>.
 
-from urlparse import urlparse, parse_qs
+from urllib.parse import urlparse, parse_qs
 from functools import wraps
 from flask import Blueprint, current_app, Response, request
 from flask_login import current_user, login_required

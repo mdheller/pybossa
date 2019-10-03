@@ -214,7 +214,6 @@ class TestPrivacyWebPublic(web_helper.Helper):
         full_url = 'https://%s%s/' % (self.flask_app.config['SERVER_NAME'], url)
         res = self.app.get(full_url, content_type='application/json')
         data = json.loads(res.data)
-        print data.keys()
         # this data should be public visible in user
         err_msg = 'name should be public'
         assert data['user']['name'] == owner.name, err_msg
@@ -242,7 +241,6 @@ class TestPrivacyWebPublic(web_helper.Helper):
         err_msg = 'valid_email should not be public'
         assert 'valid_email' not in data['user'], err_msg
         # public projects data
-        print data
         project = data['projects'][0]
         err_msg = 'info should be public'
         assert 'info' in project, err_msg
@@ -326,7 +324,6 @@ class TestPrivacyWebPrivacy(web_helper.Helper):
         self.signout
         # As Authenticated user but ADMIN
         res = self.signin(email=self.root_addr, password=self.root_password)
-        print res.data
         res = self.app.get(url, follow_redirects=True)
         dom = BeautifulSoup(res.data)
         # TODO: old requirement, remove in future versions

@@ -187,9 +187,9 @@ class TestProjectsCache(Test):
         ranked_3_project = self.create_project_with_contributors(8, 0, name='three')
         ranked_2_project = self.create_project_with_contributors(9, 0, name='two')
         ranked_1_project = self.create_project_with_contributors(10, 0, name='one')
-        print ranked_3_project
-        print ranked_2_project
-        print ranked_1_project
+        print(ranked_3_project)
+        print(ranked_2_project)
+        print(ranked_1_project)
 
         top_projects = cached_projects.get_top(n=2)
 

@@ -17,12 +17,11 @@
 # along with PYBOSSA.  If not, see <http://www.gnu.org/licenses/>.
 
 import numbers
-import types
 import requests
-from StringIO import StringIO
+from io import StringIO
 from flask_babel import gettext
-from pybossa.util import unicode_csv_reader, validate_required_fields
-from pybossa.util import unicode_csv_reader
+from pybossa.util import validate_required_fields
+import pandas as pd
 
 from .base import BulkTaskImport, BulkImportException
 from flask import request
@@ -37,7 +36,7 @@ type_map = {
     # Python considers booleans to be numbers so we need an extra check for that.
     'number': lambda x: isinstance(x, numbers.Real) and type(x) is not bool,
     'bool': lambda x: isinstance(x, bool),
-    'null': lambda x: isinstance(x, types.NoneType)
+    'null': lambda x: x is None
 }
 
 def get_value(header, value_string, data_type):
@@ -176,7 +175,7 @@ class BulkTaskCSVImportBase(BulkTaskImport):
         BulkTaskImport.__init__(self)
         self._field_processors = None
         self._input_fields = None
-    
+
     def tasks(self):
         """Get tasks from a given URL."""
         return self._get_csv_data()
@@ -226,7 +225,7 @@ class BulkTaskCSVImportBase(BulkTaskImport):
     def _import_csv_tasks(self, csvreader):
         """Import CSV tasks."""
         # These two lines execute immediately when the function is called.
-        # The rest is deferred inside the generator function until the 
+        # The rest is deferred inside the generator function until the
         # first task is iterated.
         csviterator = iter(csvreader)
         self.fields(csvreader=csviterator)

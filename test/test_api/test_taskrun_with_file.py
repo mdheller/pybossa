@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with PYBOSSA.  If not, see <http://www.gnu.org/licenses/>.
 import json
-from StringIO import StringIO
+from io import StringIO
 from default import with_context
 from test_api import TestAPI
 from mock import patch

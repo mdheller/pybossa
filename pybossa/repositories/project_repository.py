@@ -300,7 +300,7 @@ class ProjectRepository(Repository):
         data['n_pending_tasks'] = data['n_tasks'] - data['completed_tasks']
 
         # url column for each project
-        data['url'] = base_url + data['short_name'].astype('unicode')
+        data['url'] = base_url + data['short_name'].astype('str')
 
         # manage report columns; reorder
         data = data[[

@@ -538,11 +538,6 @@ def update_stats(project_id, period='2 week'):
     users, anon_users, auth_users = stats_users(project_id)
     dates, dates_anon, dates_auth = stats_dates(project_id, period)
 
-
-    sum(dates.values())
-
-    sorted(dates.iteritems(), key=operator.itemgetter(0))
-
     dates_stats = stats_format_dates(project_id, dates,
                                      dates_anon, dates_auth)
 

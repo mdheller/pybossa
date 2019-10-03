@@ -1,6 +1,6 @@
 import regex
 
-whitelist_regex = regex.compile(ur"[^a-zA-Z0-9\.\u00BC-\u00BE\u2150-\u215E\s]")
+whitelist_regex = regex.compile(r"[^a-zA-Z0-9\.\u00BC-\u00BE\u2150-\u215E\s]")
 
 
 class ServiceValidators(object):

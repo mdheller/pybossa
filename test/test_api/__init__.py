@@ -27,7 +27,7 @@ def get_pwd_cookie(short_name, res):
     raw_cookie = None
     cookies = res.headers.get_all('Set-Cookie')
     for c in cookies:
-        for k, v in parse_cookie(c).iteritems():
+        for k, v in parse_cookie(c).items():
             if k == u'%spswd' % short_name:
                 cookie = k, v
                 raw_cookie = c
@@ -40,4 +40,3 @@ def get_pwd_cookie(short_name, res):
 class TestAPI(Test):
 
     endpoints = ['project', 'task', 'taskrun', 'user']
-

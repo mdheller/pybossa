@@ -33,7 +33,7 @@ from flask import current_app as app
 from flask_login import current_user
 from werkzeug.exceptions import Forbidden, BadRequest
 
-from api_base import APIBase
+from .api_base import APIBase
 from pybossa.model.task_run import TaskRun
 from pybossa.util import get_user_id_or_ip
 from pybossa.cache.projects import get_project_data
@@ -184,7 +184,7 @@ class TaskRunAPI(APIBase):
 def _upload_files_from_json(task_run_info, upload_path, with_encryption):
     if not isinstance(task_run_info, dict):
         return
-    for key, value in task_run_info.iteritems():
+    for key, value in list(task_run_info.items()):
         if key.endswith('__upload_url'):
             filename = value.get('filename')
             content = value.get('content')
@@ -216,7 +216,7 @@ def update_gold_stats(user_id, task_id, data, gold_answers=None):
     task = task_repo.get_task(task_id)
     if not task.calibration:
         return
-    
+
     if gold_answers is None:
         gold_answers = get_gold_answers(task)
     answer_fields = get_project_data(task.project_id)['info'].get('answer_fields', {})
@@ -295,5 +295,3 @@ def preprocess_task_run(project_id, task_id, data):
         path = "{0}/{1}/{2}".format(project_id, task_id, current_user.id)
         _upload_files_from_json(info, path, with_encryption)
         _upload_files_from_request(info, request.files, path, with_encryption)
-
-

@@ -17,7 +17,7 @@
 # along with PyBossa.  If not, see <http://www.gnu.org/licenses/>.
 
 import json
-from StringIO import StringIO
+from io import StringIO
 from zipfile import ZipFile
 
 from default import Test, with_context

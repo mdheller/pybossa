@@ -414,7 +414,7 @@ class TestTaskAPI(TestAPI):
         res = self.app.get(url)
         data = json.loads(res.data)
         err_msg = "It should get the last item first."
-        # print data
+        # print(data)
         assert data[0]['id'] == t2.id, err_msg
 
         # fav_user_ids
@@ -894,7 +894,7 @@ class TestTaskAPI(TestAPI):
         ## anonymous
         res = self.app.delete('/api/task/%s' % task.id)
         error_msg = 'Anonymous should not be allowed to delete'
-        print res.status
+        print(res.status)
         assert_equal(res.status, '401 UNAUTHORIZED', error_msg)
 
         ### real user but not allowed as not owner!
@@ -1056,7 +1056,7 @@ class TestTaskAPI(TestAPI):
         for i in range(9):
             task['info']['bar'] = i
             res = self.app.post(url, data=json.dumps(task))
-            print res
+            print(res)
             created_task = json.loads(res.data)
         items = db.session.query(Counter).filter_by(project_id=project.id).all()
         assert len(items) == 10, len(items)
@@ -1179,4 +1179,3 @@ class TestTaskAPI(TestAPI):
 
         url = tasks.upload_gold_data(task, 1, {'ans1': 'test'})
         assert url == 'testURL', url
-

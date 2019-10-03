@@ -752,7 +752,6 @@ class TestSched(sched.Helper):
         err_msg = "User should get a task"
         i = 0
         for t in data:
-            print t['id']
             assert 'project_id' in t.keys(), err_msg
             assert t['project_id'] == project_id, err_msg
             assert t['id'] == all_tasks[i].id, (err_msg, t, all_tasks[i].id)

@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with PYBOSSA.  If not, see <http://www.gnu.org/licenses/>.
 
-from StringIO import StringIO
+from io import StringIO
 from mock import patch, Mock, MagicMock
 import boto
 from default import Test, with_context

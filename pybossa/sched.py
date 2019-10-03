@@ -24,8 +24,8 @@ from pybossa.model.task import Task
 from pybossa.model.task_run import TaskRun
 from pybossa.model.counter import Counter
 from pybossa.core import db, sentinel, project_repo, task_repo
-from redis_lock import LockManager, get_active_user_count, register_active_user
-from contributions_guard import ContributionsGuard
+from .redis_lock import LockManager, get_active_user_count, register_active_user
+from .contributions_guard import ContributionsGuard
 from werkzeug.exceptions import BadRequest, Forbidden
 import random
 import json

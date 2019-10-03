@@ -101,7 +101,7 @@ def _get_task_info_filters(filter_args):
     grouped_filters = _reduce_filters(filter_args)
     ix = 0
     and_pieces = []
-    for field_name, ops in grouped_filters.iteritems():
+    for field_name, ops in grouped_filters.items():
         or_pieces = []
         for operator, field_value in ops:
             query, p_name, p_val = _get_or_piece(field_name, operator,
@@ -229,7 +229,7 @@ def parse_tasks_browse_args(args):
                                  .format(args['order_by']))
             parsed_args["order_by_dict"][order_by_field[0]] = order_by_field[1]
 
-        for key, value in allowed_fields.iteritems():
+        for key, value in allowed_fields.items():
             parsed_args["order_by"] = parsed_args["order_by"].replace(key, value)
 
     if args.get('filter_by_field'):
@@ -256,7 +256,7 @@ def parse_tasks_browse_args(args):
 
 def validate_user_preferences(user_pref):
     if not isinstance(user_pref, dict) or \
-        not all(x in ['languages', 'locations'] for x in user_pref.iterkeys()):
+        not all(x in ['languages', 'locations'] for x in user_pref.keys()):
             raise ValueError('invalid user preference keys')
 
     valid_user_preferences = app_settings.upref_mdata.get_valid_user_preferences() \

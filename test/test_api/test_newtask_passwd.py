@@ -174,7 +174,7 @@ class TestNewtaskPasswd(TestAPI):
             headers = {'Content-Type': 'application/json'}
             res = self.app.get(url, headers=headers)
             next_url = json.loads(res.data)['next']
-            print next_url
+            print(next_url)
             headers = {'Authorization': user.api_key}
             res = self.app.get(next_url, headers=headers)
 

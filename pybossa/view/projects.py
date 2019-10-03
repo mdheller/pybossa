@@ -22,7 +22,7 @@ import json
 import os
 import math
 import requests
-from StringIO import StringIO
+from io import StringIO
 import six
 from pybossa.cache.helpers import n_unexpired_gold_tasks
 from flask import Blueprint, request, url_for, flash, redirect, abort, Response, current_app
@@ -1294,7 +1294,7 @@ def _get_locks(project_id, task_id):
     locks = sched.get_locks(task_id, timeout)
     now = time.time()
     lock_ttls = {int(k): float(v) - now
-                 for k, v in locks.iteritems()}
+                 for k, v in locks.items()}
     return lock_ttls
 
 
@@ -1843,7 +1843,7 @@ def export_to(short_name):
             current_app.logger.error(msg)
             flash(msg, 'danger')
         except Exception as inst:
-            # print inst
+            # print(inst)
             if len(inst.args) == 3:
                 t, msg, status_code = inst.args
                 msg = ("Error: %s with status code: %s" % (t, status_code))
@@ -3080,9 +3080,9 @@ def ext_config(short_name):
     forms = current_app.config.get('EXTERNAL_CONFIGURATIONS', {})
 
     form_classes = []
-    for form_name, form_config in forms.iteritems():
+    for form_name, form_config in forms.items():
         display = form_config['display']
-        form = form_builder(form_name, form_config['fields'].iteritems())
+        form = form_builder(form_name, form_config['fields'].items())
         form_classes.append((form_name, display, form))
 
     if request.method == 'POST':

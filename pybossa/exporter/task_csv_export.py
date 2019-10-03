@@ -23,7 +23,7 @@ from pybossa.uploader import local
 from pybossa.exporter.csv_export import CsvExporter
 from pybossa.core import uploader, task_repo
 from pybossa.util import UnicodeWriter
-from export_helpers import browse_tasks_export
+from .export_helpers import browse_tasks_export
 
 class TaskCsvExporter(CsvExporter):
     """CSV Exporter for exporting ``Task``s and ``TaskRun``s
@@ -132,7 +132,7 @@ class TaskCsvExporter(CsvExporter):
             row[keys[-1]] = value
 
         new_row = {}
-        for k, v in row.iteritems():
+        for k, v in row.items():
             key_split = k.split('__', 1)
             if len(key_split) > 1 and key_split[0] in ('task', 'user'):
                 set_nested_value(new_row, key_split, v)
@@ -147,20 +147,20 @@ class TaskCsvExporter(CsvExporter):
     def _handle_row(self, writer, t, headers):
         writer.writerow(self._format_csv_row(self.merge_objects(t),
                                              headers=headers))
-   
+
     @staticmethod
     def flatten(key_value_pairs, key_prefix='', return_value=None):
         return_value = return_value if return_value is not None else {}
         for k, v in key_value_pairs:
-            key = k if not key_prefix else '{}__{}'.format(key_prefix, k) 
+            key = k if not key_prefix else '{}__{}'.format(key_prefix, k)
             if isinstance(v, dict):
-                iterator = TaskCsvExporter.flatten(v.iteritems(), key, return_value)
+                iterator = TaskCsvExporter.flatten(list(v.items()), key, return_value)
             elif isinstance(v, list):
                 iterator = TaskCsvExporter.flatten(enumerate(v), key, return_value)
             else:
                 iterator = [(key, v)]
             for kk, vv, in iterator:
-                yield kk, vv                                        
+                yield kk, vv
 
     def _get_csv_with_filters(self, out, writer, table, project_id,
                               expanded, filters, disclose_gold):
@@ -168,7 +168,7 @@ class TaskCsvExporter(CsvExporter):
         rows = [obj for obj in objs]
         # for row in rows:
         #     if row['info']:
-        #         info = dict(TaskCsvExporter.flatten(row['info'].iteritems()))
+        #         info = dict(TaskCsvExporter.flatten(row['info'].items()))
         #         row['info'].update(info)
 
         headers = self._get_all_headers(objs=rows,
@@ -189,7 +189,7 @@ class TaskCsvExporter(CsvExporter):
         for all tasks are included, regardless of whether
         or not all tasks were imported with the same headers.
 
-        :param objs: an iterable of objects or dicts to 
+        :param objs: an iterable of objects or dicts to
             extract keys from
         :param expanded: determines if joined objects should
             be merged

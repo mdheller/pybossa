@@ -62,7 +62,6 @@ class TestJsonProject(web.Helper):
 
             # With errors and CSRF
             csrf = self.get_csrf(url)
-            print csrf
             res = self.app_post_json(url, headers={'X-CSRFToken': csrf})
             data = json.loads(res.data)
             assert data.get('errors'), data
@@ -74,7 +73,6 @@ class TestJsonProject(web.Helper):
             project = dict(name='project1', short_name='project1', long_description='lore ipsum',
                            password='TestPwd1', product='abc', subproduct='def', kpi=0.5)
             csrf = self.get_csrf(url)
-            print csrf
             res = self.app_post_json(url, headers={'X-CSRFToken': csrf}, data=project)
             data = json.loads(res.data)
             assert data.get('status') == SUCCESS, data
@@ -357,4 +355,3 @@ class TestJsonProject(web.Helper):
                 assert proj_repo.info['subproduct'] == project['subproduct'], 'subproduct has not been set as expected'
                 assert proj_repo.info['kpi'] == project['kpi'], 'kpi has not been set as expected'
                 assert proj_repo.info['data_access'] == project['data_access']
-
