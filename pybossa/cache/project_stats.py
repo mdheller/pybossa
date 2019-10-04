@@ -414,7 +414,7 @@ def stats_format_dates(project_id, dates, dates_anon, dates_auth):
     dayNewAnonStats = dict(label=gettext("Anonymous"), values=[])
     dayNewAuthStats = dict(label=gettext("Authenticated"), values=[])
 
-    answer_dates = sorted(list(set(dates_anon.keys() + dates_auth.keys())))
+    answer_dates = sorted(set(list(dates_anon.keys()) + list(dates_auth.keys())))
     total = 0
 
     for d in sorted(dates.keys()):
