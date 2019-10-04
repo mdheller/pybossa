@@ -118,4 +118,4 @@ class TestFlickrAPI(object):
         client_instance.get_user_albums.return_value = albums
         resp = flask_app.test_client().get('/flickr/albums')
 
-        assert resp.data == json.dumps(albums), resp.data
+        assert str(resp.data) == json.dumps(albums), str(resp.data)

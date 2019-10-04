@@ -49,7 +49,7 @@ class TestJwtAPI(TestAPI):
 
         err_msg = "It should get the token"
         assert resp.status_code == 200, err_msg
-        bearer = "Bearer %s" % resp.data
+        bearer = "Bearer %s" % str(resp.data)
         data = jwt_authorize_project(project, bearer)
         assert data, err_msg
 

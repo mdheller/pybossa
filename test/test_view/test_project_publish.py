@@ -107,7 +107,7 @@ class TestProjectPublicationView(web.Helper):
         # Try again
         resp = self.app.post('/project/%s/1/publish' % project.short_name,
                              follow_redirects=True)
-        assert 'Project published' in resp.data, resp.data
+        assert 'Project published' in str(resp.data), str(resp.data)
 
 
     @with_context
