@@ -76,7 +76,7 @@ def set_gold_answers(task, gold_answers):
 
 def upload_files_priv(task, project_id, data, file_name):
     bucket = bucket_name()
-    task_hash = hashlib.md5(str(task)).hexdigest()
+    task_hash = hashlib.md5(str(task).encode('utf-8')).hexdigest()
     path = "{}/{}".format(project_id, task_hash)
     values = dict(
         store=s3_conn_type(),

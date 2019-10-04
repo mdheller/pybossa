@@ -145,7 +145,7 @@ class TestBulkTaskLocalCSVImport(Test):
         rows.append(','.join(fields.keys()))
         for i in range(6):
             rows.append(','.join(map(lambda x: x[i], fields.values())))
-        data = unicode('\n'.join(rows))
+        data = '\n'.join(rows)
         print(data)
         form_data = {'type': 'localCSV', 'csv_filename': 'fakefile.csv'}
 

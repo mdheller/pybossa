@@ -3052,7 +3052,7 @@ class TestWeb(web.Helper):
         assert 'projects' in data.keys(), data
         assert data['pagination']['next'] is False, data
         assert data['pagination']['prev'] is False, data
-        assert data['pagination']['total'] == 1L, data
+        assert data['pagination']['total'] == 1, data
         assert data['active_cat']['name'] == 'Draft', data
         assert len(data['projects']) == 1, data
         assert data['projects'][0]['id'] == project.id, data
@@ -5067,7 +5067,7 @@ class TestWeb(web.Helper):
                 err_msg = "%s != %s" % (result_dict_flat[k],
                                         et[keys.index(slug)])
                 if result_dict_flat[k] is not None:
-                    assert unicode(result_dict_flat[k]) == et[keys.index(slug)], err_msg
+                    assert str(result_dict_flat[k]) == et[keys.index(slug)], err_msg
                 else:
                     assert '' == et[keys.index(slug)], err_msg
         # Tasks are exported as an attached file
@@ -5173,13 +5173,13 @@ class TestWeb(web.Helper):
                 err_msg = "%s != %s" % (result_dict_flat[k],
                                         et[keys.index(slug)])
                 if result_dict_flat[k] is not None:
-                    assert unicode(result_dict_flat[k]) == et[keys.index(slug)], err_msg
+                    assert str(result_dict_flat[k]) == et[keys.index(slug)], err_msg
                 else:
                     assert '' == et[keys.index(slug)], err_msg
             for k in result_dict['info'].keys():
                 slug = 'info_%s' % k
                 err_msg = "%s != %s" % (result_dict['info'][k], et[keys.index(slug)])
-                assert unicode(result_dict_flat[slug]) == et[keys.index(slug)], err_msg
+                assert str(result_dict_flat[slug]) == et[keys.index(slug)], err_msg
         # Tasks are exported as an attached file
         content_disposition = 'attachment; filename=%d_project1_result_csv.zip' % project.id
         assert res.headers.get('Content-Disposition') == content_disposition, res.headers
@@ -5274,13 +5274,13 @@ class TestWeb(web.Helper):
                         slug = '%s' % k
                         err_msg = "%s != %s" % (task_dict_flat[k], et[keys.index(slug)])
                         if task_dict_flat[k] is not None:
-                            assert unicode(task_dict_flat[k]) == et[keys.index(slug)], err_msg
+                            assert str(task_dict_flat[k]) == et[keys.index(slug)], err_msg
                         else:
                             assert '' == et[keys.index(slug)], err_msg
                     for k in task_dict['info'].keys():
                         slug = 'info_%s' % k
                         err_msg = "%s != %s" % (task_dict['info'][k], et[keys.index(slug)])
-                        assert unicode(task_dict_flat[slug]) == et[keys.index(slug)], err_msg
+                        assert str(task_dict_flat[slug]) == et[keys.index(slug)], err_msg
             # Tasks are exported as an attached file
             content_disposition = 'attachment; filename=%d_project1_task_csv.zip' % project.id
             assert res.headers.get('Content-Disposition') == content_disposition, res.headers
@@ -5445,13 +5445,13 @@ class TestWeb(web.Helper):
                     slug = '%s' % k
                     err_msg = "%s != %s" % (task_dict_flat[k], et[keys.index(slug)])
                     if task_dict_flat[k] is not None:
-                        assert unicode(task_dict_flat[k]) == et[keys.index(slug)], err_msg
+                        assert str(task_dict_flat[k]) == et[keys.index(slug)], err_msg
                     else:
                         assert '' == et[keys.index(slug)], err_msg
                 for datum in task_dict['info']['answer']:
                     for k in datum.keys():
                         slug = '%s' % k
-                        assert unicode(task_dict_flat[slug]) == et[keys.index(slug)], err_msg
+                        assert str(task_dict_flat[slug]) == et[keys.index(slug)], err_msg
             # Tasks are exported as an attached file
             content_disposition = 'attachment; filename=%d_project1_task_csv.zip' % project.id
             assert res.headers.get('Content-Disposition') == content_disposition, res.headers
@@ -5542,13 +5542,13 @@ class TestWeb(web.Helper):
                 slug = '%s' % k
                 err_msg = "%s != %s" % (task_dict_flat[k], et[keys.index(slug)])
                 if task_dict_flat[k] is not None:
-                    assert unicode(task_dict_flat[k]) == et[keys.index(slug)], err_msg
+                    assert str(task_dict_flat[k]) == et[keys.index(slug)], err_msg
                 else:
                     assert '' == et[keys.index(slug)], err_msg
             for k in task_dict['info'].keys():
                 slug = 'info_%s' % k
                 err_msg = "%s != %s" % (task_dict['info'][k], et[keys.index(slug)])
-                assert unicode(task_dict_flat[slug]) == et[keys.index(slug)], err_msg
+                assert str(task_dict_flat[slug]) == et[keys.index(slug)], err_msg
         # Tasks are exported as an attached file
         content_disposition = 'attachment; filename=%d_test-app_task_csv.zip' % project.id
         assert res.headers.get('Content-Disposition') == content_disposition, res.headers
@@ -5666,7 +5666,7 @@ class TestWeb(web.Helper):
                 slug = '%s' % k
                 err_msg = "%s != %s" % (task_run_dict[k], et[keys.index(slug)])
                 if task_run_dict[k] is not None:
-                    assert unicode(task_run_dict[k]) == et[keys.index(slug)], err_msg
+                    assert str(task_run_dict[k]) == et[keys.index(slug)], err_msg
                 else:
                     assert '' == et[keys.index(slug)], err_msg
         # Task runs are exported as an attached file

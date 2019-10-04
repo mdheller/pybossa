@@ -37,7 +37,7 @@ class TestStats(Test):
     def test_stats_dates_no_completed_tasks_on_different_days(self):
         """Test STATS stats_dates with no completed tasks"""
         self.prepare_data()
-        today = unicode(datetime.date.today())
+        today = str(datetime.date.today())
         dates, dates_anon, dates_auth = stats.stats_dates(self.project.id)
         assert len(dates.keys()) == 15, "There should be 15 days."
         for d in dates.keys():
@@ -58,7 +58,7 @@ class TestStats(Test):
     def test_stats_dates_completed_tasks(self):
         """Test STATS stats_dates with tasks completed tasks"""
         self.prepare_data()
-        today = unicode(datetime.date.today())
+        today = str(datetime.date.today())
         TaskRunFactory.create(task=self.project.tasks[1])
         dates, dates_anon, dates_auth = stats.stats_dates(self.project.id)
         assert dates[today] == 4, dates
@@ -69,7 +69,7 @@ class TestStats(Test):
     def test_02_stats_hours(self):
         """Test STATS hours method works"""
         self.prepare_data()
-        hour = unicode(datetime.datetime.utcnow().strftime('%H'))
+        hour = str(datetime.datetime.utcnow().strftime('%H'))
         hours, hours_anon, hours_auth, max_hours,\
             max_hours_anon, max_hours_auth = stats.stats_hours(self.project.id)
         for i in range(0, 24):
@@ -99,7 +99,7 @@ class TestStats(Test):
     def test_03_stats(self):
         """Test STATS stats method works"""
         self.prepare_data()
-        today = unicode(datetime.date.today())
+        today = str(datetime.date.today())
         hour = int(datetime.datetime.utcnow().strftime('%H'))
         date_ms = time.mktime(time.strptime(today, "%Y-%m-%d")) * 1000
         anon = 0

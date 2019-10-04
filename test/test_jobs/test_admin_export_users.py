@@ -17,7 +17,7 @@
 # along with PYBOSSA.  If not, see <http://www.gnu.org/licenses/>.
 
 import json
-import StringIO
+from io import StringIO
 from default import with_context
 from pybossa.util import unicode_csv_reader
 from factories import UserFactory
