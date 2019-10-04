@@ -132,10 +132,10 @@ class ProjectAPI(APIBase):
         public.append('link')
         public.append('links')
         public.append('stats')
-        for key in tmp.keys():
+        for key in list(tmp.keys()):
             if key not in public:
                 del tmp[key]
-        for key in tmp['info'].keys():
+        for key in list(tmp['info'].keys()):
             if key not in Project().public_info_keys():
                 del tmp['info'][key]
         return tmp
