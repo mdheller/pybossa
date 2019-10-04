@@ -17,12 +17,12 @@ class TestSummary(web.Helper):
         project = ProjectFactory.create(published=True)
         url = '/project/%s/summary?api_key=%s' % (project.short_name, project.owner.api_key)
         res = self.app.get(url)
-        assert 'setting' in res.data, res.data
-        assert 'ownership-setting' in res.data, res.data
-        assert 'task-setting' in res.data, res.data
-        assert 'fields-config' in res.data, res.data
-        assert 'consensus-config' in res.data, res.data
-        assert 'quiz-setting' in res.data, res.data
+        assert 'setting' in str(res.data), res.data
+        assert 'ownership-setting' in str(res.data), res.data
+        assert 'task-setting' in str(res.data), res.data
+        assert 'fields-config' in str(res.data), res.data
+        assert 'consensus-config' in str(res.data), res.data
+        assert 'quiz-setting' in str(res.data), res.data
 
     @with_context
     def test_post_project_config_setting(self):

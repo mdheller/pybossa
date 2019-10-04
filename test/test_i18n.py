@@ -37,18 +37,18 @@ class TestI18n(web.Helper):
         # First default 'en' locale
         err_msg = "The page should be in English"
         res = self.app.get('/')
-        assert "Community" in res.data, err_msg
+        assert "Community" in str(res.data), err_msg
 
         self.app.set_cookie('localhost', 'language', 'RU')
         err_msg = "The page should be in English"
         res = self.app.get('/')
-        assert "Community" in res.data, err_msg
+        assert "Community" in str(res.data), err_msg
 
         # Second with 'es' locale
         self.app.set_cookie('localhost', 'language', 'ES')
         err_msg = "The page should be in Spanish"
         res = self.app.get('/')
-        assert "Comunidad" in res.data, err_msg
+        assert "Comunidad" in str(res.data), err_msg
         '''
 
     @nottest
@@ -57,13 +57,13 @@ class TestI18n(web.Helper):
         # First default 'en' locale
         err_msg = "The page should be in English"
         res = self.app.get('/', follow_redirects=True)
-        assert "Sign in" in res.data, err_msg
+        assert "Sign in" in str(res.data), err_msg
         self.register()
         self.signin()
         # After signing in it should be in English
         err_msg = "The page should be in English"
         res = self.app.get('/account', follow_redirects=True)
-        assert "Community" in res.data, err_msg
+        assert "Community" in str(res.data), err_msg
 
         # Change it to Spanish
         user = user_repo.get_by_name('johndoe')
@@ -72,9 +72,9 @@ class TestI18n(web.Helper):
 
         res = self.app.get('/account', follow_redirects=True)
         err_msg = "The page should be in Spanish"
-        assert "Comunidad" in res.data, err_msg
+        assert "Comunidad" in str(res.data), err_msg
         # Sign out should revert it to English
         self.signout()
         err_msg = "The page should be in English"
         res = self.app.get('/account', follow_redirects=True)
-        assert "Community" in res.data, err_msg
+        assert "Community" in str(res.data), err_msg

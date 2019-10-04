@@ -62,9 +62,9 @@ class TestBlogpostView(web.Helper):
         self.signin()
         res = self.app.get(url, follow_redirects=True)
         assert res.status_code == 200, res.status_code
-        assert 'titleone' in res.data
-        assert 'titletwo' in res.data
-        assert 'titlethree' not in res.data
+        assert 'titleone' in str(res.data)
+        assert 'titletwo' in str(res.data)
+        assert 'titlethree' not in str(res.data)
 
     @with_context
     @patch('pybossa.view.projects._check_if_redirect_to_password')
@@ -158,7 +158,7 @@ class TestBlogpostView(web.Helper):
         self.signin()
         res = self.app.get(url, follow_redirects=True)
         assert res.status_code == 200, res.status_code
-        assert 'title' in res.data
+        assert 'title' in str(res.data)
 
     @with_context
     def test_blogpost_get_one_draft(self):
@@ -184,7 +184,7 @@ class TestBlogpostView(web.Helper):
                                              user.api_key)
         res = self.app.get(url, follow_redirects=True)
         assert res.status_code == 200, res.status_code
-        assert 'title' in res.data
+        assert 'title' in str(res.data)
 
 
     @with_context
@@ -248,13 +248,13 @@ class TestBlogpostView(web.Helper):
 
         res = self.app.get(url, follow_redirects=True)
         assert res.status_code == 200, res.status_code
-        assert "This feature requires being logged in." in res.data, res
+        assert "This feature requires being logged in." in str(res.data), res
 
         res = self.app.post(url,
                             data={'title':'blogpost title', 'body':'body'},
                             follow_redirects=True)
         assert res.status_code == 200, res.status_code
-        assert "This feature requires being logged in." in res.data
+        assert "This feature requires being logged in." in str(res.data)
 
         blogpost = blog_repo.get_by(title='blogpost title')
         assert blogpost == None, blogpost
@@ -333,7 +333,7 @@ class TestBlogpostView(web.Helper):
 
         res = self.app.get(url, follow_redirects=True)
         assert res.status_code == 200, res.status_code
-        assert "This feature requires being logged in." in res.data, res.data
+        assert "This feature requires being logged in." in str(res.data), res.data
 
         res = self.app.post(url,
                             data={'id':blogpost.id,
@@ -341,7 +341,7 @@ class TestBlogpostView(web.Helper):
                                   'body':'new body'},
                             follow_redirects=True)
         assert res.status_code == 200, res.status_code
-        assert "This feature requires being logged in." in res.data
+        assert "This feature requires being logged in." in str(res.data)
 
         blogpost = blog_repo.get_by()
         assert blogpost.title == 'title', blogpost.title
@@ -432,7 +432,7 @@ class TestBlogpostView(web.Helper):
 
         res = self.app.post(url, follow_redirects=True)
         assert res.status_code == 200, res.status_code
-        assert "This feature requires being logged in." in res.data
+        assert "This feature requires being logged in." in str(res.data)
 
         blogpost = blog_repo.get_by()
         assert blogpost is not None

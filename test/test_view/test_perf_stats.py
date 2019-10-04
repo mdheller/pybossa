@@ -18,7 +18,7 @@ class TestPerfStats(web.Helper):
         project = ProjectFactory.create(published=True)
         url = '/project/%s/performancestats?api_key=%s' % (project.short_name, project.owner.api_key)
         res = self.app.get(url)
-        assert 'Performance Statistics' in res.data, res.data
+        assert 'Performance Statistics' in str(res.data), res.data
 
     @with_context
     def test_not_owner_has_not_access(self):
@@ -26,7 +26,7 @@ class TestPerfStats(web.Helper):
         project = ProjectFactory.create(owner=owner, published=True)
         url = '/project/%s/performancestats?api_key=%s' % (project.short_name, user.api_key)
         res = self.app.get(url)
-        assert 'You do not have the permission to access the requested resource.' in res.data, res.data
+        assert 'You do not have the permission to access the requested resource.' in str(res.data), res.data
 
     @with_context
     def test_has_fields_config(self):

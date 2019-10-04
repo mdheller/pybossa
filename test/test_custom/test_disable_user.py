@@ -35,13 +35,13 @@ class TestWeb(web.Helper):
         self.app.get('/admin/users/disable_user/{}'.format(user.id))
         self.signout()
         res = self.signin(email='tyrion@example.com')
-        assert 'Your account is disabled. ' in res.data, res.data
+        assert 'Your account is disabled. ' in str(res.data), res.data
 
         self.signin()
         self.app.get('/admin/users/enable_user/{}'.format(user.id))
         self.signout()
         res = self.signin(email='tyrion@example.com')
-        assert 'Welcome back ' in res.data, res.data
+        assert 'Welcome back ' in str(res.data), res.data
 
     @with_context
     def test_disable_user_does_not_exist(self):

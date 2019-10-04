@@ -355,7 +355,7 @@ class TestApiCommon(TestAPI):
         res = self.app.get('/api/project/%s?callback=mycallback' % project.id)
         err_msg = "mycallback should be included in the response"
         print(res.data)
-        assert "mycallback" in res.data, err_msg
+        assert "mycallback" in str(res.data), err_msg
         err_msg = "Status code should be 200"
         assert res.status_code == 200, err_msg
 
@@ -425,7 +425,7 @@ class TestApiCommon(TestAPI):
             url = "/project/%s?api_key=api-key1" % project.short_name
             res = self.app.get(url, follow_redirects=True, headers=headers)
             err_msg = 'app access should not be allowed with SECURE_APP_ACCESS enabled'
-            assert "Sign in" in res.data, err_msg
+            assert "Sign in" in str(res.data), err_msg
 
 
     @with_context
@@ -466,7 +466,7 @@ class TestApiCommon(TestAPI):
             url = "/project/%s?api_key=api-key1" % project.short_name
             res = self.app.get(url, follow_redirects=True)
             err_msg = 'app access should be allowed with SECURE_APP_ACCESS disabled'
-            assert not "Sign in" in res.data, err_msg
-            assert "Statistics" in res.data
-            assert 'id="percent-completed"' in res.data
-            assert "<div>100%</div>" in res.data
+            assert not "Sign in" in str(res.data), err_msg
+            assert "Statistics" in str(res.data)
+            assert 'id="percent-completed"' in str(res.data)
+            assert "<div>100%</div>" in str(res.data)

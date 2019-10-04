@@ -178,7 +178,7 @@ class TestNewtaskPasswd(TestAPI):
             headers = {'Authorization': user.api_key}
             res = self.app.get(next_url, headers=headers)
 
-            assert 'Enter the password to contribute to this project' in res.data, res.data
+            assert 'Enter the password to contribute to this project' in str(res.data), res.data
 
     @with_context
     def test_newtask_no_gold_answers(self):

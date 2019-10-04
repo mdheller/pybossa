@@ -73,7 +73,7 @@ class TestAllProjectsReport(web.Helper):
         res = self.app.get('/project/export',
                            follow_redirects=True)
 
-        assert 'You will be emailed when your export has been completed' in res.data, res.data
+        assert 'You will be emailed when your export has been completed' in str(res.data), res.data
 
     @with_context
     def test_non_admin_request_report(self):

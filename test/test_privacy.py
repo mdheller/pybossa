@@ -340,7 +340,7 @@ class TestPrivacyWebPrivacy(web_helper.Helper):
         url = '/account'
         res = self.app.get(url, follow_redirects=True)
         err_msg = 'Community page should not be shown to anonymous users'
-        assert 'This feature requires being logged in' in res.data, err_msg
+        assert 'This feature requires being logged in' in str(res.data), err_msg
         # As Authenticated user but NOT ADMIN
         res = self.app.get(url + '?api_key=%s' % user.api_key,
                            follow_redirects=True)
@@ -364,7 +364,7 @@ class TestPrivacyWebPrivacy(web_helper.Helper):
         url = '/leaderboard'
         res = self.app.get(url, follow_redirects=True)
         err_msg = 'Leaderboard page should not be shown to anonymous users'
-        assert 'This feature requires being logged in' in res.data, err_msg
+        assert 'This feature requires being logged in' in str(res.data), err_msg
         # As Authenticated user but NOT ADMIN
         res = self.app.get(url + '?api_key=%s' % user.api_key, follow_redirects=True)
         dom = BeautifulSoup(res.data)
@@ -386,7 +386,7 @@ class TestPrivacyWebPrivacy(web_helper.Helper):
         # As Anonymou user
         url = '/stats'
         res = self.app.get(url, follow_redirects=True)
-        assert 'This feature requires being logged in' in res.data
+        assert 'This feature requires being logged in' in str(res.data)
         # As Authenticated user but NOT ADMIN
         self.signin()
         res = self.app.get(url + '?api_key=%s' % user.api_key, follow_redirects=True)
@@ -412,7 +412,7 @@ class TestPrivacyWebPrivacy(web_helper.Helper):
         url = '/project/%s/stats' % task.project.short_name
         update_stats(task.project.id)
         res = self.app.get(url, follow_redirects=True)
-        assert 'This feature requires being logged in' in res.data, res.data
+        assert 'This feature requires being logged in' in str(res.data), res.data
         # As Authenticated user but NOT ADMIN
         self.set_proj_passwd_cookie(task.project, user)
         res = self.app.get(url + '?api_key=%s' % user.api_key,
@@ -438,7 +438,7 @@ class TestPrivacyWebPrivacy(web_helper.Helper):
         url = '/account/%s' % owner.name
         res = self.app.get(url, follow_redirects=True)
         err_msg = 'Public User Profile page should not be shown to anonymous users'
-        assert 'This feature requires being logged in' in res.data, err_msg
+        assert 'This feature requires being logged in' in str(res.data), err_msg
         # As Authenticated user but NOT ADMIN
         res = self.app.get(url + '?api_key=%s' % user.api_key, follow_redirects=True)
         dom = BeautifulSoup(res.data)

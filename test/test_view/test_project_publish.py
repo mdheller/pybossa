@@ -174,7 +174,7 @@ class TestProjectPublicationView(web.Helper):
         res = self.app.get(url)
         assert res.status_code == 200, res.status_code
 
-        assert 'You are about to publish your project in' in res.data, \
+        assert 'You are about to publish your project in' in str(res.data), \
             'You are about to publish your project in message should be provided'
 
     @with_context
@@ -192,7 +192,7 @@ class TestProjectPublicationView(web.Helper):
         res = self.app.get(url)
         assert res.status_code == 200, res.status_code
 
-        assert 'You are about to unpublish your project.' in res.data, \
+        assert 'You are about to unpublish your project.' in str(res.data), \
             'You are about to unpublish your project. message should be provided'
 
         resp = self.app.post('/project/%s/0/publish' % project.short_name,

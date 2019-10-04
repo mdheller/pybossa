@@ -32,8 +32,8 @@ class TestAuthentication(Test):
         """Test AUTHENTICATION works"""
         self.create()
         res = self.app.get('/?api_key=%s' % self.api_key)
-        assert '<a href="/account/signout"' in res.data, res.data
-        assert 'checkpoint::logged-in::tester' in res.data, res.data
+        assert '<a href="/account/signout"' in str(res.data), res.data
+        assert 'checkpoint::logged-in::tester' in str(res.data), res.data
 
 
 def handle_error(error):

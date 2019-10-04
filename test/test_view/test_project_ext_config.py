@@ -26,7 +26,7 @@ class TestProjectExtConfig(web.Helper):
         project = project_repo.get(self.project_id)
         res = self.app.get('/project/%s/ext-config' % project.short_name)
 
-        assert 'No external services have been configured' in res.data
+        assert 'No external services have been configured' in str(res.data)
 
     @with_context
     def test_form_display(self):
@@ -42,8 +42,8 @@ class TestProjectExtConfig(web.Helper):
             project = project_repo.get(self.project_id)
             res = self.app.get('/project/%s/ext-config' % project.short_name)
 
-        assert 'Active Learning Config' in res.data
-        assert 'Model' in res.data
+        assert 'Active Learning Config' in str(res.data)
+        assert 'Model' in str(res.data)
 
     @with_context
     def test_add_config(self):

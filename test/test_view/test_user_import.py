@@ -46,7 +46,7 @@ class TestUserImport(web.Helper):
     def test_not_allowed(self):
         url = '/admin/userimport'
         res = self.app.get(url, follow_redirects=True)
-        assert 'This feature requires being logged in' in res.data
+        assert 'This feature requires being logged in' in str(res.data)
 
     @with_context
     def test_allowed(self):
@@ -65,7 +65,7 @@ class TestUserImport(web.Helper):
 
         url = '/admin/userimport?api_key=%s&type=%s' % (admin.api_key, 'usercsvimport')
         res = self.app.post(url, follow_redirects=True)
-        assert 'No file' in res.data
+        assert 'No file' in str(res.data)
 
     @with_context
     @patch('pybossa.forms.forms.app_settings.upref_mdata.get_upref_mdata_choices')
@@ -80,7 +80,7 @@ class TestUserImport(web.Helper):
             newuser,New User,new@user.com,NewU$3r!,,{},{"user_type": "type_a"}'''
         res = self.app.post(url, follow_redirects=True, content_type='multipart/form-data',
             data={'file': (StringIO(users), 'users.csv')})
-        assert '1 new users were imported successfully' in res.data, res.data
+        assert '1 new users were imported successfully' in str(res.data), res.data
 
         new_user = user_repo.get_by_name('newuser')
         assert new_user.fullname == 'New User'
@@ -100,7 +100,7 @@ class TestUserImport(web.Helper):
             newuser,New User,new@user.com,NewU$3r!,,{},{"user_type": "type_c"}'''
         res = self.app.post(url, follow_redirects=True, content_type='multipart/form-data',
             data={'file': (StringIO(users), 'users.csv')})
-        assert 'It looks like there were no new users created' in res.data, res.data
+        assert 'It looks like there were no new users created' in str(res.data), res.data
 
     @with_context
     @patch('pybossa.forms.forms.app_settings.upref_mdata.get_upref_mdata_choices')
@@ -117,4 +117,4 @@ class TestUserImport(web.Helper):
             newuser,New User,new@user.com,NewU$3r!,,{},{}'''
         res = self.app.post(url, follow_redirects=True, content_type='multipart/form-data',
             data={'file': (StringIO(users), 'users.csv')})
-        assert 'Missing user_type in metadata' in res.data, res.data
+        assert 'Missing user_type in metadata' in str(res.data), res.data

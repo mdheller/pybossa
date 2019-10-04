@@ -290,7 +290,7 @@ class TestNewsletterViewFunctions(web.Helper):
                            follow_redirects=True)
         err_msg = "User should be subscribed"
         user = user_repo.get(1)
-        assert "You are subscribed" in res.data, err_msg
+        assert "You are subscribed" in str(res.data), err_msg
         assert newsletter.subscribe_user.called, err_msg
         newsletter.subscribe_user.assert_called_with(user)
 
@@ -308,10 +308,10 @@ class TestNewsletterViewFunctions(web.Helper):
         res = self.app.get(url, follow_redirects=True)
         err_msg = "User should be subscribed"
         user = user_repo.get(1)
-        assert "You are subscribed" in res.data, err_msg
+        assert "You are subscribed" in str(res.data), err_msg
         assert newsletter.subscribe_user.called, err_msg
         newsletter.subscribe_user.assert_called_with(user)
-        assert "Update" in res.data, res.data
+        assert "Update" in str(res.data), res.data
 
     @with_context
     @patch('pybossa.view.account.newsletter', autospec=True)
@@ -324,7 +324,7 @@ class TestNewsletterViewFunctions(web.Helper):
         res = self.app.get('/account/newsletter?subscribe=False',
                            follow_redirects=True)
         err_msg = "User should not be subscribed"
-        assert "You are subscribed" not in res.data, err_msg
+        assert "You are subscribed" not in str(res.data), err_msg
         assert newsletter.subscribe_user.called is False, err_msg
 
     @with_context
@@ -339,9 +339,9 @@ class TestNewsletterViewFunctions(web.Helper):
         url ='/account/newsletter?subscribe=False&next=%s' % next_url
         res = self.app.get(url, follow_redirects=True)
         err_msg = "User should not be subscribed"
-        assert "You are subscribed" not in res.data, err_msg
+        assert "You are subscribed" not in str(res.data), err_msg
         assert newsletter.subscribe_user.called is False, err_msg
-        assert "Update" in res.data, res.data
+        assert "Update" in str(res.data), res.data
 
     @with_context
     @patch('pybossa.view.account.newsletter', autospec=True)
@@ -355,7 +355,7 @@ class TestNewsletterViewFunctions(web.Helper):
                            follow_redirects=True)
         dom = BeautifulSoup(res.data)
         err_msg = "User should not be subscribed"
-        assert "You are subscribed" not in res.data, err_msg
+        assert "You are subscribed" not in str(res.data), err_msg
         assert newsletter.subscribe_user.called is False, err_msg
         assert dom.find(id='newsletter') is not None, err_msg
 
@@ -371,6 +371,6 @@ class TestNewsletterViewFunctions(web.Helper):
                            follow_redirects=True)
         dom = BeautifulSoup(res.data)
         err_msg = "User should not be subscribed"
-        assert "You are subscribed" not in res.data, err_msg
+        assert "You are subscribed" not in str(res.data), err_msg
         assert newsletter.subscribe_user.called is False, err_msg
         assert dom.find(id='newsletter') is not None, err_msg
