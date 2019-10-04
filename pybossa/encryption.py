@@ -31,7 +31,7 @@ class AESWithGCM(object):
     @staticmethod
     def _hash_key(key):
         _hash = sha256()
-        _hash.update(key)
+        _hash.update(key.encode(encoding='ascii'))
         return _hash.digest()
 
     def get_cipher(self, iv, tag=None):

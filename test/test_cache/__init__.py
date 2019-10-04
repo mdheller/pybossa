@@ -365,7 +365,7 @@ class TestCacheMemoizeFunctions(object):
             return None
         my_func('key')
         my_func2('key')
-        keys = test_sentinel.master.keys()
+        keys = [k.decode('utf-8') for k in test_sentinel.master.keys()]
         assert len(keys) == 3
         assert get_cache_group_key('key') in keys
         delete_cache_group('key')
@@ -386,7 +386,7 @@ class TestCacheMemoizeFunctions(object):
         assert get_cache_group_key('key1') in keys
         assert get_cache_group_key('key2') in keys
         delete_cache_group('key1')
-        keys = test_sentinel.master.keys()
+        keys = [k.decode('utf-8') for k in test_sentinel.master.keys()]
         assert len(keys) == 2
         assert get_cache_group_key('key1') not in keys
         assert get_cache_group_key('key2') in keys
@@ -404,7 +404,7 @@ class TestCacheMemoizeFunctions(object):
         assert get_cache_group_key('key1') in keys
         assert get_cache_group_key('key2') in keys
         delete_cache_group('key1')
-        keys = test_sentinel.master.keys()
+        keys = [k.decode('utf-8') for k in test_sentinel.master.keys()]
         assert len(keys) == 1
         assert get_cache_group_key('key1') not in keys
         assert get_cache_group_key('key2') in keys

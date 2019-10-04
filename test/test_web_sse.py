@@ -99,7 +99,7 @@ class TestWebSse(web.Helper):
         assert mock_sse.called
         assert mock_sse.called_once_with(project.short_name, 'private')
         assert res.status_code == 200
-        assert res.data == self.fake_sse_response, res.data
+        assert str(res.data) == self.fake_sse_response, str(res.data)
 
     @with_context
     def test_stream_uri_private_admin_404(self):
@@ -140,7 +140,7 @@ class TestWebSse(web.Helper):
         assert mock_sse.called
         assert mock_sse.called_once_with(project.short_name, 'public')
         assert res.status_code == 200
-        assert res.data == self.fake_sse_response, res.data
+        assert str(res.data) == self.fake_sse_response, str(res.data)
 
     @with_context
     @patch('pybossa.view.projects.project_event_stream')
@@ -199,7 +199,7 @@ class TestWebSse(web.Helper):
         assert mock_sse.called
         assert mock_sse.called_once_with(project.short_name, 'public')
         assert res.status_code == 200
-        assert res.data == self.fake_sse_response, res.data
+        assert str(res.data) == self.fake_sse_response, str(res.data)
 
     @patch('pybossa.view.projects.sentinel.master.pubsub')
     def test_project_event_stream(self, mock_pubsub):
