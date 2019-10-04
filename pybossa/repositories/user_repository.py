@@ -62,7 +62,7 @@ class UserRepository(Repository):
         filters['restrict'] = False
         query_args, queries, headlines, orders = self.generate_query_from_keywords(User, None, **filters)
         query = self.db.session.query(User).filter(*query_args)
-        query = query.filter(sqlalchemy.not_(User.email_addr.contains(u'@del.com'))).order_by(User.id)
+        query = query.filter(sqlalchemy.not_(User.email_addr.contains('@del.com'))).order_by(User.id)
         return query.all()
 
     def search_by_name(self, keyword, **filters):
@@ -168,7 +168,7 @@ class UserRepository(Repository):
         return self.db.session.query(User).filter(func.lower(User.email_addr) == email_addr).first()
 
     def get_info_columns(self):
-        return [u'languages', u'locations', u'work_hours_from', u'work_hours_to', u'timezone', u'user_type', u'additional_comments']
+        return ['languages', 'locations', 'work_hours_from', 'work_hours_to', 'timezone', 'user_type', 'additional_comments']
 
     def smart_search(self, current_user_is_admin, where, query_params):
         sql = text('''

@@ -32,7 +32,7 @@ class Unique(object):
         self.query_function = query_function
         self.field_name = field_name
         if not message:  # pragma: no cover
-            message = lazy_gettext(u'This item already exists')
+            message = lazy_gettext('This item already exists')
         self.message = message
 
     def __call__(self, form, form_field):
@@ -70,7 +70,7 @@ class NotAllowedChars(object):
 
     def __init__(self, message=None):
         if not message:
-            self.message = lazy_gettext(u'%sand space symbols are forbidden'
+            self.message = lazy_gettext('%sand space symbols are forbidden'
                                         % self.not_valid_chars)
         else:  # pragma: no cover
             self.message = message
@@ -88,7 +88,7 @@ class CommaSeparatedIntegers(object):
     def __init__(self, message=None):
         if not message:
             self.message = lazy_gettext(
-                u'Only comma separated values are allowed, no spaces')
+                'Only comma separated values are allowed, no spaces')
 
         else:  # pragma: no cover
             self.message = message
@@ -104,7 +104,7 @@ class Webhook(object):
 
     def __init__(self, message=None):
         if not message:
-            self.message = lazy_gettext(u'Invalid URL')
+            self.message = lazy_gettext('Invalid URL')
 
         else:  # pragma: no cover
             self.message = message
@@ -126,7 +126,7 @@ class ReservedName(object):
     def __init__(self, blueprint, message=None):
         self.blueprint = blueprint
         if not message:  # pragma: no cover
-            message = lazy_gettext(u'This name is used by the system.')
+            message = lazy_gettext('This name is used by the system.')
         self.message = message
 
     def __call__(self, form, field):
@@ -198,7 +198,7 @@ class TimeFieldsValidator(object):
 class UserTypeValiadator(object):
     def __init__(self, message=None):
         if not message:
-            message = message = lazy_gettext(u'Invalid data access')
+            message = message = lazy_gettext('Invalid data access')
         self.message = message
 
     def __call__(self, form, field):
@@ -206,6 +206,6 @@ class UserTypeValiadator(object):
         access_levels = field.data
         valid, valid_data_access = valid_user_type_based_data_access(user_type, access_levels)
         if not valid:
-            self.message = lazy_gettext(u'Invalid data access {}. Valid data access(s) for user type {} are {}'
+            self.message = lazy_gettext('Invalid data access {}. Valid data access(s) for user type {} are {}'
                 .format(','.join(access_levels), user_type, ', '.join(valid_data_access)))
             raise ValidationError(self.message)

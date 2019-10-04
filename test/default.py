@@ -126,20 +126,20 @@ class Test(object):
             self.redis_flushall()
             reset_all_pk_sequences()
 
-    fullname = u'T Tester'
-    fullname2 = u'T Tester 2'
-    email_addr = u'tester@tester.com'
-    email_addr2 = u'tester-2@tester.com'
-    root_addr = u'root@root.com'
-    name = u'tester'
-    name2 = u'tester-2'
-    root_name = u'root'
+    fullname = 'T Tester'
+    fullname2 = 'T Tester 2'
+    email_addr = 'tester@tester.com'
+    email_addr2 = 'tester-2@tester.com'
+    root_addr = 'root@root.com'
+    name = 'tester'
+    name2 = 'tester-2'
+    root_name = 'root'
     api_key = 'tester'
     api_key_2 = 'tester-2'
     root_api_key = 'root'
-    project_name = u'My New Project'
-    project_short_name = u'test-app'
-    password = u'tester'
+    project_name = 'My New Project'
+    project_short_name = 'test-app'
+    password = 'tester'
     root_password = password + 'root'
     cat_1 = 'thinking'
     cat_2 = 'sensing'
@@ -171,7 +171,7 @@ class Test(object):
             'url': 'my url'
             }
         task_run_info = {
-            'answer': u'annakarenina'
+            'answer': 'annakarenina'
             }
 
         # Create the task and taskruns for the first project
@@ -201,7 +201,7 @@ class Test(object):
             'url': 'my url'
             }
         task_run_info = {
-            'answer': u'annakarenina'
+            'answer': 'annakarenina'
             }
 
         # Create the task and taskruns for the first project
@@ -251,7 +251,7 @@ class Test(object):
             project = Project(
                     name=self.project_name,
                     short_name=self.project_short_name,
-                    description=u'description',
+                    description='description',
                     category_id=category.id,
                     published=True,
                     info=info
@@ -304,20 +304,20 @@ def get_user_id_or_ip(user):
 
 
 class Fixtures:
-    fullname = u'T Tester'
-    fullname2 = u'T Tester 2'
-    email_addr = u'tester@tester.com'
-    email_addr2 = u'tester-2@tester.com'
-    root_addr = u'root@root.com'
-    name = u'tester'
-    name2 = u'tester-2'
-    root_name = u'root'
+    fullname = 'T Tester'
+    fullname2 = 'T Tester 2'
+    email_addr = 'tester@tester.com'
+    email_addr2 = 'tester-2@tester.com'
+    root_addr = 'root@root.com'
+    name = 'tester'
+    name2 = 'tester-2'
+    root_name = 'root'
     api_key = 'tester'
     api_key_2 = 'tester-2'
     root_api_key = 'root'
-    project_name = u'My New Project'
-    project_short_name = u'test-app'
-    password = u'tester'
+    project_name = 'My New Project'
+    project_short_name = 'test-app'
+    password = 'tester'
     root_password = password + 'root'
     cat_1 = 'thinking'
     cat_2 = 'sensing'
@@ -350,7 +350,7 @@ class Fixtures:
             'url': 'my url'
             }
         task_run_info = {
-            'answer': u'annakarenina'
+            'answer': 'annakarenina'
             }
 
         # Create the task and taskruns for the first project
@@ -381,7 +381,7 @@ class Fixtures:
             'url': 'my url'
             }
         task_run_info = {
-            'answer': u'annakarenina'
+            'answer': 'annakarenina'
             }
 
         # Create the task and taskruns for the first project
@@ -431,7 +431,7 @@ class Fixtures:
         project = Project(
                 name=cls.project_name,
                 short_name=cls.project_short_name,
-                description=u'description',
+                description='description',
                 category_id=category.id,
                 published=True,
                 info=info

@@ -440,7 +440,7 @@ class TestSiteStatsCache(Test):
             get_management_dashboard_stats(user_email)
             subject = 'Management Dashboard Statistics'
             msg = 'Management dashboard statistics is now available. It can be accessed by refreshing management dashboard page.'
-            body = (u'Hello,\n\n{}\nThe {} team.'
+            body = ('Hello,\n\n{}\nThe {} team.'
                     .format(msg, current_app.config.get('BRAND')))
             mail_dict = dict(recipients=[user_email], subject=subject, body=body)
             mail.assert_called_with(mail_dict)

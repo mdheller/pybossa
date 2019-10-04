@@ -167,7 +167,7 @@ class TestRegisterForm(Test):
         form = RegisterForm(**self.fill_in_data)
 
         assert not form.validate()
-        assert u'This name is used by the system.' in form.errors['name'], form.errors
+        assert 'This name is used by the system.' in form.errors['name'], form.errors
 
     @with_context
     def test_register_form_unique_email(self):
@@ -179,7 +179,7 @@ class TestRegisterForm(Test):
 
     @with_context
     def test_register_form_email_unicode(self):
-        self.fill_in_data['email_addr'] = u'tyrion@casterly.rock'
+        self.fill_in_data['email_addr'] = 'tyrion@casterly.rock'
         form = RegisterForm(**self.fill_in_data)
 
         assert form.validate()
@@ -195,7 +195,7 @@ class TestRegisterForm(Test):
 
     @with_context
     def test_register_form_unique_email_case_insensitive_unicode(self):
-        self.fill_in_data['email_addr'] = u'TYRION@CASTERLY.ROCK'
+        self.fill_in_data['email_addr'] = 'TYRION@CASTERLY.ROCK'
         form = RegisterForm(**self.fill_in_data)
         user = UserFactory.create(email_addr='tyrion@casterly.rock')
 
@@ -413,14 +413,14 @@ class TestRegisterFormWithUserPrefMetadata(Test):
                         'work_hours_to':
                             ['Work Hours From, Work Hours To, and Timezone must be filled out for submission'],
                         'locations':
-                            [u"'someloc' is not a valid choice for this field"],
+                            ["'someloc' is not a valid choice for this field"],
                         'user_type':
-                            [u'Not a valid choice'],
+                            ['Not a valid choice'],
                         'languages':
-                            [u"'somelang' is not a valid choice for this field"],
+                            ["'somelang' is not a valid choice for this field"],
                         'work_hours_from':
                             ['Work Hours From, Work Hours To, and Timezone must be filled out for submission'],
                         'timezone':
-                            [u'Not a valid choice', 'Work Hours From, Work Hours To, and Timezone must be filled out for submission']
+                            ['Not a valid choice', 'Work Hours From, Work Hours To, and Timezone must be filled out for submission']
                         }
         assert form.errors == expected_form_errors

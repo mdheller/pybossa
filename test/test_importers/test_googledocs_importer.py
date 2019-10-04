@@ -149,7 +149,7 @@ class TestBulkTaskGDImport(object):
         tasks = self.importer.tasks()
         task = tasks.next()
 
-        assert task == {"info": {u'Bar': u'2', u'Foo': u'1', u'Baz': u'3'}}, task
+        assert task == {"info": {'Bar': '2', 'Foo': '1', 'Baz': '3'}}, task
 
     @with_context
     def test_tasks_return_tasks_with_non_info_fields_too(self, request):
@@ -162,12 +162,12 @@ class TestBulkTaskGDImport(object):
         tasks = self.importer.tasks()
         task = tasks.next()
 
-        assert task == {'info': {u'Foo': u'1', u'Bar': u'2'},
-                        u'priority_0': u'3'}, task
+        assert task == {'info': {'Foo': '1', 'Bar': '2'},
+                        'priority_0': '3'}, task
 
     @with_context
     def test_tasks_works_with_encodings_other_than_utf8(self, request):
-        csv_file = FakeResponse(text=u'Foo\nM\xc3\xbcnchen', status_code=200,
+        csv_file = FakeResponse(text='Foo\nM\xc3\xbcnchen', status_code=200,
                                 headers={'content-type': 'text/plain'},
                                 encoding='ISO-8859-1')
         request.return_value = csv_file

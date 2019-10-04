@@ -34,7 +34,7 @@ class TestBlogpostModel(Test):
                         name="johndoe",
                         fullname="John Doe",
                         locale="en")
-            category = Category(name=u'cat', short_name=u'cat', description=u'cat')
+            category = Category(name='cat', short_name='cat', description='cat')
             project = Project(name='Application', short_name='app', description='desc',
                       owner=user, category=category)
             db.session.add(user)

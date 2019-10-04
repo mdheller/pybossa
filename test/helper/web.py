@@ -173,7 +173,7 @@ class Helper(Test):
 
     def new_project(self, method="POST", name="Sample Project",
                         short_name="sampleapp", description="Description",
-                        long_description=u'Long Description\n================', kpi=0.5):
+                        long_description='Long Description\n================', kpi=0.5):
         """Helper function to create a project"""
         if method == "POST":
             self.create_categories()

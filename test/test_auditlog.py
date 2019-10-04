@@ -94,7 +94,7 @@ class TestAuditlogAPI(Test):
                 'description': 'new_description',
                 'long_description': 'new_long_description',
                 'allow_anonymous_contributors': False,
-                'info': {u'list': [1]}
+                'info': {'list': [1]}
                 }
         attributes = data.keys()
         attributes.append('list')

@@ -178,7 +178,7 @@ class TestProjectAPI(TestAPI):
         user = UserFactory.create()
         CategoryFactory.create()
         project = ProjectFactory.create(owner=user)
-        name = u'XXXX Project'
+        name = 'XXXX Project'
         data = {'short_name': 'new'}
         datajson = json.dumps(data)
         res = self.app.put('/api/projectbyname/%s?api_key=%s' % (project.short_name, user.api_key),

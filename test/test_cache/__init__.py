@@ -56,7 +56,7 @@ class TestCacheHashFunctions(object):
     def test_03_get_hash_key(self):
         """Test CACHE get_hash_key works."""
         prefix = 'prefix'
-        key_to_hash = get_key_to_hash(1, vowel=u'ñ')
+        key_to_hash = get_key_to_hash(1, vowel='ñ')
         tmp = key_to_hash.encode('utf-8')
         expected = prefix + ":" + hashlib.md5(tmp).hexdigest()
         key = get_hash_key(prefix, key_to_hash)

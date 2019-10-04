@@ -347,7 +347,7 @@ class UserImporter(object):
         form.generate_password()
         form.set_upref_mdata_choices()
         form.project_slug.choices = get_project_choices()
-        return form
+        return True, form
 
     def create_users(self, user_repo, **form_data):
         """Create users from a remote source using an importer object and
@@ -364,12 +364,16 @@ class UserImporter(object):
             if not found:
                 full_name = user_data['fullname']
                 project_slugs = user_data.get('project_slugs')
-                form = self._create_user_form(user_data)
-                if not form.validate():
+                success, form = self._create_user_form(user_data)
+                if not success or not form.validate():
+                    if not success:
+                        errors = form
+                    else:
+                        errors = form.errors
                     failed_users += 1
-                    current_app.logger.error(u'Failed to import user {}, {}'
-                        .format(full_name, form.errors))
-                    invalid_values.update(form.errors.keys())
+                    current_app.logger.error('Failed to import user {}, {}'
+                        .format(full_name, errors))
+                    invalid_values.update(errors.keys())
                     continue
                 user_data['metadata']['admin'] = current_user.name
                 user_data['password'] = form.password.data

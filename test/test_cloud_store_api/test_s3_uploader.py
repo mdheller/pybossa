@@ -57,7 +57,7 @@ class TestS3Uploader(Test):
     @patch('pybossa.cloud_store_api.s3.boto.s3.key.Key.set_contents_from_file')
     def test_upload_from_string(self, set_contents):
         with patch.dict(self.flask_app.config, self.default_config):
-            url = s3_upload_from_string('bucket', u'hello world', 'test.txt')
+            url = s3_upload_from_string('bucket', 'hello world', 'test.txt')
             assert url == 'https://s3.storage.com/bucket/test.txt', url
 
     @with_context
@@ -65,13 +65,13 @@ class TestS3Uploader(Test):
     def test_upload_from_string_exception(self, open):
         open.side_effect = IOError
         assert_raises(IOError, s3_upload_from_string,
-                      'bucket', u'hellow world', 'test.txt')
+                      'bucket', 'hellow world', 'test.txt')
 
     @with_context
     @patch('pybossa.cloud_store_api.s3.boto.s3.key.Key.set_contents_from_file')
     def test_upload_from_string_return_key(self, set_contents):
         with patch.dict(self.flask_app.config, self.default_config):
-            key = s3_upload_from_string('bucket', u'hello world', 'test.txt',
+            key = s3_upload_from_string('bucket', 'hello world', 'test.txt',
                                         return_key_only=True)
             assert key == 'test.txt', key
 

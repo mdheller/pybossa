@@ -53,11 +53,11 @@ def fixtures():
     '''Create some fixtures!'''
     with app.app_context():
         user = User(
-            name=u'tester',
-            email_addr=u'tester@tester.org',
+            name='tester',
+            email_addr='tester@tester.org',
             api_key='tester'
             )
-        user.set_password(u'tester')
+        user.set_password('tester')
         db.session.add(user)
         db.session.commit()
 

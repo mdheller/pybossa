@@ -28,7 +28,7 @@ def get_pwd_cookie(short_name, res):
     cookies = res.headers.get_all('Set-Cookie')
     for c in cookies:
         for k, v in parse_cookie(c).items():
-            if k == u'%spswd' % short_name:
+            if k == '%spswd' % short_name:
                 cookie = k, v
                 raw_cookie = c
     params = (v.strip().split('=') for v in raw_cookie.split(';'))

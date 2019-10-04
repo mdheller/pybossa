@@ -70,8 +70,8 @@ def set_gold_answers(task, gold_answers):
     task.gold_answers = gold_answers
     task.calibration = 1
     task.exported = True
-    if task.state == u'completed':
-        task.state = u'ongoing'
+    if task.state == 'completed':
+        task.state = 'ongoing'
 
 
 def upload_files_priv(task, project_id, data, file_name):

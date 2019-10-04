@@ -69,7 +69,7 @@ def flatten(obj, level=1, prefix=None, sep='__', ignore=tuple()):
             if _prefix is None:
                 new_prefix = k
             else:
-                new_prefix = u'{}{}{}'.format(_prefix, sep, k)
+                new_prefix = '{}{}{}'.format(_prefix, sep, k)
             _flatten(v, current_level + 1, new_prefix)
 
     _flatten(obj, 0, prefix)
@@ -212,7 +212,7 @@ class ConsensusExporter(Exporter):
         with tempfile.NamedTemporaryFile() as datafile:
             self.data_to_file(project.id, filters, datafile)
             datafile.flush()
-            file_name = secure_filename(u'%s_%s.%s' % (name, obj, filetype))
+            file_name = secure_filename('%s_%s.%s' % (name, obj, filetype))
             zipped_datafile = tempfile.NamedTemporaryFile()
             _zip = self._zip_factory(zipped_datafile.name)
             _zip.write(

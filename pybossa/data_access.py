@@ -195,7 +195,7 @@ def ensure_task_assignment_to_project(task, project):
 @when_data_access()
 def ensure_valid_access_levels(access_levels):
     if not valid_access_levels(access_levels):
-        raise ValueError(u'Invalid access levels {}'.format(', '.join(access_levels)))
+        raise ValueError('Invalid access levels {}'.format(', '.join(access_levels)))
 
 
 @when_data_access()
@@ -222,7 +222,7 @@ def ensure_user_assignment_to_project(project):
         if not can_assign_user(project_levels, user_levels):
             invalid_user_ids.add(user['id'])
     if invalid_user_ids:
-        raise ValueError(u'Data access level mismatch. Cannot assign user {} to project'
+        raise ValueError('Data access level mismatch. Cannot assign user {} to project'
             .format(', '.join(map(str, invalid_user_ids))))
 
 

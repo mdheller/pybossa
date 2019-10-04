@@ -550,7 +550,7 @@ class TestUserAPI(Test):
             assert error['action'] == 'PUT', error
             assert error['target'] == 'user', error
             assert error['exception_cls'] == 'ValueError', error
-            message = u'Invalid access levels {}'.format(', '.join(user_levels))
+            message = 'Invalid access levels {}'.format(', '.join(user_levels))
             assert error['exception_msg'] == message, error
 
             user_levels = ["L1", "L2"]

@@ -496,7 +496,7 @@ class TestTaskAPI(TestAPI):
         assert len(data) == 10, data
         # Correct result
         assert data[0]['project_id'] == 1, data
-        assert data[0]['state'] == u'ongoing', data
+        assert data[0]['state'] == 'ongoing', data
 
         # Limits
         res = self.app.get('/api/task?project_id=1&limit=5&all=1&api_key=' + user.api_key)
@@ -552,7 +552,7 @@ class TestTaskAPI(TestAPI):
         # Correct result
         for t in data:
             assert t['project_id'] == project_oc.id, data
-            assert t['state'] == u'ongoing', data
+            assert t['state'] == 'ongoing', data
 
         # Limits
         res = self.app.get("/api/task?project_id=1&limit=5&api_key=" + user.api_key)
@@ -610,7 +610,7 @@ class TestTaskAPI(TestAPI):
         # Correct result
         for t in data:
             assert t['project_id'] == project_oc.id, data
-            assert t['state'] == u'ongoing', data
+            assert t['state'] == 'ongoing', data
 
         # Limits
         res = self.app.get("/api/task?project_id=1&limit=5&api_key=" + user_two.api_key)

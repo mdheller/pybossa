@@ -50,7 +50,7 @@ class TestAPI(object):
                 if obj == 'project':
                     data = dict(name=i,
                                 short_name=i,
-                                long_description=u'something')
+                                long_description='something')
                 data = json.dumps(data)
                 res = self.app.post(url, data=data)
             elif action == 'put':
@@ -59,7 +59,7 @@ class TestAPI(object):
                 if obj == 'project':
                     data = dict(name=i,
                                 short_name=i,
-                                long_description=u'something')
+                                long_description='something')
                 data = json.dumps(data)
 
                 res = self.app.put(_url + url, data=data)

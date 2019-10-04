@@ -62,7 +62,7 @@ class TestCompletedTaskAPI(TestAPI):
 
         # correct result
         assert data[0]['project_id'] == 1, data
-        assert data[0]['state'] == u'completed', data
+        assert data[0]['state'] == 'completed', data
 
         # call completedtask but with wrong project_id
         url = '/api/completedtask?project_id=99999999&api_key=api-key1'

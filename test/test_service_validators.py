@@ -16,7 +16,7 @@ class ServiceValidatorTestHelper(Test):
         return {
             'data': {'queryTest': {
                 'context': "test_context",
-                'query': u"½.½ a zjfA Z11109",
+                'query': "½.½ a zjfA Z11109",
                 'maxresults': 10}}}
 
     def get_invalid_payload(self):
@@ -24,7 +24,7 @@ class ServiceValidatorTestHelper(Test):
             'data': {
                 'queryTest': {
                     'context': "invalid_context",
-                    'query': u"@_hhfu",
+                    'query': "@_hhfu",
                     'maxresults': 10}}}
 
 
@@ -59,7 +59,3 @@ class TestServiceValidator(ServiceValidatorTestHelper):
     def test_run_validators_with_invalid_payload(self):
         service_validator = ServiceValidators(self.get_service())
         assert not service_validator.run_validators('queryTest', self.get_invalid_payload())
-
-
-
-

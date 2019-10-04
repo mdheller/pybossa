@@ -78,8 +78,8 @@ class TestExport(Test):
         project = ProjectFactory.create(name='test_project')
         task = TaskFactory.create(project=project)
         TaskRunFactory.create(project=project, task=task,
-            info={'text': u'Test String', 'object': {'a': 1},
-            'list': [{'name': u'Julia', 'lastName': u'Rivera'}, {'name': u'Lola', 'lastName': u'Santos'}]})
+            info={'text': 'Test String', 'object': {'a': 1},
+            'list': [{'name': 'Julia', 'lastName': 'Rivera'}, {'name': 'Lola', 'lastName': 'Santos'}]})
 
         export_tasks(user.email_addr, project.short_name, 'task', False, 'csv')
         args, kwargs = mail.send.call_args

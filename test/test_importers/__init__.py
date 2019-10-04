@@ -175,8 +175,8 @@ class TestImporterPublicMethods(Test):
         importer_factory
     ):
         mock_importer = Mock()
-        mock_importer.tasks.return_value = [{'info': {u'Foo': u'a'}, 'private_fields': {u'Bar2': u'd', u'Bar': u'c'},
-            'gold_answers': {u'ans2': u'e', u'ans': u'b'}, 'calibration': 1, 'exported': True}]
+        mock_importer.tasks.return_value = [{'info': {'Foo': 'a'}, 'private_fields': {'Bar2': 'd', 'Bar': 'c'},
+            'gold_answers': {'ans2': 'e', 'ans': 'b'}, 'calibration': 1, 'exported': True}]
 
         importer_factory.return_value = mock_importer
         project = ProjectFactory.create()
@@ -233,8 +233,8 @@ class TestImporterPublicMethods(Test):
         importer_factory
     ):
         mock_importer = Mock()
-        mock_importer.tasks.return_value = [{'info': {u'Foo': u'a'}, 'private_fields': {u'Bar2': u'd', u'Bar': u'c'},
-            'gold_answers': {u'ans2': u'e', u'ans': u'b'}, 'calibration': 1, 'exported': True, 'state': u'enrich'}]
+        mock_importer.tasks.return_value = [{'info': {'Foo': 'a'}, 'private_fields': {'Bar2': 'd', 'Bar': 'c'},
+            'gold_answers': {'ans2': 'e', 'ans': 'b'}, 'calibration': 1, 'exported': True, 'state': 'enrich'}]
 
         importer_factory.return_value = mock_importer
         project = ProjectFactory.create(info={'enrichments':[{'out_field_name':'enriched'}]})
@@ -291,8 +291,8 @@ class TestImporterPublicMethods(Test):
         importer_factory
     ):
         mock_importer = Mock()
-        mock_importer.tasks.return_value = [{'info': {u'Foo': u'a'}, 'private_fields': {u'Bar2': u'd', u'Bar': u'c'},
-            'gold_answers': {u'ans2': u'e', u'ans': u'b'}, 'calibration': 1, 'exported': True, 'state': u'enrich'}]
+        mock_importer.tasks.return_value = [{'info': {'Foo': 'a'}, 'private_fields': {'Bar2': 'd', 'Bar': 'c'},
+            'gold_answers': {'ans2': 'e', 'ans': 'b'}, 'calibration': 1, 'exported': True, 'state': 'enrich'}]
 
         importer_factory.return_value = mock_importer
         project = ProjectFactory.create()
@@ -320,8 +320,8 @@ class TestImporterPublicMethods(Test):
         importer_factory
     ):
         mock_importer = Mock()
-        mock_importer.tasks.return_value = [{'info': {u'Foo': u'a', u'enriched': 1}, 'private_fields': {u'Bar2': u'd', u'Bar': u'c'},
-            'gold_answers': {u'ans2': u'e', u'ans': u'b'}, 'calibration': 1, 'exported': True, 'state': u'enrich'}]
+        mock_importer.tasks.return_value = [{'info': {'Foo': 'a', 'enriched': 1}, 'private_fields': {'Bar2': 'd', 'Bar': 'c'},
+            'gold_answers': {'ans2': 'e', 'ans': 'b'}, 'calibration': 1, 'exported': True, 'state': 'enrich'}]
 
         importer_factory.return_value = mock_importer
         project = ProjectFactory.create(info={'enrichments':[{'out_field_name':'enriched'}]})
@@ -349,8 +349,8 @@ class TestImporterPublicMethods(Test):
         importer_factory
     ):
         mock_importer = Mock()
-        mock_importer.tasks.return_value = [{'info': {u'Foo': u'a'}, 'private_fields': {u'Bar2': u'd', u'Bar': u'c'},
-            'gold_answers': {u'ans2': u'e', u'ans': u'b'}, 'calibration': 1, 'exported': True, 'state': u'enriched'}]
+        mock_importer.tasks.return_value = [{'info': {'Foo': 'a'}, 'private_fields': {'Bar2': 'd', 'Bar': 'c'},
+            'gold_answers': {'ans2': 'e', 'ans': 'b'}, 'calibration': 1, 'exported': True, 'state': 'enriched'}]
 
         importer_factory.return_value = mock_importer
         project = ProjectFactory.create()

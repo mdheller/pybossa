@@ -133,24 +133,24 @@ class TestModelBase(Test):
     @with_context
     def test_all(self):
         """Test MODEL works"""
-        username = u'test-user-1'
+        username = 'test-user-1'
         user = User(name=username, fullname=username, email_addr=username)
         info = {
             'total': 150,
             'long_description': 'hello world'}
         project = Project(
-            name=u'My New Project',
-            short_name=u'my-new-app',
-            description=u'description',
+            name='My New Project',
+            short_name='my-new-app',
+            description='description',
             info=info)
-        category = Category(name=u'cat', short_name=u'cat', description=u'cat')
+        category = Category(name='cat', short_name='cat', description='cat')
         project.category = category
         project.owner = user
         task_info = {
             'question': 'My random question',
             'url': 'my url'}
         task = Task(info=task_info)
-        task_run_info = {'answer': u'annakarenina'}
+        task_run_info = {'answer': 'annakarenina'}
         task_run = TaskRun(info=task_run_info)
         task.project = project
         task_run.task = task
@@ -163,7 +163,7 @@ class TestModelBase(Test):
         db.session.remove()
 
         project = db.session.query(Project).get(project_id)
-        assert project.name == u'My New Project', project
+        assert project.name == 'My New Project', project
         # year would start with 20... - 2020 is coming
         assert project.created.startswith('20'), project.created
         assert len(project.tasks) == 1, project

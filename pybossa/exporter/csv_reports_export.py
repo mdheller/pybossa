@@ -20,7 +20,7 @@ import os
 import tempfile
 from pybossa.exporter.csv_export import CsvExporter
 from pybossa.core import project_repo, uploader
-from pybossa.util import UnicodeWriter
+# TODO from pybossa.util import UnicodeWriter
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 from pybossa.cache.projects import get_project_report_projectdata

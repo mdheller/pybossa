@@ -416,7 +416,7 @@ class Pagination(object):
 
 def get_user_signup_method(user):
     """Return which OAuth sign up method the user used."""
-    msg = u'Sorry, there is already an account with the same e-mail.'
+    msg = 'Sorry, there is already an account with the same e-mail.'
     if user.info:
         # Google
         if user.info.get('google_token'):
@@ -831,12 +831,12 @@ def check_password_strength(
     pwd_len = len(password)
     if min_len and pwd_len < min_len:
         return False, lazy_gettext(
-            u'Password must be longer than {} characters'.format(min_len)
+            'Password must be longer than {} characters'.format(min_len)
         )
 
     if max_len and pwd_len > max_len:
         return False, lazy_gettext(
-            u'Password must be shorter than {} characters'.format(max_len)
+            'Password must be shorter than {} characters'.format(max_len)
         )
 
     valid = all(re.search(ch, password) for ch in required_chars)
@@ -961,7 +961,7 @@ def can_have_super_user_access(user):
         not any(re.search(wl, user.email_addr, re.IGNORECASE)
             for wl in wlist_admins)):
         user.admin = user.subadmin = False
-        current_app.logger.info(u'User {} {} cannot have admin/subadmin access'.
+        current_app.logger.info('User {} {} cannot have admin/subadmin access'.
             format(user.fullname, user.email_addr))
         return False
     return True

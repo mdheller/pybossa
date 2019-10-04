@@ -23,7 +23,7 @@ from flask import current_app, render_template
 from flask_mail import Message, Attachment
 from pybossa.core import mail, task_repo, importer, create_app
 from pybossa.model.webhook import Webhook
-from pybossa.util import with_cache_disabled, publish_channel, mail_with_enabled_users, UnicodeWriter
+from pybossa.util import with_cache_disabled, publish_channel, mail_with_enabled_users # TODO, UnicodeWriter
 import pybossa.dashboard.jobs as dashboard
 from pybossa.leaderboard.jobs import leaderboard
 from pbsonesignal import PybossaOneSignal
@@ -441,7 +441,7 @@ def warm_cache():  # pragma: no cover
     # Cache top projects
     projects = cached_projects.get_top()
     for p in projects:
-        current_app.logger.info(u'warm_project - top projects. id {} short_name{}'
+        current_app.logger.info('warm_project - top projects. id {} short_name{}'
             .format(p['id'], p['short_name']))
         warm_project(p['id'], p['short_name'])
 
@@ -449,7 +449,7 @@ def warm_cache():  # pragma: no cover
     to_cache = 3 * app.config['APPS_PER_PAGE']
     projects = rank(cached_projects.get_all_featured('featured'))[:to_cache]
     for p in projects:
-        current_app.logger.info(u'warm_project - ranked project. id {} short_name{}'
+        current_app.logger.info('warm_project - ranked project. id {} short_name{}'
             .format(p['id'], p['short_name']))
         warm_project(p['id'], p['short_name'], featured=True)
 
@@ -458,7 +458,7 @@ def warm_cache():  # pragma: no cover
     for c in categories:
         projects = rank(cached_projects.get_all(c['short_name']))[:to_cache]
         for p in projects:
-            current_app.logger.info(u'warm_project - categories->rank project. id {} short_name{}'
+            current_app.logger.info('warm_project - categories->rank project. id {} short_name{}'
                 .format(p['id'], p['short_name']))
             warm_project(p['id'], p['short_name'])
     # Users
@@ -466,13 +466,13 @@ def warm_cache():  # pragma: no cover
     users = cached_users.get_leaderboard(app.config['LEADERBOARD'])
     for user in users:
         u = user_repo.get_by_name(user['name'])
-        current_app.logger.info(u'warm_project - user get_user_summary: name {}'.format(user['name']))
+        current_app.logger.info('warm_project - user get_user_summary: name {}'.format(user['name']))
         cached_users.get_user_summary(user['name'])
-        current_app.logger.info(u'warm_project - user projects_contributed_cached: id {}'.format(u.id))
+        current_app.logger.info('warm_project - user projects_contributed_cached: id {}'.format(u.id))
         cached_users.projects_contributed_cached(u.id)
-        current_app.logger.info(u'warm_project - user published_projects_cached: id {}'.format(u.id))
+        current_app.logger.info('warm_project - user published_projects_cached: id {}'.format(u.id))
         cached_users.published_projects_cached(u.id)
-        current_app.logger.info(u'warm_project - user draft_projects_cached: id {}'.format(u.id))
+        current_app.logger.info('warm_project - user draft_projects_cached: id {}'.format(u.id))
         cached_users.draft_projects_cached(u.id)
 
     return True
@@ -549,7 +549,7 @@ def disable_users_job():
         user = User.query.get(row.id)
         user.enabled = False
         user_repo.update(user)
-        user_info = u'name: {}, id: {}, email: {}, last_login: {}'.format(
+        user_info = 'name: {}, id: {}, email: {}, last_login: {}'.format(
                         user.name, user.id, user.email_addr, user.last_login)
         users_disabled.append(user_info)
 
@@ -706,9 +706,9 @@ def send_email_notifications():
             for email_addr in user_emails:
                 if email_addr not in recipients:
                     recipients.append(email_addr)
-            subject = (u'New Tasks have been imported to {}'.format(project.name))
-            body = u'Hello,\n\nThere have been new tasks uploaded to the previously finished project, {0}. ' \
-                   u'\nLog on to {1} to complete any available tasks.' \
+            subject = ('New Tasks have been imported to {}'.format(project.name))
+            body = 'Hello,\n\nThere have been new tasks uploaded to the previously finished project, {0}. ' \
+                   '\nLog on to {1} to complete any available tasks.' \
                 .format(project.name, current_app.config.get('BRAND'))
             mail_dict = dict(recipients=recipients, subject=subject, body=body)
             send_mail(mail_dict)
@@ -753,16 +753,16 @@ def import_tasks(project_id, current_user_fullname, from_auto=False, **form_data
              'It was able to process approximately {} tasks.',
              'Please break up your task upload into smaller CSV files.',
              'Thank you,\n',
-             u'The {} team.']).format(project.name, current_user_fullname,
+             'The {} team.']).format(project.name, current_user_fullname,
                                      n_tasks, current_app.config.get('BRAND'))
         mail_dict = dict(recipients=recipients, subject=subject, body=body)
         send_mail(mail_dict)
         raise
     except Exception as e:
-        msg = (u'Import tasks to your project {} by {} failed. Error: {}'
+        msg = ('Import tasks to your project {} by {} failed. Error: {}'
                .format(project.name, current_user_fullname, str(e)))
         subject = 'Tasks Import to your project %s' % project.name
-        body = (u'Hello,\n\n{0}\n\nPlease contact {1} administrator,\nThe {1} team.'
+        body = ('Hello,\n\n{0}\n\nPlease contact {1} administrator,\nThe {1} team.'
                 .format(msg, current_app.config.get('BRAND')))
         mail_dict = dict(recipients=recipients, subject=subject, body=body)
         send_mail(mail_dict)
@@ -773,7 +773,7 @@ def import_tasks(project_id, current_user_fullname, from_auto=False, **form_data
         form_data['last_import_meta'] = report.metadata
         project.set_autoimporter(form_data)
         project_repo.save(project)
-    msg = report.message + u' to your project {0} by {1}'.format(project.name, current_user_fullname)
+    msg = report.message + ' to your project {0} by {1}'.format(project.name, current_user_fullname)
 
     subject = 'Tasks Import to your project %s' % project.name
     body = 'Hello,\n\n' + msg + '\n\nAll the best,\nThe %s team.'\
@@ -807,17 +807,17 @@ def export_tasks(current_user_email_addr, short_name,
         # Construct message
         if export_fn is not None:
             # Success email
-            subject = u'Data exported for your project: {0}'.format(project.name)
-            msg = u'Your exported data is attached.'
+            subject = 'Data exported for your project: {0}'.format(project.name)
+            msg = 'Your exported data is attached.'
         else:
             # Failure email
-            subject = u'Data export failed for your project: {0}'.format(project.name)
-            msg = u'There was an issue with your export. ' + \
-                  u'Please try again or report this issue ' + \
-                  u'to a {0} administrator.'
+            subject = 'Data export failed for your project: {0}'.format(project.name)
+            msg = 'There was an issue with your export. ' + \
+                  'Please try again or report this issue ' + \
+                  'to a {0} administrator.'
             msg = msg.format(current_app.config.get('BRAND'))
 
-        body = u'Hello,\n\n' + msg + '\n\nThe {0} team.'
+        body = 'Hello,\n\n' + msg + '\n\nThe {0} team.'
         body = body.format(current_app.config.get('BRAND'))
         mail_dict = dict(recipients=[current_user_email_addr],
                          subject=subject,
@@ -830,16 +830,16 @@ def export_tasks(current_user_email_addr, short_name,
                 message.attach(fp.filename, "application/zip", fp.read())
 
         mail.send(message)
-        job_response = u'{0} {1} file was successfully exported for: {2}'
+        job_response = '{0} {1} file was successfully exported for: {2}'
         return job_response.format(
                 ty.capitalize(), filetype.upper(), project.name)
     except:
         current_app.logger.exception(
-                u'Export email failed - Project: {0}'
+                'Export email failed - Project: {0}'
                 .format(project.name))
-        subject = u'Email delivery failed for your project: {0}'.format(project.name)
-        msg = u'There was an error when attempting to deliver your data export via email.'
-        body = u'Hello,\n\n' + msg + u'\n\nThe {0} team.'
+        subject = 'Email delivery failed for your project: {0}'.format(project.name)
+        msg = 'There was an error when attempting to deliver your data export via email.'
+        body = 'Hello,\n\n' + msg + '\n\nThe {0} team.'
         body = body.format(current_app.config.get('BRAND'))
         mail_dict = dict(recipients=[current_user_email_addr],
                          subject=subject,
@@ -1261,7 +1261,7 @@ def get_management_dashboard_stats(user_email):
 
     subject = 'Management Dashboard Statistics'
     msg = 'Management dashboard statistics is now available. It can be accessed by refreshing management dashboard page.'
-    body = (u'Hello,\n\n{}\nThe {} team.'
+    body = ('Hello,\n\n{}\nThe {} team.'
             .format(msg, current_app.config.get('BRAND')))
     mail_dict = dict(recipients=[user_email], subject=subject, body=body)
     send_mail(mail_dict)

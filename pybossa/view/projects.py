@@ -916,11 +916,11 @@ def import_task(short_name):
                 return _import_tasks(project, **form.get_import_data())
             except BulkImportException as e:
                 flash(gettext(unicode(e)), 'error')
-                current_app.logger.exception(u'project: {} {}'.format(project.short_name, e))
+                current_app.logger.exception('project: {} {}'.format(project.short_name, e))
             except Exception as e:
-                msg = u'Oops! Looks like there was an error! {}'.format(e)
+                msg = 'Oops! Looks like there was an error! {}'.format(e)
                 flash(gettext(msg), 'error')
-                current_app.logger.exception(u'project: {} {}'.format(project.short_name, e))
+                current_app.logger.exception('project: {} {}'.format(project.short_name, e))
         template_args['template'] = '/projects/importers/%s.html' % importer_type
         return handle_content_type(template_args)
 
@@ -2833,7 +2833,7 @@ def export_project_report(short_name):
             return res
         except Exception as e:
             current_app.logger.exception(
-                    u'CSV Export Failed - Project: {0}, Type: {1} - Error: {2}'
+                    'CSV Export Failed - Project: {0}, Type: {1} - Error: {2}'
                     .format(project.short_name, ty, e))
             flash(gettext('Error generating project report.'),
                   'error')

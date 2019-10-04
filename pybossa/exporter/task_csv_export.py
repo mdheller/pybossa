@@ -22,7 +22,7 @@ from flask import url_for, safe_join, send_file, redirect
 from pybossa.uploader import local
 from pybossa.exporter.csv_export import CsvExporter
 from pybossa.core import uploader, task_repo
-from pybossa.util import UnicodeWriter
+# TODO from pybossa.util import UnicodeWriter
 from .export_helpers import browse_tasks_export
 
 class TaskCsvExporter(CsvExporter):

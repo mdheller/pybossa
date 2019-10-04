@@ -61,8 +61,8 @@ def oauth_authorized():  # pragma: no cover
     """Authorize Oauth."""
     resp = google.oauth.authorized_response()
     if resp is None or request.args.get('error'):
-        flash(u'You denied the request to sign in.', 'error')
-        flash(u'Reason: ' + request.args['error'], 'error')
+        flash('You denied the request to sign in.', 'error')
+        flash('Reason: ' + request.args['error'], 'error')
         if request.args.get('error'):
             current_app.logger.error(resp)
             return redirect(url_for_app_type('account.signin',

@@ -43,7 +43,7 @@ class TestCloudUploader(Test):
 
         create_connection.return_value = mock_conn
         u = CloudStoreUploader()
-        fs = FileStorage(stream=StringIO(u'hello world'),
+        fs = FileStorage(stream=StringIO('hello world'),
                          filename='the_file.jpg')
 
         with patch.dict(self.flask_app.config, {
@@ -67,7 +67,7 @@ class TestCloudUploader(Test):
 
         create_connection.return_value = mock_conn
         u = CloudStoreUploader()
-        fs = FileStorage(stream=StringIO(u'hello world'),
+        fs = FileStorage(stream=StringIO('hello world'),
                          filename='the_file.jpg')
 
         mock_key.set_contents_from_string.side_effect = Exception

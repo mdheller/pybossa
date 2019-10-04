@@ -113,4 +113,4 @@ class TestBulkTaskEpiCollectPlusImport(object):
 
         task = self.importer.tasks().next()
 
-        assert task == {'info': {u'DeviceID': 23}}, task
+        assert task == {'info': {'DeviceID': 23}}, task

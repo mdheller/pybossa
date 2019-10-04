@@ -74,20 +74,20 @@ class TestTaskCsvExporter(Test):
 
         assert value == 'www.example.com'
 
-        unicode_text = {'german': u'Straße auslösen zerstören',
-                        'french': u'français américaine épais',
-                        'chinese': u'中國的 英語 美國人',
-                        'smart_quotes': u'“Hello”'}
+        unicode_text = {'german': 'Straße auslösen zerstören',
+                        'french': 'français américaine épais',
+                        'chinese': '中國的 英語 美國人',
+                        'smart_quotes': '“Hello”'}
 
         german_value = exporter.get_value(unicode_text, 'german')
         french_value = exporter.get_value(unicode_text, 'french')
         chinese_value = exporter.get_value(unicode_text, 'chinese')
         smart_quotes_value = exporter.get_value(unicode_text, 'smart_quotes')
 
-        assert german_value == u'Stra\u00DFe ausl\u00F6sen zerst\u00F6ren'
-        assert french_value == u'fran\u00E7ais am\u00E9ricaine \u00E9pais'
-        assert chinese_value == u'\u4E2D\u570B\u7684 \u82F1\u8A9E \u7F8E\u570B\u4EBA'
-        assert smart_quotes_value == u'\u201CHello\u201D'
+        assert german_value == 'Stra\u00DFe ausl\u00F6sen zerst\u00F6ren'
+        assert french_value == 'fran\u00E7ais am\u00E9ricaine \u00E9pais'
+        assert chinese_value == '\u4E2D\u570B\u7684 \u82F1\u8A9E \u7F8E\u570B\u4EBA'
+        assert smart_quotes_value == '\u201CHello\u201D'
 
     @with_context
     def test_task_csv_exporter_flatten(self):

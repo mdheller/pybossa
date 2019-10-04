@@ -414,7 +414,7 @@ class TestApiCommon(TestAPI):
 
             # correct result
             assert data[0]['project_id'] == 1, data
-            assert data[0]['state'] == u'completed', data
+            assert data[0]['state'] == 'completed', data
 
             # test api with incorrect api_key
             url = '/api/completedtask?project_id=1&api_key=BAD-api-key'
@@ -455,7 +455,7 @@ class TestApiCommon(TestAPI):
 
             # correct result
             assert data[0]['project_id'] == 1, data
-            assert data[0]['state'] == u'completed', data
+            assert data[0]['state'] == 'completed', data
 
             # test api with incorrect api_key
             url = '/api/completedtask?project_id=1&api_key=bad-api-key'

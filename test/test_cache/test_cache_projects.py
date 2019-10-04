@@ -650,8 +650,8 @@ class TestProjectsCache(Test):
             ftime_to='2018-01-24T19:49:21.799870',
             priority_from=0.0,
             priority_to=0.5, order_by_dict={},
-            display_columns=[u'task_id', u'priority'], display_info_columns=[u'co_id'],
-            filter_by_upref={u'languages': [u'English'], u'locations': [u'Fiji']})
+            display_columns=['task_id', 'priority'], display_info_columns=['co_id'],
+            filter_by_upref={'languages': ['English'], 'locations': ['Fiji']})
 
 
         pargs = parse_tasks_browse_args(args)
@@ -686,8 +686,8 @@ class TestProjectsCache(Test):
             ftime_to='2018-01-24T19:49:21.799870',
             priority_from=0.0,
             priority_to=0.5, order_by_dict={},
-            display_columns=[u'task_id', u'priority'], display_info_columns=[u'co_id'],
-            filter_by_upref={u'languages': [u'en'], u'locations': [u'us']})
+            display_columns=['task_id', 'priority'], display_info_columns=['co_id'],
+            filter_by_upref={'languages': ['en'], 'locations': ['us']})
 
         pargs = parse_tasks_browse_args(args)
         assert pargs == valid_args, pargs
@@ -698,7 +698,7 @@ class TestProjectsCache(Test):
             pcomplete_to='0.7', priority_from=0.0, priority_to=0.5,
             created_from='2018-01-01T00:00:00.0001', created_to='2018-12-12T00:00:00.0001',
             ftime_from='2018-01-01T00:00:00.0001', ftime_to='2018-12-12T00:00:00.0001',
-            order_by='task_id', filter_by_field=[(u'CompanyName', u'starts with', u'abc')],
+            order_by='task_id', filter_by_field=[('CompanyName', 'starts with', 'abc')],
             filter_by_upref=dict(languages=['en'], locations=['us']), state='ongoing')
         expected_filter_query = ''' AND task.id = :task_id AND task.state=\'ongoing\' AND (coalesce(ct, 0)/task.n_answers) >= :pcomplete_from AND LEAST(coalesce(ct, 0)/task.n_answers, 1.0) <= :pcomplete_to AND priority_0 >= :priority_from AND priority_0 <= :priority_to AND task.created >= :created_from AND task.created <= :created_to AND ft >= :ftime_from AND ft <= :ftime_to AND state = :state AND (COALESCE(task.info->>\'CompanyName\', \'\') ilike :filter_by_field_0 escape \'\\\') AND ( ( (task.user_pref-> \'locations\' IS NULL AND task.user_pref-> \'languages\' IS NULL) OR (task.user_pref @> \'{"languages": ["en"]}\' OR task.user_pref @> \'{"locations": ["us"]}\') ) )'''
         expected_params = {'task_id': 1, 'pcomplete_from': '0.5', 'pcomplete_to': '0.7', 'ftime_to': '2018-12-12T05:00:00.000100+00:00', 'created_from': '2018-01-01T05:00:00.000100+00:00', 'ftime_from': '2018-01-01T05:00:00.000100+00:00', 'state':'ongoing', 'priority_to': 0.5, 'priority_from': 0.0, 'filter_by_field_0': 'abc%', 'created_to': '2018-12-12T05:00:00.000100+00:00'}
@@ -723,19 +723,19 @@ class TestProjectsCache(Test):
 
         args = dict(task_id=12345, gold_task='1')
         valid_args = dict(task_id=12345, gold_task='1', order_by_dict={},
-            display_columns=[u'task_id', u'priority', u'pcomplete', u'created', u'finish_time', u'gold_task', u'actions'])
+            display_columns=['task_id', 'priority', 'pcomplete', 'created', 'finish_time', 'gold_task', 'actions'])
         pargs = parse_tasks_browse_args(args)
         assert pargs == valid_args, pargs
 
         args = dict(task_id=12345, gold_task='0')
         valid_args = dict(task_id=12345, gold_task='0', order_by_dict={},
-            display_columns=[u'task_id', u'priority', u'pcomplete', u'created', u'finish_time', u'gold_task', u'actions'])
+            display_columns=['task_id', 'priority', 'pcomplete', 'created', 'finish_time', 'gold_task', 'actions'])
         pargs = parse_tasks_browse_args(args)
         assert pargs == valid_args, pargs
 
         args = dict(task_id=12345, gold_task='All')
         valid_args = dict(task_id=12345, order_by_dict={},
-            display_columns=[u'task_id', u'priority', u'pcomplete', u'created', u'finish_time', u'gold_task', u'actions'])
+            display_columns=['task_id', 'priority', 'pcomplete', 'created', 'finish_time', 'gold_task', 'actions'])
         pargs = parse_tasks_browse_args(args)
         assert pargs == valid_args, pargs
 

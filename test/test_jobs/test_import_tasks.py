@@ -104,7 +104,7 @@ class TestImportTasksJob(Test):
                  'It was able to process approximately {} tasks.',
                  'Please break up your task upload into smaller CSV files.',
                  'Thank you,\n',
-                 u'The {} team.']).format(project.name, uploader_name,
+                 'The {} team.']).format(project.name, uploader_name,
                                          0, self.flask_app.config['BRAND'])
 
             email_data = dict(recipients=[project.owner.email_addr],
@@ -121,10 +121,10 @@ class TestImportTasksJob(Test):
         project = ProjectFactory.create()
         form_data = {'type': 'csv', 'csv_url': 'http://google.es'}
         subject = 'Tasks Import to your project %s' % project.name
-        msg = (u'Import tasks to your project {0} by {1} failed. Error: Very bad very bad'
+        msg = ('Import tasks to your project {0} by {1} failed. Error: Very bad very bad'
                .format(project.name, uploader_name))
         with patch.dict(self.flask_app.config, {'BRAND': 'GOT'}):
-            body = (u'Hello,\n\n{0}\n\nPlease contact {1} administrator,\nThe {1} team.'
+            body = ('Hello,\n\n{0}\n\nPlease contact {1} administrator,\nThe {1} team.'
                     .format(msg, self.flask_app.config['BRAND']))
 
             email_data = dict(recipients=[project.owner.email_addr],
