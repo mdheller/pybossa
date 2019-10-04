@@ -1625,12 +1625,12 @@ def delete_selected_tasks(short_name):
             new_value = json.dumps({
                 'task_ids': task_ids,
             })
-            async = False
+            async_ = False
         else:
             args = parse_tasks_browse_args(request.json.get('filters'))
             count = cached_projects.task_count(project.id, args)
-            async = count > MAX_NUM_SYNCHRONOUS_TASKS_DELETE
-            if async:
+            async_ = count > MAX_NUM_SYNCHRONOUS_TASKS_DELETE
+            if async_:
                 owners = user_repo.get_users(project.owners_ids)
                 data = {
                     'project_id': project.id, 'project_name': project.name,
