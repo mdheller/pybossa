@@ -515,7 +515,7 @@ def setup_importers(app):
 
 def url_for_other_page(page):
     """Setup url for other pages."""
-    args = dict(request.view_args.items() + request.args.to_dict().items())
+    args = dict(list(request.view_args.items()) + list(request.args.to_dict().items()))
     args['page'] = page
     return url_for(request.endpoint, **args)
 

@@ -259,7 +259,7 @@ class Importer(object):
 
     def get_all_importer_names(self):
         """Get all importer names."""
-        return self._importers.keys()
+        return list(self._importers.keys())
 
     def get_autoimporter_names(self):
         """Get autoimporter names."""

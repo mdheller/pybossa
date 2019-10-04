@@ -384,7 +384,7 @@ class Pagination(object):
                    right_edge=0):
         """Iterate over pages."""
         last = 0
-        for num in xrange(1, self.pages + 1):
+        for num in range(1, self.pages + 1):
             if (num <= left_edge or
                     (num > self.page - left_current - 1 and
                      num < self.page + right_current) or

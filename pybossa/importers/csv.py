@@ -17,6 +17,7 @@
 # along with PYBOSSA.  If not, see <http://www.gnu.org/licenses/>.
 
 import numbers
+import pandas as pd
 import requests
 from io import StringIO
 from flask_babel import gettext
@@ -183,12 +184,9 @@ class BulkTaskCSVImportBase(BulkTaskImport):
     def headers(self, csvreader=None):
         if self._headers is not None:
             return self._headers
-        if not csvreader:
+        if csvreader is None:
             csvreader = self._get_csv_reader()
-        self._headers = []
-        for row in csvreader:
-            self._headers = row
-            break
+        self._headers = list(csvreader.columns)
         self._check_no_duplicated_headers()
         self._check_no_empty_headers()
         self._check_required_headers()
@@ -227,8 +225,8 @@ class BulkTaskCSVImportBase(BulkTaskImport):
         # These two lines execute immediately when the function is called.
         # The rest is deferred inside the generator function until the
         # first task is iterated.
-        csviterator = iter(csvreader)
-        self.fields(csvreader=csviterator)
+        csviterator = (list(row) for _, row in csvreader.iterrows())
+        self.fields(csvreader=csvreader)
 
         def task_generator():
             row_number = 0
@@ -309,7 +307,7 @@ class BulkTaskCSVImport(BulkTaskCSVImportBase):
 
         r.encoding = 'utf-8'
         csvcontent = StringIO(r.text)
-        return unicode_csv_reader(csvcontent)
+        return pd.read_csv(csvcontent, keep_default_na=False)
 
 class BulkTaskGDImport(BulkTaskCSVImport):
 
@@ -356,8 +354,7 @@ class BulkTaskLocalCSVImport(BulkTaskCSVImportBase):
             raise BulkImportException(gettext(msg), 'error')
 
         csv_file.stream.seek(0)
-        csvcontent = io.StringIO(csv_file.stream.read())
-        return unicode_csv_reader(csvcontent)
+        return pd.read_csv(csv_file.stream, keep_default_na=False)
 
     def tasks(self):
         return list(BulkTaskCSVImportBase.tasks(self))

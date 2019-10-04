@@ -915,7 +915,7 @@ def import_task(short_name):
             try:
                 return _import_tasks(project, **form.get_import_data())
             except BulkImportException as e:
-                flash(gettext(unicode(e)), 'error')
+                flash(gettext(e), 'error')
                 current_app.logger.exception('project: {} {}'.format(project.short_name, e))
             except Exception as e:
                 msg = 'Oops! Looks like there was an error! {}'.format(e)
