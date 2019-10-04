@@ -1647,7 +1647,7 @@ def delete_selected_tasks(short_name):
 
         auditlogger.log_event(project, current_user, 'delete tasks',
                               'task', 'N/A', new_value)
-        return Response(json.dumps(dict(enqueued=async)), 200,
+        return Response(json.dumps(dict(enqueued=async_)), 200,
                         mimetype='application/json')
     except Exception as e:
         return ErrorStatus().format_exception(e, 'deleteselected', 'POST')
