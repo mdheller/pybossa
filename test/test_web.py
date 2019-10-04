@@ -2208,7 +2208,7 @@ class TestWeb(web.Helper):
         assert 'projects' in data.keys(), data
         assert data['pagination']['next'] is False, data
         assert data['pagination']['prev'] is False, data
-        assert data['pagination']['total'] == 1L, data
+        assert data['pagination']['total'] == 1, data
         assert data['active_cat']['name'] == 'Featured', data
         assert len(data['projects']) == 1, data
         assert data['projects'][0]['id'] == project.id, data

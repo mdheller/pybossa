@@ -499,9 +499,9 @@ def is_reserved_name(blueprint, name):
 def username_from_full_name(username):
     """Takes a username that may contain several words with capital letters and
     returns a single word username, no spaces, all lowercases."""
-    if type(username) == str:
-        return username.decode('ascii', 'ignore').lower().replace(' ', '')
-    return username.encode('ascii', 'ignore').decode('utf-8').lower().replace(' ', '')
+    username = username.replace(' ', '')
+    username = username.lower()
+    return username.encode('ascii', 'ignore')
 
 
 def rank(projects, order_by=None, desc=False):
@@ -636,11 +636,12 @@ def get_disqus_sso_payload(user):
         else:
             data = simplejson.dumps({})
         # encode the data to base64
-        message = base64.b64encode(data)
+        message = base64.b64encode(data.encode('utf-8'))
         # generate a timestamp for signing the message
         timestamp = int(time.time())
         # generate our hmac signature
-        sig = hmac.HMAC(DISQUS_SECRET_KEY, '%s %s' % (message, timestamp),
+        tmp = '{} {}'.format(message, timestamp).encode('utf-8')
+        sig = hmac.HMAC(DISQUS_SECRET_KEY.encode('utf-8'), tmp,
                         hashlib.sha1).hexdigest()
 
         return message, timestamp, sig, DISQUS_PUBLIC_KEY
@@ -889,7 +890,7 @@ def valid_or_no_s3_bucket(task_data):
     if allowed_s3_buckets is None:
         return True
 
-    for v in task_data.itervalues():
+    for v in task_data.values():
         if isinstance(v, str):
             bucket = get_s3_bucket_name(v)
             if bucket is not None and bucket not in allowed_s3_buckets:

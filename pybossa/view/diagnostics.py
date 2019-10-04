@@ -68,7 +68,7 @@ def perform_checks():
 @talisman(force_https=False)
 def healthcheck():
     response = perform_checks()
-    healthy =  all(response.itervalues())
+    healthy =  all(response.values())
     status = 200 if healthy else 500
     return Response(json.dumps(response), status=status,
                     mimetype='application/json')
