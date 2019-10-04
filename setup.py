@@ -58,7 +58,7 @@ requirements = [
     "webassets>=0.12.1, <0.12.2",
     "readability-lxml>=0.6.2, <1.0",
     "pybossa-onesignal",
-    "pandas>=0.20.2, <0.20.3",
+    "pandas==0.23.4",
     "flatten-json==0.1.6",
     "boto>=2.48.0, <2.49",
     "python-magic>=0.4.13, <0.4.14",
