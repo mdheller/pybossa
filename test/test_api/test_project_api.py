@@ -1086,7 +1086,7 @@ class TestProjectAPI(TestAPI):
         # Get an empty task
         url = '/api/project/%s/newtask?offset=1000&api_key=%s' % (project.id, user.api_key)
         res = self.app.get(url)
-        assert res.data == '{}', res.data
+        assert res.data.decode() == '{}', res.data
 
     @with_context
     @patch('pybossa.repositories.project_repository.uploader')

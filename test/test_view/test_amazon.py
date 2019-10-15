@@ -36,7 +36,7 @@ class TestAmazonS3API(object):
         resp = flask_app.test_client().get('/amazon/bucket/%s' % bucket_name)
 
         client_instance.objects.assert_called_with(bucket_name)
-        assert str(resp.data) == json.dumps(objects), str(resp.data)
+        assert resp.data.decode() == json.dumps(objects), resp.data
 
     @with_context
     @patch('pybossa.view.amazon.S3Client')
