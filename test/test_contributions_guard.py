@@ -48,21 +48,21 @@ class TestContributionsGuard(object):
     # Task requested guard tests
 
     def test_stamp_registers_specific_user_id_and_task(self):
-        key = 'pybossa:task_requested:user:33:task:22'
+        key = b'pybossa:task_requested:user:33:task:22'
 
         self.guard.stamp(self.task, self.auth_user)
 
         assert key in self.connection.keys(), self.connection.keys()
 
     def test_stamp_registers_specific_user_ip_and_task_if_no_id_provided(self):
-        key = 'pybossa:task_requested:user:127.0.0.1:task:22'
+        key = b'pybossa:task_requested:user:127.0.0.1:task:22'
 
         self.guard.stamp(self.task, self.anon_user)
 
         assert key in self.connection.keys(), self.connection.keys()
 
     def test_stamp_expires_in_one_hour(self):
-        key = 'pybossa:task_requested:user:33:task:22'
+        key = b'pybossa:task_requested:user:33:task:22'
         ONE_HOUR = 60 * 60
 
         self.guard.stamp(self.task, self.auth_user)
@@ -72,7 +72,7 @@ class TestContributionsGuard(object):
     @patch('pybossa.contributions_guard.make_timestamp')
     def test_stamp_adds_a_timestamp_when_the_task_is_stamped(self, make_timestamp):
         make_timestamp.return_value = "now"
-        key = 'pybossa:task_requested:user:127.0.0.1:task:22'
+        key = b'pybossa:task_requested:user:127.0.0.1:task:22'
 
         self.guard.stamp(self.task, self.anon_user)
 
@@ -105,21 +105,21 @@ class TestContributionsGuard(object):
     # Task presented guard tests
 
     def test_stamp_presented_time_registers_specific_user_id_and_task(self):
-        key = 'pybossa:task_presented:user:33:task:22'
+        key = b'pybossa:task_presented:user:33:task:22'
 
         self.guard.stamp_presented_time(self.task, self.auth_user)
 
         assert key in self.connection.keys(), self.connection.keys()
 
     def test_stamp_presented_time_registers_user_as_None_and_task_if_no_id_provided(self):
-        key = 'pybossa:task_presented:user:None:task:22'
+        key = b'pybossa:task_presented:user:None:task:22'
 
         self.guard.stamp_presented_time(self.task, self.anon_user)
 
         assert key in self.connection.keys(), self.connection.keys()
 
     def test_stamp_presented_time_expires_in_one_hour(self):
-        key = 'pybossa:task_presented:user:33:task:22'
+        key = b'pybossa:task_presented:user:33:task:22'
         ONE_HOUR = 60 * 60
 
         self.guard.stamp_presented_time(self.task, self.auth_user)
@@ -129,7 +129,7 @@ class TestContributionsGuard(object):
     @patch('pybossa.contributions_guard.make_timestamp')
     def test_stamp_presented_time_adds_a_timestamp_when_the_task_is_stamped(self, make_timestamp):
         make_timestamp.return_value = "now"
-        key = 'pybossa:task_presented:user:33:task:22'
+        key = b'pybossa:task_presented:user:33:task:22'
 
         self.guard.stamp_presented_time(self.task, self.auth_user)
 

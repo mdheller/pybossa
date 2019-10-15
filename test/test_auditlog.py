@@ -96,7 +96,7 @@ class TestAuditlogAPI(Test):
                 'allow_anonymous_contributors': False,
                 'info': {'list': [1]}
                 }
-        attributes = data.keys()
+        attributes = list(data.keys())
         attributes.append('list')
         url = '/api/project/%s?api_key=%s' % (project.id, project.owner.api_key)
         self.app.put(url, data=json.dumps(data))

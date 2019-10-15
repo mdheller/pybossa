@@ -22,7 +22,8 @@ class BulkImportException(Exception):
 
     """Generic Bulk Importer Exception Error."""
 
-    pass
+    def __init__(self, msg, err='error'):
+        self.message = msg
 
 
 class BulkTaskImport(object):

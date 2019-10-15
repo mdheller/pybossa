@@ -88,7 +88,7 @@ class TestBulkTaskS3Import(object):
         file_data = 'myfile.extension'
 
         for ext in image_ext:
-            data = string.replace(file_data,'extension', ext)
+            data = file_data.replace('extension', ext)
             form_data = {
                 'files': [data],
                 'bucket': 'mybucket'
@@ -125,7 +125,7 @@ class TestBulkTaskS3Import(object):
         file_data = 'myfile.extension'
 
         for ext in video_ext:
-            data = string.replace(file_data,'extension', ext)
+            data = file_data.replace('extension', ext)
             form_data = {
                 'files': [data],
                 'bucket': 'mybucket'
@@ -144,7 +144,7 @@ class TestBulkTaskS3Import(object):
         file_data = 'myfile.extension'
 
         for ext in audio_ext:
-            data = string.replace(file_data,'extension', ext)
+            data = file_data.replace('extension', ext)
             form_data = {
                 'files': [data],
                 'bucket': 'mybucket'

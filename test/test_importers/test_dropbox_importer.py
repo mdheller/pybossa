@@ -77,7 +77,7 @@ class TestBulkTaskDropboxImport(object):
         '"icon":"https://www.dropbox.com/static/images/icons64/page_white_text.extension"}')
 
         for ext in image_ext:
-            data = string.replace(file_data,'extension', ext)
+            data = file_data.replace('extension', ext)
             form_data = {'files': [data]}
             tasks = BulkTaskDropboxImport(**form_data).tasks()
 
@@ -114,7 +114,7 @@ class TestBulkTaskDropboxImport(object):
         '"icon":"https://www.dropbox.com/static/images/icons64/page_white_text.png"}')
 
         for ext in video_ext:
-            data = string.replace(file_data,'extension', ext)
+            data = file_data.replace('extension', ext)
             form_data = {'files': [data]}
             tasks = BulkTaskDropboxImport(**form_data).tasks()
 
@@ -133,7 +133,7 @@ class TestBulkTaskDropboxImport(object):
         '"icon":"https://www.dropbox.com/static/images/icons64/page_white_text.png"}')
 
         for ext in audio_ext:
-            data = string.replace(file_data,'extension', ext)
+            data = file_data.replace('extension', ext)
             form_data = {'files': [data]}
             tasks = BulkTaskDropboxImport(**form_data).tasks()
 

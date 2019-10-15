@@ -44,6 +44,7 @@ class ErrorStatus(object):
                     "Forbidden": 403,
                     "NotFound": 404,
                     "MethodNotAllowed": 405,
+                    "JSONDecodeError": 415,
                     "Conflict": 409,
                     "TypeError": 415,
                     "ValueError": 415,
@@ -61,6 +62,8 @@ class ErrorStatus(object):
         """
         self.log_exception()
         exception_cls = e.__class__.__name__
+        if exception_cls == 'JSONDecodeError':
+            exception_cls = 'ValueError'
         if self.error_status.get(exception_cls):
             status = self.error_status.get(exception_cls)
         else: # pragma: no cover

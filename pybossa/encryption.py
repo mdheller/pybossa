@@ -31,7 +31,7 @@ class AESWithGCM(object):
     @staticmethod
     def _hash_key(key):
         _hash = sha256()
-        _hash.update(key.encode(encoding='ascii'))
+        _hash.update(key.encode())
         return _hash.digest()
 
     def get_cipher(self, iv, tag=None):
@@ -52,7 +52,7 @@ class AESWithGCM(object):
         return base64.b64encode(encrypted)
 
     def _split_ciphertext(self, string):
-        iv_length = six.byte2int(string[0])
+        iv_length = string[0]
         iv = string[1:iv_length + 1]
         ciphertext = string[iv_length + 1:-self.tag_length]
         tag = string[-self.tag_length:]
