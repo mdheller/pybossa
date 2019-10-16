@@ -32,7 +32,9 @@ class Sentinel(object):
             'db': app.config.get('REDIS_DB') or 0,
             'password': app.config.get('REDIS_PWD'),
             'socket_timeout': app.config.get('REDIS_SOCKET_TIMEOUT', 0.1),
-            'retry_on_timeout': app.config.get('REDIS_RETRY_ON_TIMEOUT', True)
+            'retry_on_timeout': app.config.get('REDIS_RETRY_ON_TIMEOUT', True),
+            'encoding': 'utf-8',
+            'decode_responses': True
         }
         if app.config.get('REDIS_MASTER_DNS') and \
             app.config.get('REDIS_SLAVE_DNS') and \

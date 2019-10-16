@@ -5,8 +5,8 @@ from flask import current_app
 @with_context
 def test_create_otp():
     user_email = 'test@test.com'
-    secret = str(otp.generate_otp_secret(user_email))
-    assert otp.retrieve_user_otp_secret(user_email) == secret, ('', secret)
+    secret = otp.generate_otp_secret(user_email)
+    assert otp.retrieve_user_otp_secret(user_email) == secret, secret
 
 
 @with_context
@@ -24,7 +24,7 @@ def test_create_token():
 
 @with_context
 def test_get_token_no_email():
-    assert otp.retrieve_email_for_token('not@here.com') is None
+    assert otp.retrieve_email_for_token('1234') is None
 
 
 @with_context

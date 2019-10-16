@@ -34,7 +34,7 @@ class TestFacebook(Test):
             "last_name": "Perez Sanchez",
             "name": "Mauricio Perez Sanchez"
         }
-        self.name = username_from_full_name(self.user_data['name']).decode()
+        self.name = username_from_full_name(self.user_data['name'])
         newsletter.app = None
 
     @with_context

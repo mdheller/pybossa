@@ -38,7 +38,7 @@ def _create_otp_secret_key(user_email):
 
 def _create_otp_secret():
     otp_secret = OtpAuth(base64.b32encode(os.urandom(10)).decode('utf-8'))
-    return otp_secret.totp()
+    return str(otp_secret.totp())
 
 
 def generate_otp_secret(user_email):
@@ -58,7 +58,7 @@ def _create_url_token_key(token):
 
 
 def generate_url_token(user_email):
-    token = uuid.uuid4().get_hex()
+    token = uuid.uuid4().hex
     key = _create_url_token_key(token)
     conn.delete(token)
     conn.setex(key, OTP_TTL, user_email)
