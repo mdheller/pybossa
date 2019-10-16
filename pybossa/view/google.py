@@ -126,7 +126,7 @@ def manage_user(access_token, user_data):
         user.info['google_token'] = google_token
         # Update the name to fit with new paradigm to avoid UTF8 problems
         if type(user.name) == str or ' ' in user.name:
-            user.name = username_from_full_name(user.name).decode('utf-8')
+            user.name = username_from_full_name(user.name)
         user_repo.save(user)
         return user
 

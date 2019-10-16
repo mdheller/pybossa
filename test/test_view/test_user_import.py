@@ -15,7 +15,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with PYBOSSA.  If not, see <http://www.gnu.org/licenses/>.
-from io import StringIO
+from io import BytesIO
 from bs4 import BeautifulSoup
 
 from default import db, with_context
@@ -76,10 +76,10 @@ class TestUserImport(web.Helper):
         self.register()
         self.signin()
         url = '/admin/userimport?type=%s' % 'usercsvimport'
-        users = '''name,fullname,email_addr,password,project_slugs,user_pref,metadata
+        users = b'''name,fullname,email_addr,password,project_slugs,user_pref,metadata
             newuser,New User,new@user.com,NewU$3r!,,{},{"user_type": "type_a"}'''
         res = self.app.post(url, follow_redirects=True, content_type='multipart/form-data',
-            data={'file': (StringIO(users), 'users.csv')})
+            data={'file': (BytesIO(users), 'users.csv')})
         assert '1 new users were imported successfully' in str(res.data), res.data
 
         new_user = user_repo.get_by_name('newuser')
@@ -96,10 +96,10 @@ class TestUserImport(web.Helper):
         self.register()
         self.signin()
         url = '/admin/userimport?type=%s' % 'usercsvimport'
-        users = '''name,fullname,email_addr,password,project_slugs,user_pref,metadata
+        users = b'''name,fullname,email_addr,password,project_slugs,user_pref,metadata
             newuser,New User,new@user.com,NewU$3r!,,{},{"user_type": "type_c"}'''
         res = self.app.post(url, follow_redirects=True, content_type='multipart/form-data',
-            data={'file': (StringIO(users), 'users.csv')})
+            data={'file': (BytesIO(users), 'users.csv')})
         assert 'It looks like there were no new users created' in str(res.data), res.data
 
     @with_context
@@ -110,11 +110,10 @@ class TestUserImport(web.Helper):
 
         self.register()
         self.signin()
-        from pybossa import core
 
         url = '/admin/userimport?type=%s' % 'usercsvimport'
-        users = '''name,fullname,email_addr,password,project_slugs,user_pref,metadata
+        users = b'''name,fullname,email_addr,password,project_slugs,user_pref,metadata
             newuser,New User,new@user.com,NewU$3r!,,{},{}'''
         res = self.app.post(url, follow_redirects=True, content_type='multipart/form-data',
-            data={'file': (StringIO(users), 'users.csv')})
+            data={'file': (BytesIO(users), 'users.csv')})
         assert 'Missing user_type in metadata' in str(res.data), res.data
