@@ -264,7 +264,7 @@ class TestLockedSched(sched.Helper):
         timeout = 100
         acquire_lock(task.id, user.id, limit, timeout)
         task_id, _ = get_task_id_and_duration_for_project_user(project.id, user.id)
-        assert get_task_id_project_id_key(task.id) in sentinel.master.keys()
+        assert get_task_id_project_id_key(task.id) in sentinel.utf8_master.keys()
         assert task.id == task_id
 
     @with_context
@@ -524,6 +524,7 @@ class TestLockedSched(sched.Helper):
         project_repo.save(project)
 
         task1 = TaskFactory.create(project=project, info='task 1', n_answers=1)
+        task1_id = task1.id
 
         res = self.app.get('api/project/{}/newtask?api_key={}'
                            .format(project.id, owner.api_key))
@@ -532,7 +533,9 @@ class TestLockedSched(sched.Helper):
         res = self.app.get('api/project/{}/newtask?api_key={}'
                            .format(project.id, owner.api_key))
         rec_task2 = json.loads(res.data)
-        assert rec_task1['id'] == task1.id
+        print(rec_task2)
+
+        assert rec_task1['id'] == task1_id
         assert rec_task2['id'] == rec_task1['id']
 
     @with_context

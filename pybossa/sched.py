@@ -258,7 +258,7 @@ def locked_scheduler(query_factory):
             task = session.query(Task).get(task_id)
             if task:
                 return [task]
-        user_count = get_active_user_count(project_id, sentinel.master)
+        user_count = get_active_user_count(project_id, sentinel.utf8_master)
         assign_user = json.dumps({'assign_user': [cached_users.get_user_email(user_id)]}) if user_id else None
         current_app.logger.info(
             "Project {} - number of current users: {}"
@@ -278,7 +278,7 @@ def locked_scheduler(query_factory):
             if acquire_lock(task_id, user_id, remaining, timeout):
                 rows.close()
                 save_task_id_project_id(task_id, project_id, 2 * timeout)
-                register_active_user(project_id, user_id, sentinel.master, ttl=timeout)
+                register_active_user(project_id, user_id, sentinel.utf8_master, ttl=timeout)
 
                 task_type = 'gold task' if calibration else 'task'
                 current_app.logger.info(
@@ -398,13 +398,13 @@ TIMEOUT = ContributionsGuard.STAMP_TTL
 
 
 def has_lock(task_id, user_id, timeout):
-    lock_manager = LockManager(sentinel.master, timeout)
+    lock_manager = LockManager(sentinel.utf8_master, timeout)
     task_users_key = get_task_users_key(task_id)
     return lock_manager.has_lock(task_users_key, user_id)
 
 
 def acquire_lock(task_id, user_id, limit, timeout, pipeline=None, execute=True):
-    redis_conn = sentinel.master
+    redis_conn = sentinel.utf8_master
     pipeline = pipeline or redis_conn.pipeline(transaction=True)
     lock_manager = LockManager(redis_conn, timeout)
     task_users_key = get_task_users_key(task_id)
@@ -433,7 +433,7 @@ def release_user_locks_for_project(user_id, project_id):
 
 
 def release_lock(task_id, user_id, timeout, pipeline=None, execute=True):
-    redis_conn = sentinel.master
+    redis_conn = sentinel.utf8_master
     pipeline = pipeline or redis_conn.pipeline(transaction=True)
     lock_manager = LockManager(redis_conn, timeout)
     task_users_key = get_task_users_key(task_id)
@@ -445,26 +445,26 @@ def release_lock(task_id, user_id, timeout, pipeline=None, execute=True):
 
 
 def get_locks(task_id, timeout):
-    lock_manager = LockManager(sentinel.master, timeout)
+    lock_manager = LockManager(sentinel.utf8_master, timeout)
     task_users_key = get_task_users_key(task_id)
     return lock_manager.get_locks(task_users_key)
 
 
 def get_user_tasks(user_id, timeout):
-    lock_manager = LockManager(sentinel.master, timeout)
+    lock_manager = LockManager(sentinel.utf8_master, timeout)
     user_tasks_key = get_user_tasks_key(user_id)
     return lock_manager.get_locks(user_tasks_key)
 
 
 def save_task_id_project_id(task_id, project_id, timeout):
     task_id_project_id_key = get_task_id_project_id_key(task_id)
-    sentinel.master.setex(task_id_project_id_key, timeout, project_id)
+    sentinel.utf8_master.setex(task_id_project_id_key, timeout, project_id)
 
 
 def get_task_ids_project_id(task_ids):
     keys = [get_task_id_project_id_key(t) for t in task_ids]
     if keys:
-        return sentinel.master.mget(keys)
+        return sentinel.utf8_master.mget(keys)
     return []
 
 
@@ -501,7 +501,7 @@ def get_task_id_and_duration_for_project_user(project_id, user_id):
 
 
 def release_user_locks(user_id):
-    redis_conn = sentinel.master
+    redis_conn = sentinel.utf8_master
     pipeline = redis_conn.pipeline(transaction=True)
     for key in get_user_tasks(user_id, TIMEOUT).keys():
         release_lock(key, user_id, TIMEOUT, pipeline=pipeline, execute=False)

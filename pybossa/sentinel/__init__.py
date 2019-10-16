@@ -34,6 +34,7 @@ class Sentinel(object):
             'socket_timeout': app.config.get('REDIS_SOCKET_TIMEOUT', 0.1),
             'retry_on_timeout': app.config.get('REDIS_RETRY_ON_TIMEOUT', True)
         }
+        encoding = {'decode_responses': True, 'encoding': 'utf-8'}
         if app.config.get('REDIS_MASTER_DNS') and \
             app.config.get('REDIS_SLAVE_DNS') and \
             app.config.get('REDIS_PORT'):
@@ -41,9 +42,19 @@ class Sentinel(object):
                 port=app.config['REDIS_PORT'], **conn_kwargs)
             self.slave = StrictRedis(host=app.config['REDIS_SLAVE_DNS'],
                 port=app.config['REDIS_PORT'], **conn_kwargs)
+            self.utf8_master = StrictRedis(host=app.config['REDIS_MASTER_DNS'],
+                port=app.config['REDIS_PORT'],
+                **encoding,
+                **conn_kwargs)
+            self.utf8_slave = StrictRedis(host=app.config['REDIS_SLAVE_DNS'],
+                port=app.config['REDIS_PORT'],
+                **encoding,
+                **conn_kwargs)
         else:
             self.connection = sentinel.Sentinel(app.config['REDIS_SENTINEL'],
                                                 **conn_kwargs)
             redis_master = app.config.get('REDIS_MASTER') or 'mymaster'
             self.master = self.connection.master_for(redis_master)
             self.slave = self.connection.slave_for(redis_master)
+            self.utf8_master = self.connection.master_for(redis_master, **encoding)
+            self.utf8_slave = self.connection.slave_for(redis_master, **encoding)
