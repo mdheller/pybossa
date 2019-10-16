@@ -30,9 +30,13 @@ class FakeApp(object):
             ['REDIS_MASTER_DNS', 'REDIS_SLAVE_DNS', 'REDIS_PORT']):
             self.config = dict(REDIS_MASTER_DNS=settings_test.REDIS_MASTER_DNS,
                 REDIS_SLAVE_DNS=settings_test.REDIS_SLAVE_DNS,
-                REDIS_PORT=settings_test.REDIS_PORT)
+                REDIS_PORT=settings_test.REDIS_PORT,
+                REDIS_PWD=getattr(settings_test, 'REDIS_PWD', None))
         else:
-            self.config = { 'REDIS_SENTINEL': settings_test.REDIS_SENTINEL }
+            self.config = {
+                'REDIS_SENTINEL': settings_test.REDIS_SENTINEL,
+                'REDIS_PWD': getattr(settings_test, 'REDIS_PWD', None)
+            }
 
 class TestContributionsGuard(object):
 
@@ -76,7 +80,7 @@ class TestContributionsGuard(object):
 
         self.guard.stamp(self.task, self.anon_user)
 
-        assert self.connection.get(key) == 'now'
+        assert self.connection.get(key) == b'now'
 
     def test_check_task_stamped_returns_False_for_non_stamped_task(self):
         assert self.guard.check_task_stamped(self.task, self.auth_user) is False
@@ -99,7 +103,7 @@ class TestContributionsGuard(object):
         make_timestamp.return_value = "now"
         self.guard.stamp(self.task, self.auth_user)
 
-        assert self.guard.retrieve_timestamp(self.task, self.auth_user) == 'now'
+        assert self.guard.retrieve_timestamp(self.task, self.auth_user) == b'now'
 
 
     # Task presented guard tests
@@ -133,7 +137,7 @@ class TestContributionsGuard(object):
 
         self.guard.stamp_presented_time(self.task, self.auth_user)
 
-        assert self.connection.get(key) == 'now'
+        assert self.connection.get(key) == b'now'
 
     def test_check_task_presented_stamped_returns_False_for_non_stamped_task(self):
         assert self.guard.check_task_presented_timestamp(self.task, self.auth_user) is False
@@ -156,4 +160,4 @@ class TestContributionsGuard(object):
         make_timestamp.return_value = "now"
         self.guard.stamp_presented_time(self.task, self.auth_user)
 
-        assert self.guard.retrieve_presented_timestamp(self.task, self.auth_user) == 'now'
+        assert self.guard.retrieve_presented_timestamp(self.task, self.auth_user) == b'now'

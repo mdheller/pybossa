@@ -690,6 +690,8 @@ def send_email_notifications():
     redis_conn = sentinel.master
     project_set = redis_conn.hgetall('updated_project_ids') or {}
     for project_id, timestamp in project_set.items():
+        project_id = int(project_id)
+        timestamp = timestamp.decode()
         project = project_repo.get(project_id)
         redis_conn.hdel('updated_project_ids', project_id)
         if not project.email_notif:

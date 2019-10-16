@@ -112,7 +112,7 @@ class TestCacheMemoizeFunctions(object):
         my_func()
         key = "%s::%s" % (settings_test.REDIS_KEYPREFIX, 'my_cached_func')
 
-        assert test_sentinel.master.keys() == [key], test_sentinel.master.keys()
+        assert test_sentinel.master.keys() == [key.encode()], test_sentinel.master.keys()
 
 
     def test_cache_gets_function_from_cache_after_first_call(self):
@@ -229,7 +229,7 @@ class TestCacheMemoizeFunctions(object):
             return 'my_func was called'
         key = "%s::%s" % (settings_test.REDIS_KEYPREFIX, 'my_cached_func')
         my_func()
-        assert test_sentinel.master.keys() == [key]
+        assert test_sentinel.master.keys() == [key.encode()]
 
         delete_succedeed = delete_cached('my_cached_func')
         assert delete_succedeed is True, delete_succedeed
@@ -381,7 +381,7 @@ class TestCacheMemoizeFunctions(object):
             return None
         my_func('key1')
         my_func2('key2')
-        keys = test_sentinel.master.keys()
+        keys = [k.decode('utf-8') for k in test_sentinel.master.keys()]
         assert len(keys) == 4
         assert get_cache_group_key('key1') in keys
         assert get_cache_group_key('key2') in keys
@@ -399,7 +399,7 @@ class TestCacheMemoizeFunctions(object):
         def my_func(*args, **kwargs):
             return None
         my_func('key1', 'key2')
-        keys = test_sentinel.master.keys()
+        keys = [k.decode('utf-8') for k in test_sentinel.master.keys()]
         assert len(keys) == 3
         assert get_cache_group_key('key1') in keys
         assert get_cache_group_key('key2') in keys
@@ -418,7 +418,8 @@ class TestCacheMemoizeFunctions(object):
         def my_func(*args, **kwargs):
             return None
         my_func('a')
-        assert get_cache_group_key('a') in test_sentinel.master.keys()
+        keys = [k.decode('utf-8') for k in test_sentinel.master.keys()]
+        assert get_cache_group_key('a') in keys
 
     def test_cache_group_key_invalid(self):
         @memoize(cache_group_keys=(0,))

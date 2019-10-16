@@ -125,11 +125,10 @@ def _get_or_piece(field_name, operator, field_value, arg_index):
 
 
 def _reduce_filters(filter_args):
-    def reducer(acc, next_val):
-        field_name, operator, field_value = next_val
+    acc = defaultdict(list)
+    for field_name, operator, field_value in filter_args:
         acc[field_name].append((operator, field_value))
-        return acc
-    return reduce(reducer, filter_args, defaultdict(list))
+    return acc
 
 
 def is_valid_searchable_column(column_name):
