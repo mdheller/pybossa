@@ -50,7 +50,10 @@ def generate_otp_secret(user_email):
 
 def retrieve_user_otp_secret(user_email):
     key = _create_otp_secret_key(user_email)
-    return conn.get(key)
+    token = conn.get(key)
+    if token:
+        return token.decode()
+    return None
 
 
 def _create_url_token_key(token):
@@ -67,7 +70,10 @@ def generate_url_token(user_email):
 
 def retrieve_email_for_token(token):
     key = _create_url_token_key(token)
-    return conn.get(key)
+    email = conn.get(key)
+    if email:
+        return email.decode()
+    return None
 
 
 def expire_token(token):
