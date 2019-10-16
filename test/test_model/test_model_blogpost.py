@@ -172,5 +172,5 @@ class TestBlogpostModel(Test):
         db.session.commit()
 
         tmp = blogpost.to_public_json()
-        assert tmp.keys().sort() == Blogpost().public_attributes().sort()
+        assert sorted(tmp.keys()) == sorted(Blogpost().public_attributes())
         assert Blogpost().public_info_keys() == []

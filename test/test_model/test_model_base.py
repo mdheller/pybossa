@@ -53,13 +53,13 @@ class TestModelBase(Test):
         err_msg = "Wrong value"
         assert json['name'] == user.name, err_msg
         err_msg = "Missing fields"
-        assert json.keys().sort() == user.public_attributes().sort(), err_msg
+        assert sorted(json.keys()) == sorted(user.public_attributes()), err_msg
 
         json = user.to_public_json(data=user_dict)
         err_msg = "Wrong value"
         assert json['name'] == user.name, err_msg
         err_msg = "Missing fields"
-        assert json.keys().sort() == user.public_attributes().sort(), err_msg
+        assert sorted(json.keys()) == sorted(user.public_attributes()), err_msg
 
     @with_context
     def test_info_public_keys(self):
@@ -76,7 +76,7 @@ class TestModelBase(Test):
         err_msg = "Wrong value"
         assert json['name'] == user.name, err_msg
         err_msg = "Missing fields"
-        assert json.keys().sort() == user.public_attributes().sort(), err_msg
+        assert sorted(json.keys()) == sorted(user.public_attributes()), err_msg
         err_msg = "There should be info keys"
         assert json['info']['container'] == '3', err_msg
         assert json['info']['avatar'] == 'img.png', err_msg
@@ -87,7 +87,7 @@ class TestModelBase(Test):
         err_msg = "Wrong value"
         assert json['name'] == user.name, err_msg
         err_msg = "Missing fields"
-        assert json.keys().sort() == user.public_attributes().sort(), err_msg
+        assert sorted(json.keys()) == sorted(user.public_attributes()), err_msg
         err_msg = "There should be info keys"
         assert json['info']['container'] == '3', err_msg
         assert json['info']['avatar'] == 'img.png', err_msg
@@ -96,7 +96,7 @@ class TestModelBase(Test):
 
         with patch.dict(self.flask_app.config, {'USER_INFO_PUBLIC_FIELDS': ['badges']}):
             json = user.to_public_json()
-            assert json['info'].keys().sort() == User().public_info_keys().sort(), err_msg
+            assert sorted(json['info'].keys()) == sorted(User().public_info_keys()), err_msg
             assert 'badges' in json['info'].keys()
             assert 'hidden' not in json['info'].keys()
 
@@ -121,12 +121,12 @@ class TestModelBase(Test):
         err_msg = "Wrong value"
         assert json['name'] == project.name, err_msg
         err_msg = "Missing fields"
-        assert json.keys().sort() == project.public_attributes().sort(), err_msg
+        assert sorted(json.keys()) == sorted(project.public_attributes()), err_msg
         err_msg = "There should be info keys"
-        assert json['info'].keys().sort() == Project().public_info_keys().sort(), err_msg
+        assert sorted(json['info'].keys()) == sorted(Project().public_info_keys()), err_msg
         with patch.dict(self.flask_app.config, {'PROJECT_INFO_PUBLIC_FIELDS': ['public_field']}):
             json = project.to_public_json()
-            assert json['info'].keys().sort() == Project().public_info_keys().sort(), err_msg
+            assert sorted(json['info'].keys()) == sorted(Project().public_info_keys()), err_msg
             assert 'public_field' in json['info'].keys()
             assert 'secret_key' not in json['info'].keys()
 

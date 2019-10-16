@@ -51,4 +51,4 @@ class HelpingMaterial(db.Model, DomainObject):
     @classmethod
     def public_info_keys(self):
         """Return a list of public info keys."""
-        pass
+        return []

@@ -108,13 +108,13 @@ class TestModelUser(Test):
             fullname="John Doe",
             locale="en")
         public_attributes = ['created', 'name', 'fullname', 'locale', 'info',
-                             'task_runs', 'registered_ago', 'rank', 'score']
+                             'n_answers', 'registered_ago', 'rank', 'score']
 
         user.set_password("juandiso")
-        assert public_attributes.sort() == user.public_attributes().sort()
+        assert sorted(public_attributes) == sorted(user.public_attributes())
         data = user.to_public_json()
         err_msg = "There are some keys that should not be public"
-        assert data.keys().sort() == public_attributes.sort(), err_msg
+        assert sorted(data.keys()) == sorted(public_attributes), err_msg
         all_attributes = user.dictize().keys()
         s = set(public_attributes)
         private_attributes = [x for x in all_attributes if x not in s]
@@ -131,10 +131,10 @@ class TestModelUser(Test):
             fullname="John Doe",
             info=dict(avatar='image.png', container='foldr3', token='security'),
             locale="en")
-        public_info_keys = ['avatar', 'container']
+        public_info_keys = ['avatar', 'container', 'extra', 'avatar_url']
         user.set_password("juandiso")
-        assert public_info_keys.sort() == user.public_info_keys().sort()
+        assert sorted(public_info_keys) == sorted(user.public_info_keys())
 
         data = user.to_public_json()
         err_msg = "There are some keys that should not be public"
-        assert data.get('info').keys().sort() == public_info_keys.sort(), err_msg
+        assert sorted(data.get('info').keys()) == sorted(public_info_keys), err_msg

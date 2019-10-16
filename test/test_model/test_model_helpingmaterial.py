@@ -29,4 +29,4 @@ class TestModelHelpingMaterial(Test):
     def test_helpingmaterial_public_attributes(self):
         """Test public attributes works."""
         hm = HelpingMaterialFactory.create()
-        assert hm.public_attributes().sort() == hm.dictize().keys().sort()
+        assert sorted(hm.public_attributes()) == sorted(hm.to_public_json().keys())
