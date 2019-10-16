@@ -81,7 +81,7 @@ def hash_last_flash_message():
         data['flash'] = message_and_status[1]
         data['status'] = message_and_status[0]
     json_data = json.dumps(data)
-    return base64.b64encode(json_data)
+    return base64.b64encode(json_data.encode('utf-8'))
 
 def handle_content_type(data):
     """Return HTML or JSON based on request type."""
@@ -318,24 +318,24 @@ def pretty_date(time=False):
         if second_diff < 120:
             return "a minute ago"
         if second_diff < 3600:
-            return ' '.join([str(second_diff / 60), "minutes ago"])
+            return ' '.join([str(second_diff // 60), "minutes ago"])
         if second_diff < 7200:
             return "an hour ago"
         if second_diff < 86400:
-            return ' '.join([str(second_diff / 3600), "hours ago"])
+            return ' '.join([str(second_diff // 3600), "hours ago"])
     if day_diff == 1:
         return "Yesterday"
     if day_diff < 7:
         return ' '.join([str(day_diff), "days ago"])
     if day_diff < 31:
-        return ' '.join([str(day_diff / 7), "weeks ago"])
+        return ' '.join([str(day_diff // 7), "weeks ago"])
     if day_diff < 60:
-        return ' '.join([str(day_diff / 30), "month ago"])
+        return ' '.join([str(day_diff // 30), "month ago"])
     if day_diff < 365:
-        return ' '.join([str(day_diff / 30), "months ago"])
+        return ' '.join([str(day_diff // 30), "months ago"])
     if day_diff < (365 * 2):
-        return ' '.join([str(day_diff / 365), "year ago"])
-    return ' '.join([str(day_diff / 365), "years ago"])
+        return ' '.join([str(day_diff // 365), "year ago"])
+    return ' '.join([str(day_diff // 365), "years ago"])
 
 
 def datetime_filter(source, fmt):
@@ -501,7 +501,7 @@ def username_from_full_name(username):
     returns a single word username, no spaces, all lowercases."""
     username = username.replace(' ', '')
     username = username.lower()
-    return username.encode('ascii', 'ignore')
+    return username.encode('ascii', 'ignore').decode()
 
 
 def rank(projects, order_by=None, desc=False):

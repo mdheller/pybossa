@@ -72,8 +72,9 @@ class TestPybossaUtil(Test):
 
         with patch.dict(self.flask_app.config, patch_dict):
             message, timestamp, sig, pub_key = util.get_disqus_sso_payload(user)
-            mock_b64encode.assert_called_with(data)
-            mock_hmac.assert_called_with(DISQUS_SECRET_KEY, '%s %s' % (data, timestamp),
+            mock_b64encode.assert_called_with(data.encode('utf-8'))
+            tmp = '{} {}'.format(data, timestamp)
+            mock_hmac.assert_called_with(DISQUS_SECRET_KEY.encode('utf-8'), tmp.encode('utf-8'),
                                          hashlib.sha1)
             assert timestamp
             assert sig
@@ -109,8 +110,10 @@ class TestPybossaUtil(Test):
 
         with patch.dict(self.flask_app.config, patch_dict):
             message, timestamp, sig, pub_key = util.get_disqus_sso_payload(None)
-            mock_b64encode.assert_called_with(data)
-            mock_hmac.assert_called_with(DISQUS_SECRET_KEY, '%s %s' % (data, timestamp),
+            mock_b64encode.assert_called_with(data.encode('utf-8'))
+            tmp = '{} {}'.format(data, timestamp)
+            mock_hmac.assert_called_with(DISQUS_SECRET_KEY.encode('utf-8'),
+                                         tmp.encode('utf-8'),
                                          hashlib.sha1)
             assert timestamp
             assert sig
@@ -218,7 +221,7 @@ class TestPybossaUtil(Test):
         assert res.get('form').get('csrf') == 'yourcsrf', err_msg
         err_msg = "There should be the keys of the form"
         keys = ['foo', 'errors', 'csrf']
-        assert res.get('form').keys().sort() == keys.sort(), err_msg
+        assert sorted(res.get('form').keys()) == sorted(keys), err_msg
 
     @with_context
     @patch('pybossa.util.request')
@@ -416,12 +419,13 @@ class TestPybossaUtil(Test):
     @patch('pybossa.util.last_flashed_message')
     def test_last_flashed_message_hashed(self, last_flash):
         """Test the last flash message is hashed."""
-        message_and_status = [ 'foo', 'bar' ]
+        message_and_status = ['foo', 'bar']
         last_flash.return_value = message_and_status
-        expected = base64.b64encode(json.dumps({
+        tmp = json.dumps({
             'flash': message_and_status[1],
             'status': message_and_status[0]
-        }))
+        })
+        expected = base64.b64encode(tmp.encode())
         hashed_flash = util.hash_last_flash_message()
         assert hashed_flash == expected
 
@@ -536,31 +540,6 @@ class TestPybossaUtil(Test):
                         next=False,
                         prev=True)
         assert expected == p.to_json(), err_msg
-
-    def test_unicode_csv_reader(self):
-        """Test unicode_csv_reader works."""
-        fake_csv = ['one, two, three']
-        err_msg = "Each cell should be encoded as Unicode"
-        for row in util.unicode_csv_reader(fake_csv):
-            for item in row:
-                assert isinstance(item, unicode), err_msg
-
-    def test_UnicodeWriter(self):
-        """Test UnicodeWriter class works."""
-        tmp = tempfile.NamedTemporaryFile()
-        uw = util.UnicodeWriter(tmp)
-        fake_csv = ['one, two, three, {"i": 1}']
-        for row in csv.reader(fake_csv):
-            # change it for a dict
-            row[3] = dict(i=1)
-            uw.writerow(row)
-        tmp.seek(0)
-        err_msg = "It should be the same CSV content"
-        with open(tmp.name, 'rb') as f:
-            reader = csv.reader(f)
-            for row in reader:
-                for item in row:
-                    assert item in fake_csv[0], err_msg
 
     def test_publish_channel_private(self):
         """Test publish_channel private method works."""
@@ -1037,5 +1016,5 @@ class TestAccessControl(Test):
         assert util.can_update_user_info(normal_user, subadmin) == (False, None)
         (can_update, disabled) = util.can_update_user_info(normal_user, normal_user)
         assert can_update
-        assert disabled.keys() == ['user_type']
+        assert list(disabled.keys()) == ['user_type']
         assert util.can_update_user_info(normal_user, normal_user2) == (False, None)
