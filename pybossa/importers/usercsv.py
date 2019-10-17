@@ -53,7 +53,7 @@ class BulkUserCSVImport(BulkUserImport):
             msg = ("Not a valid csv file for import")
             raise BulkImportException(gettext(msg), 'error')
         buffer = io.open(csv_filename, encoding='utf-8-sig')    #utf-8-sig to ignore BOM
-        csv_file = pd.read_csv(buffer, keep_default_na=False)
+        csv_file = pd.read_csv(buffer, index_col=False, keep_default_na=False)
         return self._import_csv_users(csv_file)
 
     def _import_csv_users(self, csvdata):

@@ -209,7 +209,7 @@ class ConsensusExporter(Exporter):
 
     def export(self, project, obj, filters, filetype):
         name = self._project_name_latin_encoded(project)
-        with tempfile.NamedTemporaryFile() as datafile:
+        with tempfile.NamedTemporaryFile(mode='w+', encoding='utf-8') as datafile:
             self.data_to_file(project.id, filters, datafile)
             datafile.flush()
             file_name = secure_filename('%s_%s.%s' % (name, obj, filetype))

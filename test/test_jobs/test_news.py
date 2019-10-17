@@ -31,11 +31,11 @@ class TestNews(Test):
 
     def get_notify_users(self, user):
         key = "notify:admin:%s" % user.id
-        return sentinel.master.get(key)
+        return sentinel.utf8_master.get(key)
 
     def delete_notify(self, user):
         key = "notify:admin:%s" % user.id
-        return sentinel.master.delete(key)
+        return sentinel.utf8_master.delete(key)
 
     @with_context
     @patch('feedparser.parse')

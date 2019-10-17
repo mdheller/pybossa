@@ -84,7 +84,7 @@ class BulkUserImport(object):
         missing_reqd_headers = set(self.reqd_headers) - set(headers)
         if missing_reqd_headers:
             msg = 'The file you uploaded has missing header(s): {0}' \
-                    .format(', '.join(missing_reqd_headers))
+                    .format(', '.join(sorted(missing_reqd_headers)))
             raise BulkImportException(msg)
 
     def _check_no_duplicated_headers(self, headers):

@@ -48,7 +48,7 @@ class TestBulkTaskLocalCSVImport(object):
             try:
                 self.importer.count_users()
             except BulkImportException as e:
-                assert e[0] == msg, e
+                assert e.message == msg, e
 
     @with_context
     def test_import_users_with_missing_required_header_name_returns_error(self):
@@ -60,7 +60,7 @@ class TestBulkTaskLocalCSVImport(object):
             try:
                 self.importer.count_users()
             except BulkImportException as e:
-                assert e[0] == msg, e
+                assert e.message == msg, e
 
     @with_context
     def test_import_users_with_missing_required_header_fullname_returns_error(self):
@@ -72,7 +72,7 @@ class TestBulkTaskLocalCSVImport(object):
             try:
                 self.importer.count_users()
             except BulkImportException as e:
-                assert e[0] == msg, e
+                assert e.message == msg, e
 
     @with_context
     def test_import_users_with_missing_required_header_metadata_returns_error(self):
@@ -84,7 +84,7 @@ class TestBulkTaskLocalCSVImport(object):
             try:
                 self.importer.count_users()
             except BulkImportException as e:
-                assert e[0] == msg, e
+                assert e.message == msg, e
 
     @with_context
     def test_import_users_with_missing_required_header_fullname_password_metadata_returns_error(self):
@@ -96,7 +96,7 @@ class TestBulkTaskLocalCSVImport(object):
             try:
                 self.importer.count_users()
             except BulkImportException as e:
-                assert e[0] == msg, e
+                assert e.message == msg, e
 
     @with_context
     def test_import_users_with_missing_password_and_user_type_values(self):
@@ -108,19 +108,19 @@ class TestBulkTaskLocalCSVImport(object):
             try:
                 self.importer.count_users()
             except BulkImportException as e:
-                assert e[0] == msg, e
+                assert e.message == msg, e
 
     @with_context
     def test_import_users_raises_exception_for_extra_column(self):
         """Test user csv file import raises exception when there is extra columns"""
         with patch('pybossa.importers.usercsv.io.open',
-            mock_open(read_data='name,fullname,email_addr,password,metadata\na,a,a@a.com,a,"{""user_type"":""a""}",extracol\n'), create=True):
+            mock_open(read_data='name,fullname,email_addr,password,metadata,\na,a,a@a.com,a,"{\"user_type\":\"a\"}",extracol\n'), create=True):
             assert_raises(BulkImportException, self.importer.count_users)
             msg = 'The file you uploaded has an extra value on row 2.'
             try:
-                self.importer.users().next()
+                next(self.importer.users())
             except BulkImportException as e:
-                assert e[0] == msg, e
+                assert e.message == msg, e
 
     @with_context
     def test_import_users_with_correct_data(self):

@@ -1000,10 +1000,10 @@ def send_weekly_stats_project(project_id):
 
     # Max number of completed tasks
     n_completed_tasks = 0
-    xy = zip(*dates_stats[3]['values'])
+    xy = list(zip(*dates_stats[3]['values']))
     n_completed_tasks = max(xy[1])
     # Most active day
-    xy = zip(*dates_stats[0]['values'])
+    xy = list(zip(*dates_stats[0]['values']))
     active_day = [xy[0][xy[1].index(max(xy[1]))], max(xy[1])]
     active_day[0] = datetime.fromtimestamp(active_day[0]/1000).strftime('%A')
     body = render_template('/account/email/weeklystats.md',
