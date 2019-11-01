@@ -1135,7 +1135,7 @@ def mail_project_report(info, current_user_email_addr):
 
         container = 'user_{}'.format(info['user_id'])
         zipfile = project_csv_exporter.generate_zip_files(info)
-        with open(zipfile) as fp:
+        with open(zipfile, 'rb') as fp:
             attachment = Attachment(filename, "application/zip",
                                     fp.read())
         mail_dict['attachments'] = [attachment]

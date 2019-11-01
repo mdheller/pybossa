@@ -18,9 +18,9 @@
 # Cache global variables for timeouts
 import os
 import tempfile
+import pandas as pd
 from pybossa.exporter.csv_export import CsvExporter
 from pybossa.core import project_repo, uploader
-# TODO from pybossa.util import UnicodeWriter
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 from pybossa.cache.projects import get_project_report_projectdata
@@ -41,13 +41,7 @@ class ProjectReportCsvExporter(CsvExporter):
         filename = secure_filename(filename)
         return filename
 
-    def _get_csv(self, out, writer):
-        out.seek(0)
-        yield out.read()
-
     def _respond_csv(self, ty, id, info_only=False):
-        out = tempfile.TemporaryFile()
-        writer = UnicodeWriter(out)
         empty_row = []
         p = project_repo.get(id)
         if p is not None:
@@ -55,27 +49,23 @@ class ProjectReportCsvExporter(CsvExporter):
             project_header = ['Id', 'Name', 'Short Name', 'Total Tasks',
                               'First Task Submission', 'Last Task Submission',
                               'Average Time Spend Per Task', 'Task Redundancy']
-            writer.writerow(project_section)
-            writer.writerow(project_header)
             project_data = get_project_report_projectdata(id)
-            writer.writerow(project_data)
+            project_csv = pd.DataFrame([project_data],
+                            columns=project_header).to_csv(index=False)
 
-            writer.writerow(empty_row)
             user_section = ['User Statistics']
             user_header = ['Id', 'Name', 'Fullname', 'Email', 'Admin', 'Subadmin', 'Enabled', 'Languages',
                            'Locations', 'Start Time', 'End Time', 'Timezone', 'Type of User',
                            'Additional Comments', 'Total Tasks Completed', 'Percent Tasks Completed',
                            'First Task Submission', 'Last Task Submission', 'Average Time Per Task']
-            writer.writerow(user_section)
-            users_project_data = get_project_report_userdata(id)
-            if users_project_data:
-                writer.writerow(user_header)
-                for user_data in users_project_data:
-                    writer.writerow(user_data)
-            else:
-                writer.writerow(['No user data'])
 
-            return self._get_csv(out, writer)
+            users_project_data = get_project_report_userdata(id)
+            users_csv = 'No user data\n'
+            if users_project_data:
+                users_csv = pd.DataFrame([users_project_data],
+                    columns=user_header).to_csv(index=False)
+            csv_txt = 'Project Statistics\n{}\n{}'.format(project_csv, users_csv)
+            return csv_txt
 
     def _make_zip(self, project, ty):
         name = self._project_name_latin_encoded(project)
@@ -84,10 +74,8 @@ class ProjectReportCsvExporter(CsvExporter):
             with tempfile.NamedTemporaryFile() as datafile, \
                  tempfile.NamedTemporaryFile(delete=False) as zipped_datafile:
                 try:
-                    for line in csv_task_generator:
-                        datafile.write(str(line))
+                    datafile.write(csv_task_generator.encode('utf-8'))
                     datafile.flush()
-                    csv_task_generator.close()  # delete temp csv file
                     _zip = self._zip_factory(zipped_datafile.name)
                     _zip.write(
                         datafile.name,

@@ -105,19 +105,3 @@ class TestProjectReport(web.Helper):
         url = '/project/%s/projectreport/export?type=project&format=csv' % project.short_name
         res = self.app.get(url)
         assert mock_os_remove.called
-
-    @with_context
-    @patch.object(exporter.os, 'remove')
-    def test_project_report_cleanup_on_error(self, mock_os_remove):
-        def _new_get_csv(*args, **kwargs):
-            yield ''
-            raise Exception('test')
-        self.register()
-        self.signin()
-        user = user_repo.get(1)
-        project = ProjectFactory.create(owner=user)
-        prce = ProjectReportCsvExporter()
-        with patch.object(prce, '_get_csv', _new_get_csv):
-            with assert_raises(Exception):
-                prce._make_zip(project, None)
-        assert mock_os_remove.called

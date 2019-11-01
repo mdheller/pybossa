@@ -40,10 +40,9 @@ class ProjectCsvExporter(CsvExporter):
         name = self.download_name(info)
         dataframe = self.get_projects_report(info['base_url'])
         if dataframe is not None:
-            datafile = tempfile.NamedTemporaryFile()
+            datafile = tempfile.NamedTemporaryFile('w+')
             try:
-                dataframe.to_csv(datafile, index=False,
-                                 encoding='utf-8')
+                dataframe.to_csv(datafile, index=False)
                 datafile.flush()
                 zipped_datafile = tempfile.NamedTemporaryFile(delete=False)
                 try:

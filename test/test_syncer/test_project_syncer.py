@@ -30,7 +30,7 @@ def create_response(ok=True, status_code=200, content=None):
     res = Response()
     res._ok = ok
     res.status_code = status_code
-    res._content = content
+    res._content = content.encode()
     return res
 
 

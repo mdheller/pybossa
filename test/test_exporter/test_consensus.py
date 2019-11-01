@@ -17,7 +17,7 @@
 # along with PyBossa.  If not, see <http://www.gnu.org/licenses/>.
 
 import json
-from io import StringIO
+from io import BytesIO
 from zipfile import ZipFile
 
 from default import Test, with_context
@@ -36,7 +36,7 @@ class TestConsensusExporter(Test):
         with export_consensus(project, 'tsk', 'csv', False, None) as fp:
             zipfile = ZipFile(fp)
             filename = zipfile.namelist()[0]
-            df = DataFrame.from_csv(StringIO(zipfile.read(filename)))
+            df = DataFrame.from_csv(BytesIO(zipfile.read(filename)))
         row = df.to_dict(orient='records')[0]
         assert json.loads(row['task_run__info'])[task_run.user.name] == {'hello': '你好'}
 
@@ -49,6 +49,6 @@ class TestConsensusExporter(Test):
         with export_consensus(project, 'tsk', 'csv', True, None) as fp:
             zipfile = ZipFile(fp)
             filename = zipfile.namelist()[0]
-            df = DataFrame.from_csv(StringIO(zipfile.read(filename)))
+            df = DataFrame.from_csv(BytesIO(zipfile.read(filename)))
         row = df.to_dict(orient='records')[0]
         assert json.loads(row['task_run__info'])[task_run.user.name] == {'hello': '你好'}
