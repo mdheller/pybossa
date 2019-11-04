@@ -2,6 +2,7 @@ from copy import deepcopy
 import ssl
 import sys
 import time
+from urllib.parse import urlparse
 
 from boto.auth_handler import AuthHandler
 import boto.auth
@@ -15,11 +16,7 @@ import jwt
 
 
 def create_connection(**kwargs):
-    if 'object_service' in kwargs:
-        conn = ProxiedConnection(**kwargs)
-    else:
-        conn = CustomConnection(**kwargs)
-    return conn
+    return CustomConnection(**kwargs)
 
 
 class CustomProvider(Provider):
@@ -67,8 +64,19 @@ class CustomConnection(S3Connection):
         return self.host_suffix + ret
 
 
+class CustomKey(Key):
+
+    def generate_url(self, *args, **kwargs):
+        rv = super().generate_url(*args, **kwargs)
+        return rv.replace(':443', '')
+
+
 class CustomBucket(Bucket):
     """Handle both 200 and 204 as response code"""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.set_key_class(CustomKey)
 
     def delete_key(self, *args, **kwargs):
         try:
@@ -76,59 +84,6 @@ class CustomBucket(Bucket):
         except S3ResponseError as e:
             if e.status != 200:
                 raise
-
-
-class ProxiedKey(Key):
-
-    def should_retry(self, response, chunked_transfer=False):
-        if 200 <= response.status <= 299:
-            return True
-        return super(ProxiedKey, self).should_retry(response, chunked_transfer)
-
-
-class ProxiedBucket(CustomBucket):
-
-    def __init__(self, *args, **kwargs):
-        super(ProxiedBucket, self).__init__(*args, **kwargs)
-        self.set_key_class(ProxiedKey)
-
-
-class ProxiedConnection(CustomConnection):
-    """Object Store connection through proxy API. Sets the proper headers and
-       creates the jwt; use the appropriate Bucket and Key classes.
-    """
-
-    def __init__(self, client_id, client_secret, object_service, *args, **kwargs):
-        self.client_id = client_id
-        self.client_secret = client_secret
-        kwargs['object_service'] = object_service
-        super(ProxiedConnection, self).__init__(*args, **kwargs)
-        self.set_bucket_class(ProxiedBucket)
-
-    def make_request(self, method, bucket='', key='', headers=None, data='',
-            query_args=None, sender=None, override_num_retries=None,
-            retry_handler=None):
-        headers = headers or {}
-        headers['jwt'] = self.create_jwt(method, self.host, bucket, key)
-        headers['x-objectservice-id'] = self.provider.object_service.upper()
-        return super(ProxiedConnection, self).make_request(method, bucket, key,
-            headers, data, query_args, sender, override_num_retries,
-            retry_handler)
-
-    def create_jwt(self, method, host, bucket, key):
-        now = int(time.time())
-        path = self.get_path(self.calling_format.build_path_base(bucket, key))
-        payload = {
-            'iat': now,
-            'nbf': now,
-            'exp': now + 300,
-            'method': method,
-            'iss': self.client_id,
-            'host': host,
-            'path': path,
-            'region': 'ny'
-        }
-        return jwt.encode(payload, self.client_secret, algorithm='HS256')
 
 
 class CustomAuthHandler(AuthHandler):

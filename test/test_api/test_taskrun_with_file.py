@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with PYBOSSA.  If not, see <http://www.gnu.org/licenses/>.
 import json
-from io import StringIO
+from io import BytesIO
 from default import with_context
 from test_api import TestAPI
 from mock import patch
@@ -140,7 +140,7 @@ class TestTaskrunWithFile(TestAPI):
 
             form = {
                 'request_json': datajson,
-                'test__upload_url': (StringIO('Hi there'), 'hello.txt')
+                'test__upload_url': (BytesIO(b'Hi there'), 'hello.txt')
             }
 
             url = '/api/taskrun?api_key=%s' % project.owner.api_key
@@ -179,7 +179,7 @@ class TestTaskrunWithFile(TestAPI):
 
             form = {
                 'request_json': datajson,
-                'test': (StringIO('Hi there'), 'hello.txt')
+                'test': (BytesIO(b'Hi there'), 'hello.txt')
             }
 
             url = '/api/taskrun?api_key=%s' % project.owner.api_key
@@ -256,7 +256,7 @@ class TestTaskrunWithSensitiveFile(TestAPI):
             encrypted = args[0].read()
             content = aes.decrypt(encrypted)
             assert encrypted != content
-            assert content == 'abc'
+            assert content == b'abc'
 
             upload_from_string.assert_called()
             args, kwargs = set_content.call_args
@@ -292,7 +292,7 @@ class TestTaskrunWithSensitiveFile(TestAPI):
 
             form = {
                 'request_json': datajson,
-                'test__upload_url': (StringIO('Hi there'), 'hello.txt')
+                'test__upload_url': (BytesIO(b'Hi there'), 'hello.txt')
             }
 
             url = '/api/taskrun?api_key=%s' % project.owner.api_key
