@@ -216,7 +216,7 @@ def update_gold_stats(user_id, task_id, data, gold_answers=None):
     task = task_repo.get_task(task_id)
     if not task.calibration:
         return
-    
+
     if gold_answers is None:
         gold_answers = get_gold_answers(task)
     answer_fields = get_project_data(task.project_id)['info'].get('answer_fields', {})
@@ -232,7 +232,9 @@ def update_gold_stats(user_id, task_id, data, gold_answers=None):
 def update_quiz(project_id, answer, gold_answers):
     project = project_repo.get(project_id)
     user = user_repo.get(current_user.id)
-    if not user.get_quiz_in_progress(project):
+
+    quiz_mode_enabled = user.get_quiz_enabled(project) and user.get_quiz_in_progress(project) and project.info["quiz"]["enabled"]
+    if not quiz_mode_enabled:
         return
 
     if gold_answers == answer:

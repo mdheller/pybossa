@@ -267,7 +267,7 @@ def _retrieve_new_task(project_id):
     user_repo.update(user)
 
     # Allow scheduling a gold-only task if quiz mode is enabled for the user and the project.
-    quiz_mode_enabled = user.get_quiz_in_progress(project) and project.info["quiz"]["enabled"]
+    quiz_mode_enabled = user.get_quiz_enabled(project) and user.get_quiz_in_progress(project) and project.info["quiz"]["enabled"]
 
     task = sched.new_task(project.id,
                           project.info.get('sched'),
@@ -322,12 +322,16 @@ def user_progress(project_id=None, short_name=None):
             taskrun_count = task_repo.count_task_runs_with(**query_attrs)
             num_available_tasks = n_available_tasks(project.id, include_gold_task=True)
             num_available_tasks_for_user = n_available_tasks_for_user(project, current_user.id)
+
+            quiz = current_user.get_quiz_for_project(project)
+            quiz['quiz_mode_enabled'] = current_user.get_quiz_enabled(project) and current_user.get_quiz_in_progress(project) and project.info["quiz"]["enabled"]
+
             response = dict(
                 done=taskrun_count,
                 total=n_tasks(project.id),
                 remaining=num_available_tasks,
                 remaining_for_user=num_available_tasks_for_user,
-                quiz = current_user.get_quiz_for_project(project)
+                quiz = quiz
             )
             if current_user.admin or (current_user.subadmin and current_user.id in project.owners_ids):
                 num_gold_tasks = n_unexpired_gold_tasks(project.id)
