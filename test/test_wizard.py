@@ -52,7 +52,7 @@ class WizardTestHelper(Test):
             id=1,
             short_name='project1',
             info=dict(ext_config={'hdfs': {'path': 'hdfs/path/test'},
-                                  'gigwork_poller': {'target_bucket': 'bcos-test'}}))
+                                  'gigwork_poller': {}}))
 
         return project
 
@@ -157,11 +157,6 @@ class TestWizard(WizardTestHelper):
         conditions = {'and': ['task_guidelines', 'task_guidelines'],
                       'or': []}
         assert project_wizard.run_checks(conditions) is True
-
-    @with_context
-    def test_wizard_get_nested_keys(self):
-        project_wizard = Wizard(self.get_project(), self.get_wizard_steps(), self.get_request())
-        assert project_wizard.get_nested_keys('info.ext_config.gigwork_poller.target_bucket') == 'bcos-test'
 
     @with_context
     def test_wizard_get_wizard_list(self):
