@@ -120,7 +120,7 @@ class TestValidator(Test):
         form = ProjectReportForm()
         form.end_date.data = date.today() + timedelta(days=1)
         u = validator.NotInFutureValidator()
-        u(form, form.password)
+        u(form, form.end_date)
 
     @with_context
     def test_past_date_passes_not_in_future(self):
@@ -128,7 +128,7 @@ class TestValidator(Test):
         form = ProjectReportForm()
         form.end_date.data = date.today() - timedelta(days=1)
         u = validator.NotInFutureValidator()
-        u(form, form.password)
+        u(form, form.end_date)
 
     @with_context
     def test_today_passes_not_in_future(self):
@@ -136,7 +136,7 @@ class TestValidator(Test):
         form = ProjectReportForm()
         form.end_date.data = date.today()
         u = validator.NotInFutureValidator()
-        u(form, form.password)
+        u(form, form.end_date)
 
 
 class TestRegisterForm(Test):
